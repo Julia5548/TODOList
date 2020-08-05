@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Authorization from '../components/Authorization';
+import  WindowTask  from '../components/MainWindowTodo';
 
 export const User = (props: any) => {
 
     const handleSubmit = (values: any) => {
-        console.log('values', values);
+        window.alert(JSON.stringify(values));
     }
 
     return (
-        <Authorization onSubmit={handleSubmit} {...props} />
+        <WindowTask onSubmit={handleSubmit} {...props} />
     );
 }
 

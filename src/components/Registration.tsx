@@ -1,14 +1,12 @@
 import React from 'react'
 import { reduxForm, InjectedFormProps, Field } from 'redux-form'
-import { connect } from 'react-redux';
 import { makeStyles, Typography, TextField, Button, Container, CssBaseline, Grid, Link} from '@material-ui/core'
 
 interface IProps{
+    name : string;
     email : string;
     password : string;
 }
-
-
 const renderTextField = 
 ({  input, 
     label,
@@ -44,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
+export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
 
     const classes = useStyles()
     const {handleSubmit} = props
@@ -57,6 +55,7 @@ export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
                     Авторизация
                 </Typography>
                 <form onSubmit={handleSubmit}>
+                    <Field name="name" component={renderTextField} label="name" />
                     <Field name="email" component={renderTextField} label="email" />
                     <Field name="password" component={renderTextField} label="password" />
                     <Button
@@ -65,19 +64,16 @@ export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
                         variant = "contained"
                         color = "primary"
                         className = {classes.submit}>
-                         Войти
+                         Зарегистрироваться
                     </Button>
-                    <Grid container>
-                        <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Забыли пароль?
-                            </Link>
-                        </Grid>
-                        <Grid item>
-                            <Link href="#" variant="body2">
-                                Вы еще не зарегистрированы?<br/>Регистрация
-                            </Link>
-                        </Grid>
+                    <Grid 
+                        container
+                        direction="row"
+                        justify="flex-end"
+                        alignItems="baseline">
+                        <Link href="#" variant="body1">
+                            Авторизация
+                        </Link>
                     </Grid>
                 </form>
             </div>
@@ -86,7 +82,7 @@ export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
 }
 
 const form = reduxForm<{}, IProps>({
-    form: 'auth'
-})(Authorization);
+    form: 'registration'
+})(Registration);
     
 export default form
