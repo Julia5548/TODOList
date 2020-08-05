@@ -5,7 +5,7 @@ import Authorization from '../components/Authorization';
 export const User = (props: any) => {
 
     const handleSubmit = (values: any) => {
-        console.log('values', values);
+        console.log('jjjvalues', values);
     }
 
     return (
