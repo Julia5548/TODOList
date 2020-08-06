@@ -1,20 +1,18 @@
-import React from 'react';
-import { reduxForm, InjectedFormProps, Field } from 'redux-form';
-import { makeStyles, Typography, TextField, Button, Container, CssBaseline, Grid} from '@material-ui/core';
-import { NavLink, Route, BrowserRouter, Switch, Redirect, useHistory } from 'react-router-dom';
-import  Authorization  from '../components/Authorization';
+import React from 'react'
+import { reduxForm, InjectedFormProps, Field } from 'redux-form'
+import { makeStyles, Typography, TextField, Button, Grid} from '@material-ui/core'
+import { NavLink } from 'react-router-dom'
 
 interface IProps{
-    name : string;
-    email : string;
     password : string;
 }
-const renderTextField = 
-({  input, 
+
+const renderTextField = ({
+    input, 
     label,
-    meta: { touched, error, invalid }, 
-    ...custom 
-}) => (
+    meta : {touched, error, invalid},
+    ...custom
+ }) => (
     <TextField
         autoComplete = {label}
         fullWidth
@@ -41,38 +39,32 @@ const useStyles = makeStyles((theme) => ({
     },
     submit : {
         margin: theme.spacing(3, 0, 2),
+        textAlign: 'center',
+    },
+    textField :{
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
     },
 }))
 
-export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
-
+export const ResetPassword : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
+    const { handleSubmit } = props
     const classes = useStyles()
-    const history = useHistory()
-    
-    const handleSubmit = (values: any) => {
-       window.alert(JSON.stringify(values));
-       history.push('/')
-    }
 
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
+    return(
             <div className = {classes.page}>
                 <Typography variant = 'h5' component = "h1">
-                    Регистрация
+                    Сброс пароля
                 </Typography>
-                <form onSubmit={props.handleSubmit(handleSubmit)}>
-                    <Field name="name" component={renderTextField} label="name" />
-                    <Field name="email" component={renderTextField} label="email" />
-                    <Field name="password" component={renderTextField} label="password" />
-                   
+                <form onSubmit={handleSubmit}>
+                    <Field name="password" component={renderTextField} label="password" className = {classes.textField}/>
                     <Button
                         type="submit"
                         fullWidth
                         variant = "contained"
                         color = "primary"
                         className = {classes.submit}>
-                         Зарегистрироваться
+                         Сменить пароль
                     </Button>
                     <Grid 
                         container
@@ -85,12 +77,11 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
                     </Grid>
                 </form>
             </div>
-        </Container>
     )
 }
 
 const form = reduxForm<{}, IProps>({
-    form: 'registration'
-})(Registration);
-    
-export default form
+    form : 'resetPassword'
+})(ResetPassword);
+
+export default form;

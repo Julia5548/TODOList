@@ -1,7 +1,8 @@
 import React from 'react'
 import { reduxForm, InjectedFormProps, Field } from 'redux-form'
-import { connect } from 'react-redux';
 import { makeStyles, Typography, TextField, Button, Container, CssBaseline, Grid, Link} from '@material-ui/core'
+import { NavLink, useHistory } from 'react-router-dom';
+import MainWindowTodo from '../components/MainWindowTodo';
 
 interface IProps{
     email : string;
@@ -47,16 +48,18 @@ const useStyles = makeStyles((theme) => ({
 export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
 
     const classes = useStyles()
-    const {handleSubmit} = props
+    const history = useHistory()
+    
+    const handleSubmit = (values: any) => {
+        window.alert(JSON.stringify(values));
+        history.push('/todo')
+     }
     return (
-        
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
             <div className = {classes.page}>
                 <Typography variant = 'h5' component = "h1">
                     Авторизация
                 </Typography>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={props.handleSubmit(handleSubmit)}>
                     <Field name="email" component={renderTextField} label="email" />
                     <Field name="password" component={renderTextField} label="password" />
                     <Button
@@ -69,19 +72,18 @@ export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <NavLink to="/reset">
                                 Забыли пароль?
-                            </Link>
+                            </NavLink>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <NavLink to="/registration" >
                                 Вы еще не зарегистрированы?<br/>Регистрация
-                            </Link>
+                            </NavLink>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-        </Container>
     )
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { reduxForm, InjectedFormProps, Field } from 'redux-form'
 import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 
 interface IProps{
     task : {
@@ -51,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export const WindowTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
     const { handleSubmit } = props
     const classes = useStyles()
+    const history = useHistory()
 
     return(
         <div className = {classes.root}>
@@ -59,7 +61,7 @@ export const WindowTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = (pr
                     <Typography variant="h6" className = {classes.title}>
                         Name User
                     </Typography>
-                    <Button color="inherit">
+                    <Button color="inherit" onClick = {() => history.push('/')}>
                         Выход
                     </Button>
                 </Toolbar>
