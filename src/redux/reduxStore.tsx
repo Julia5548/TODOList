@@ -1,10 +1,10 @@
 import { createStore, combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import { reducer as modal } from 'redux-modal';
 
-const reducers = {
-// ... your other reducers here ...
-form: formReducer // <--— Mounted at 'form'
-}
-const reducer = combineReducers(reducers)
+const reducer = combineReducers({ 
+    form: formReducer,
+    modal
+})
 const store = createStore(reducer)
 export default store
