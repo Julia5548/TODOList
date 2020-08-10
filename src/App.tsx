@@ -4,9 +4,9 @@ import './App.css';
 
 const App: React.FC = () => {
   return (
-    <div>
-      <User />
-    </div>
+      <div>
+        <User />
+      </div>
   );
 }
 
