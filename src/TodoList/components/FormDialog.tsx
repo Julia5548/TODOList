@@ -1,22 +1,22 @@
-import React, { useState, ComponentType, Component } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { connectModal, InjectedProps } from 'redux-modal'
-import { InjectedFormProps } from 'redux-form';
+import { connectModal, InjectedProps  } from 'redux-modal'
+import { ITodo } from '../../interface';
 
 interface Props extends InjectedProps {
-    idTask : number;
+    id : number | undefined;
     handlerRemove(id : number) : void;
 }
 
-function FormDialog({idTask, handlerRemove, show, handleHide }: Props){
+const FormDialog = ({id, handlerRemove, show, handleHide }: Props) => {
 
             return(
-                <Dialog open = {show}  aria-labelledby = "form-dialog-title">
+                <Dialog open = {show} aria-labelledby = "form-dialog-title">
                     <DialogTitle id = "form-dialog-title">
                         Удалить задачу?
                     </DialogTitle>
@@ -29,15 +29,14 @@ function FormDialog({idTask, handlerRemove, show, handleHide }: Props){
                         <Button  color = "primary" onClick = {handleHide}>
                             Отмена
                         </Button>
-                        <Button color = "primary" onClick  = {() => handlerRemove(idTask)}>
+                        <Button color = "primary" onClick  = {() => handlerRemove(id!)}>
                             Удалить
                         </Button>
                     </DialogActions>
                 </Dialog>
             )
 }
-
-const modal = connectModal({
+const modal  =  connectModal({
     name : 'deleteRequest'
 })(FormDialog)
 

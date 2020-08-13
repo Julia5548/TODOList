@@ -23,21 +23,22 @@ const useStyles = makeStyles((theme) => ({
       check: {
         flex: '1 0 auto',
         textDecoration : 'line-through',
-        background: 'rgba(0, 0, 0, 0.12)',
-        color: 'white',
+        color: 'rgba(0, 0, 0, 0.12)',
         boxShadow: 'none',
       },
 }))
 
-type TodoListProps = {
+interface TodoListProps{
     todoList : ITodo[];
     onToggle(id : number) : void;
     onRemove(id : number) : void;
 }
+
 const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
 
     const classes = useStyles()
     const[open, setOpen] = useState(false)
+    const [id, setId] = useState(0)
 
     if(todoList.length === 0){
         return (
@@ -56,13 +57,14 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
         setOpen(false)
     }
 
-    const handleOpen = () => {
+    const handleOpen = (id : number) => {
         setOpen(true)
+        setId(id)
     }
 
     return(
         <div>
-            {todoList.map(todo => {
+            {todoList.map(function(todo){
                 let classCheked = classes.notCheck
                 if(todo.completed){
                     classCheked = classes.check
@@ -73,18 +75,17 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
                             checked = {todo.completed}
                             onChange = {() => {onToggle(todo.id)}}/>
                         <CardContent className = {classCheked}>
-                            <Typography variant = "h5" component = "h5">
-                                {todo.title}
+                            <Typography variant = "h6" component = "h6">
+                                {todo.name}
                             </Typography>
                         </CardContent>
-                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {handleOpen}>
+                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(todo.id)}>
                             <DeleteIcon fontSize = "small"/>
                         </IconButton>
-                        <FormDialog idTask = {todo.id} handlerRemove = {handleRemoveTask} show = {open} handleDestroy = {handleClose} handleHide = {handleClose} />
+                        <FormDialog id = {id} handlerRemove = {handleRemoveTask} show = {open} handleDestroy = {handleClose} handleHide = {handleClose} />
                     </Card>
                     )
-                }
-                )}
+                })}
         </div>
     )
 }

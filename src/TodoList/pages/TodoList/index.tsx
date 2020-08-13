@@ -4,6 +4,7 @@ import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from 
 import { useHistory } from 'react-router-dom'
 import { ITodo } from '../../../interface'
 import ListTask from '../../components/ListTask'
+import { isNull } from 'util'
 
 
 const renderTextField = ({
@@ -54,18 +55,64 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
 
     const[todoList, setTodo] = useState<ITodo[]>([])
 
-    const addHandler = (title : string) => {
-        const newTodo : ITodo  =  {
-            title : title,
-            id : Date.now(),
-            completed : false
+
+    function getCookie(name : string) {
+        let cookieValue : string | null = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-        setTodo(prev => [newTodo, ...prev])
-        console.log(title)
+        return cookieValue;
+    }
+
+    function componentDidMount() {
+        console.log('Fetching...')
+        fetch('http://127.0.0.1:8000/api/task_list/',
+         {
+            mode: 'cors',
+        })
+        .then(response => response.json())
+        .then(data => {
+                setTodo(data)
+            }
+        )
     }
 
     const handleSubmit = (values: any) => {
-        addHandler(values.task)
+        
+        const newTodo : ITodo  =  {
+            name : values.task,
+            id : Date.now(),
+            completed : false
+        }
+
+        setTodo(prev => [newTodo, ...prev])
+        const csrftoken = getCookie('csrftoken');
+
+        const url = 'http://127.0.0.1:8000/api/task_create/'
+
+        fetch(url, {
+            mode : 'cors',
+            method: 'POST',
+            headers : {
+                'Content-type' : 'application/json',
+                'X-CSRFToken' : csrftoken!,
+
+            },
+            body : JSON.stringify(newTodo)
+        }).catch(function(error){
+            console.log('ERROR:' , error)
+        })
+        
+        console.log(newTodo)
+        
         props.dispatch(reset('createTask'))
     }
 
@@ -81,6 +128,19 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
      }
 
      const resultRemove = (id : number) => {
+         console.log(id)
+        const csrftoken = getCookie('csrftoken');
+        fetch('http://127.0.0.1:8000/api/task_delete/'+ id + '/', {
+            mode : 'cors',
+            method: 'DELETE',
+            headers : {
+                'Content-type' : 'application/json',
+                'X-CSRFToken' : csrftoken!,
+
+            },
+        }).catch(function(error){
+            console.log('ERROR:' , error)
+        })
         setTodo(prev => prev.filter(todo => todo.id !== id))
      }
 
@@ -119,7 +179,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                         </Grid>
                     </Grid>
             </form>
-            <ListTask todoList = {todoList} onRemove = {resultRemove} onToggle = {toggleHandler} />                
+            <ListTask todoList = {todoList} onRemove = {resultRemove} onToggle = {toggleHandler}  {...props} />                
         </div>
     )
 }
