@@ -4,8 +4,6 @@ import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from 
 import { useHistory } from 'react-router-dom'
 import { ITodo } from '../../../interface'
 import ListTask from '../../components/ListTask'
-import { isNull } from 'util'
-
 
 const renderTextField = ({
     input, 
@@ -53,6 +51,16 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
     const classes = useStyles()
     const history = useHistory()
 
+    const handleSubmit = ( values : any ) => {
+
+        const newTask : ITodo = {
+            id : null,
+            name : values.task,
+            completed : false
+        }
+
+        props.onAddTask(newTask)
+    }
 
     return(
         <div className = {classes.root}>
@@ -89,7 +97,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                         </Grid>
                     </Grid>
             </form>
-            <ListTask todoList = {todoList} onRemove = {resultRemove} onToggle = {toggleHandler}  {...props} />                
+           
         </div>
     )
 }

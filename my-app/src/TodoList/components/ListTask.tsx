@@ -73,13 +73,13 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
                     <Card key = {todo.id}  className = {classes.root}>
                         <Checkbox
                             checked = {todo.completed}
-                            onChange = {() => {onToggle(todo.id)}}/>
+                            onChange = {() => {onToggle(todo.id!)}}/>
                         <CardContent className = {classCheked}>
                             <Typography variant = "h6" component = "h6">
                                 {todo.name}
                             </Typography>
                         </CardContent>
-                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(todo.id)}>
+                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(todo.id!)}>
                             <DeleteIcon fontSize = "small"/>
                         </IconButton>
                         <FormDialog id = {id} handlerRemove = {handleRemoveTask} show = {open} handleDestroy = {handleClose} handleHide = {handleClose} />

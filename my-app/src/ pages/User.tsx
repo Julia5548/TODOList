@@ -1,117 +1,84 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import Route from '../Router'
 import { ITodo } from '../interface';
 import { reset } from 'redux-form';
 import { call, put, takeEvery } from "redux-saga/effects" ;
 
+const mapDispatchToProps = (dispatch) => {
 
-export const  User = (props : any) => {
-    const[todoList, setTodo] = useState<ITodo[]>([])
+    return({
+        onAddTask : (newTask : ITodo) => {
+            dispatch(addTaskAction(newTask))
+        }
+    })
+}
 
-    function getCookie(name : string) {
-        let cookieValue : string | null = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-        // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
+const addTaskAction = (newTask : ITodo) =>{
+    return {
+        type: 'CREATE_TASK',
+        newTask
+    }
+}
+
+function getCookie(name : string) {
+    let cookieValue : string | null = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
         }
-        return cookieValue;
     }
+    return cookieValue;
+}
 
-    useEffect(() => {
-    console.log('Fetching...')
-    fetch('http://127.0.0.1:8000/api/task_list/',
-        {
-            mode: 'cors',
-        })
-        .then(response => response.json())
-        .then(data => {
-            setTodo(data)
-        })
-    }, [])
-    
-    const CREATE_TASK = "CREATE_TASK"
+export function* watchCreateTask(){
+    yield takeEvery('CREATE_TASK', workCreateTask)
+}
 
-    function* watchCreateTask(values : any){
-        yield takeEvery(CREATE_TASK, () => workerCreateTask(values))
-    }
-    function* workerCreateTask(values: any ) {
-    
-        const newTodo : ITodo = {
-            name : values.task,
-            id : Date.now(),
-            completed : false
-        }
-        const csrftoken = getCookie('csrftoken');
+export function* watchUpdateTask(){
+    yield takeEvery('UPDATE_TASK', workUpdateTask)
+}
+
+function* workUpdateTask(){
+    console.log('update')
+}
+
+function* workCreateTask(action) {
+
+    console.log(action.newTask)
+    const csrftoken = getCookie('csrftoken');
+    const url = 'http://127.0.0.1:8000/api/task_create/'
         
-        const url = 'http://127.0.0.1:8000/api/task_create/'
-        
-        try{
-            const data = yield call(() => {
-                fetch(url, {
-                    mode : 'cors',
-                    method: 'POST',
-                    headers : {
-                        'Content-type' : 'application/json',
-                        'X-CSRFToken' : csrftoken!,
-                            
-                    },
-                    body : JSON.stringify(newTodo)
-                }).catch(function(error){
-                    console.log('ERROR:' , error)
-                })
+    try{
+        const data = yield call(() => {
+            fetch(url, {
+                mode : 'cors',
+                method: 'POST',
+                headers : {
+                    'Content-type' : 'application/json',
+                    'X-CSRFToken' : csrftoken!,
+                },
+                body : JSON.stringify(action.newTask)
+            }).catch(function(error){
+                console.log('ERROR:' , error)
             })
-            yield put(requestSuccess(data))
-            
-        }catch(error){}
-        
-
-    }
-
-    const requestSuccess = (data : any) =>{
-        console.log(data.message)
-        props.dispatch(reset('createTask'))
-        return data
-    }
-        
-    const toggleHandler = (id:number) =>{
-        setTodo(prev =>
-            prev.map(todo => {
-                if(todo.id === id){
-                    todo.completed = !todo.completed
-                }
-                return todo
-            })
-        )
-    }
-    
-    const resultRemove = (id : number) => {
-        console.log(id)
-        const csrftoken = getCookie('csrftoken');
-        fetch('http://127.0.0.1:8000/api/task_delete/'+ id + '/', {
-            mode : 'cors',
-            method: 'DELETE',
-            headers : {
-                'Content-type' : 'application/json',
-                'X-CSRFToken' : csrftoken!,
-        
-            },
-        }).catch(function(error){
-            console.log('ERROR:' , error)
         })
-        setTodo(prev => prev.filter(todo => todo.id !== id))
+        yield console.log(`response = ${JSON.stringify(data)}`); 
+    } catch(error){
+        console.log(error)
     }
+}
 
+export const User = (props : any) => {
     return (
-        <Route/>
+        <Route {...props}/>
     );
 }
 
-export default connect(null)(User);
+export default connect(null, mapDispatchToProps)(User);
