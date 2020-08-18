@@ -5,11 +5,12 @@ import  TodoList  from '../TodoList/pages/TodoList';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import React from 'react';
 
-
-const Router = (props : any) => {
+const Router = ( props : any) => {
+    
     const handleSubmit = (values: any) => {
         window.alert(JSON.stringify(values));
     }
+
     return(
         <BrowserRouter>
             <Switch>
@@ -23,7 +24,7 @@ const Router = (props : any) => {
                     {<ResetPassword onSubmit = {handleSubmit} {...props} />}
                 </Route>
                 <Route path = "/">
-                    {<TodoList {...props}/>}
+                    {<TodoList  {...props}  todoList = {props.todoList}/>}
                 </Route> 
             </Switch>
         </BrowserRouter>

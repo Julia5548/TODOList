@@ -5,15 +5,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { connectModal, InjectedProps  } from 'redux-modal'
+import { /*connectModal,*/ InjectedProps  } from 'redux-modal';
 import { ITodo } from '../../interface';
 
 interface Props extends InjectedProps {
-    id : number | undefined;
-    handlerRemove(id : number) : void;
+    todo : ITodo;
+    handlerRemove(task : ITodo) : void;
 }
 
-const FormDialog = ({id, handlerRemove, show, handleHide }: Props) => {
+const FormDialog = ({todo, handlerRemove, show, handleHide }: Props) => {
 
             return(
                 <Dialog open = {show} aria-labelledby = "form-dialog-title">
@@ -29,15 +29,15 @@ const FormDialog = ({id, handlerRemove, show, handleHide }: Props) => {
                         <Button  color = "primary" onClick = {handleHide}>
                             Отмена
                         </Button>
-                        <Button color = "primary" onClick  = {() => handlerRemove(id!)}>
+                        <Button color = "primary" onClick  = {() => handlerRemove(todo)}>
                             Удалить
                         </Button>
                     </DialogActions>
                 </Dialog>
             )
 }
-const modal  =  connectModal({
-    name : 'deleteRequest'
-})(FormDialog)
+// const modal  =  connectModal({
+//     name : 'deleteRequest'
+// })(FormDialog)
 
 export default FormDialog

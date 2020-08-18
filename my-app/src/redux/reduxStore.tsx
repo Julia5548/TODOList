@@ -1,9 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { reducer as modal } from 'redux-modal';
-import createSagaMiddleware from 'redux-saga'
-import {rootSaga} from '../redux/rootSaga'
-import { watchCreateTask } from '../ pages/User'
+import createSagaMiddleware from 'redux-saga';
+import {rootSaga} from '../redux/rootSaga';
+
 
 const reducer = combineReducers({ 
     form: formReducer,

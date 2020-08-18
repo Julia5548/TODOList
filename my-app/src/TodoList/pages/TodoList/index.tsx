@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import { reduxForm, InjectedFormProps, Field, reset } from 'redux-form'
-import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
-import { ITodo } from '../../../interface'
-import ListTask from '../../components/ListTask'
+import React from 'react';
+import { reduxForm, InjectedFormProps, Field } from 'redux-form';
+import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import { ITodo } from '../../../interface';
+import ListTask from '../../components/ListTask';
 
 const renderTextField = ({
     input, 
@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
+
 export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (props : any) => {
 
     const classes = useStyles()
@@ -60,6 +61,14 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
         }
 
         props.onAddTask(newTask)
+    }
+
+    const onToggle = (task : ITodo) =>{
+        props.onToggle(task)
+    }
+
+    const onRemove = (task : ITodo) =>{
+        props.onRemove(task)
     }
 
     return(
@@ -95,8 +104,9 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                                  Создать
                             </Button>
                         </Grid>
-                    </Grid>
+                    </Grid>    
             </form>
+            <ListTask todoList = { props.todoList } onRemove = {onRemove} onToggle = {onToggle} />
            
         </div>
     )

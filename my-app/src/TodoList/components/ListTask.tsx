@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { makeStyles, Typography, Card, CardContent, IconButton, Checkbox} from '@material-ui/core'
+import { makeStyles, Typography, Card, CardContent, IconButton, Checkbox} from '@material-ui/core';
 import { ITodo } from '../../interface';
-import FormDialog from '../components/FormDialog'
+import FormDialog from '../components/FormDialog';
 
 
 
@@ -30,17 +30,24 @@ const useStyles = makeStyles((theme) => ({
 
 interface TodoListProps{
     todoList : ITodo[];
-    onToggle(id : number) : void;
-    onRemove(id : number) : void;
+    onToggle(task : ITodo) : void;
+    onRemove(task : ITodo) : void;
 }
 
 const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
 
     const classes = useStyles()
     const[open, setOpen] = useState(false)
-    const [id, setId] = useState(0)
+    
+    const todo : ITodo = {
+        id : 0,
+        name : '',
+        completed : false,
 
-    if(todoList.length === 0){
+    }
+    const [task, setTask] = useState(todo)
+
+    if(todoList.length === 0 ){
         return (
             <Typography variant = "h5" component = "h5" align = 'center'>
                 Задач нет!
@@ -52,14 +59,14 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
         setOpen(false)
     }
 
-    const handleRemoveTask = (id:number) => {
-        onRemove(id)
+    const handleRemoveTask = ( task : ITodo) => {
+        onRemove(task)
         setOpen(false)
     }
 
-    const handleOpen = (id : number) => {
+    const handleOpen = (task : ITodo) => {
         setOpen(true)
-        setId(id)
+        setTask(task)
     }
 
     return(
@@ -73,16 +80,16 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
                     <Card key = {todo.id}  className = {classes.root}>
                         <Checkbox
                             checked = {todo.completed}
-                            onChange = {() => {onToggle(todo.id!)}}/>
+                            onChange = {() => {onToggle(todo)}}/>
                         <CardContent className = {classCheked}>
                             <Typography variant = "h6" component = "h6">
                                 {todo.name}
                             </Typography>
                         </CardContent>
-                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(todo.id!)}>
+                        <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(todo)}>
                             <DeleteIcon fontSize = "small"/>
                         </IconButton>
-                        <FormDialog id = {id} handlerRemove = {handleRemoveTask} show = {open} handleDestroy = {handleClose} handleHide = {handleClose} />
+                        <FormDialog todo = {task} handlerRemove = {handleRemoveTask} show = {open} handleDestroy = {handleClose} handleHide = {handleClose} />
                     </Card>
                     )
                 })}
