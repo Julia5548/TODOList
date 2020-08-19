@@ -14,7 +14,7 @@ const Router = ( props : any) => {
     return(
         <BrowserRouter>
             <Switch>
-                <Route exact path = "/todo">
+                <Route exact path = "/">
                     {<Authorization {...props}/>}
                 </Route>
                 <Route path = "/registration">
@@ -23,7 +23,7 @@ const Router = ( props : any) => {
                 <Route path = "/reset">
                     {<ResetPassword onSubmit = {handleSubmit} {...props} />}
                 </Route>
-                <Route path = "/">
+                <Route path = "/todo">
                     {<TodoList  {...props}  todoList = {props.todoList}/>}
                 </Route> 
             </Switch>
