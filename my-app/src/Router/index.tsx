@@ -3,7 +3,9 @@ import  Registration  from '../Registration/pages/Registration';
 import  ResetPassword  from '../ResetPassword/pages/ResetPassword';
 import  TodoList  from '../TodoList/pages/TodoList';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Password_reset_complete  from '../ResetPassword/pages/Password_reset_complete'
 import React from 'react';
+import Password_Reset_Done from '../ResetPassword/pages/Password_reset_done';
 
 const Router = ( props : any) => {
     
@@ -25,6 +27,12 @@ const Router = ( props : any) => {
                 </Route>
                 <Route path = "/todo">
                     {<TodoList  {...props}  todoList = {props.todoList}/>}
+                </Route> 
+                <Route path = "/password_reset_complete">
+                    {<Password_reset_complete />}
+                </Route> 
+                <Route path = "/password_reset_done">
+                    {<Password_Reset_Done/>}
                 </Route> 
             </Switch>
         </BrowserRouter>

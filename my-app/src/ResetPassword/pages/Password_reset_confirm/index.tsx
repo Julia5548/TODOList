@@ -4,7 +4,8 @@ import { makeStyles, Typography, TextField, Button, Grid} from '@material-ui/cor
 import { NavLink, useHistory } from 'react-router-dom'
 
 interface IProps{
-    email : string;
+    password : string;
+    password_confirm : string;
 }
 
 const renderTextField = ({
@@ -47,14 +48,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export const ResetPassword : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
+export const Password_reset_confirm : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
     
     const classes = useStyles()
     const history = useHistory()
 
     const handleSubmit = (values: any) => {
         console.log(JSON.stringify(values));
-        history.push('/password_reset_done')
+        history.push('/password_reset_complete')
      }
 
     return(
@@ -63,31 +64,23 @@ export const ResetPassword : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
                     Сброс пароля
                 </Typography>
                 <form onSubmit={props.handleSubmit(handleSubmit)}>
-                    <Field name="email" component={renderTextField} label="email" className = {classes.textField}/>
+                    <Field name="password" component={renderTextField} label="password" className = {classes.textField}/>
+                    <Field name="confirm password" component={renderTextField} label="confirm password" className = {classes.textField}/>
                     <Button
                         type="submit"
                         fullWidth
                         variant = "contained"
                         color = "primary"
                         className = {classes.submit}>
-                         Отправить 
+                         Сменить пароль
                     </Button>
-                    <Grid 
-                        container
-                        direction="row"
-                        justify="flex-end"
-                        alignItems="baseline">
-                            <NavLink to="/" >
-                               Авторизация
-                            </NavLink>
-                    </Grid>
                 </form>
             </div>
     )
 }
 
 const form = reduxForm<{}, IProps>({
-    form : 'resetPassword'
-})(ResetPassword);
+    form : 'password_reset_confirm'
+})(Password_reset_confirm);
 
 export default form;
