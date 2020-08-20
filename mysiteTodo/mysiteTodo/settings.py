@@ -149,11 +149,3 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.custom_jwt_response_handler'
 }
 
-#SMTP Configuration
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'Teams Todo <magicunicornsup@gmail.com>'
-EMAIL_HOST_PASSWORD = 'bg8-2Wh-7mm-8mu'
