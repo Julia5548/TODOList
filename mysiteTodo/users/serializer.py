@@ -6,7 +6,7 @@ from rest_framework_jwt.settings import api_settings
 class GetFullUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'is_superuser', 'email')
+        fields = ('id', 'username')
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -22,8 +22,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email']
+            username=validated_data['username']
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -31,4 +30,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password', 'email')
+        fields = ('token', 'username', 'password')

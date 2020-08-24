@@ -1,10 +1,14 @@
 import React from 'react'
 import { reduxForm, InjectedFormProps, Field } from 'redux-form'
 import { makeStyles, Typography, TextField, Button, Grid } from '@material-ui/core'
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useRouteMatch } from 'react-router-dom';
+import { IUser } from '../../../interface';
+import { connect, useSelector } from 'react-redux';
+import { RootState } from '../../../redux/reduxStore';
+
 
 interface IProps{
-    email : string;
+    name : string;
     password : string;
 }
 
@@ -44,22 +48,32 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = (props : any) => {
+export const Authorization : React.FC = (props : any) => {
 
     const classes = useStyles()
     const history = useHistory()
-    
+
+    const id_user = useSelector((state : RootState) => state.user_data.id)
+
     const handleSubmit = (values: IProps) => {
-        window.alert(JSON.stringify(values));
-        history.push('/todo')
-     }
+        const user : IUser = {
+            username : values.name,
+            password : values.password,
+            id : 0,
+            logged_in : false
+        }
+
+        props.onLoginUser(user, history)
+        
+    }
+    
     return (
             <div className = {classes.page}>
                 <Typography variant = 'h5' component = "h1">
                     Авторизация
                 </Typography>
                 <form onSubmit={props.handleSubmit(handleSubmit)}>
-                    <Field name="email" component={renderTextField} label="email" />
+                    <Field name="name" component={renderTextField} label="name" />
                     <Field name="password" component={renderTextField} label="password" />
                     <Button
                         type="submit"
@@ -86,7 +100,7 @@ export const Authorization : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
     )
 }
 
-const form = reduxForm<{}, IProps>({
+const form = reduxForm({
     form: 'auth'
 })(Authorization);
     

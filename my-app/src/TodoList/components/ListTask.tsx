@@ -69,9 +69,10 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
         setTask(task)
     }
 
+    
     return(
         <div>
-            {todoList.map(function(todo){
+            {todoList.map((todo) => {
                 let classCheked = classes.notCheck
                 if(todo.completed){
                     classCheked = classes.check

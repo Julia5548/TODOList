@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { ITodo } from '../../../interface';
 import ListTask from '../../components/ListTask';
 
@@ -50,8 +50,11 @@ const useStyles = makeStyles((theme) => ({
 export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (props : any) => {
 
     const classes = useStyles()
+    const { pk } = useParams()
     const history = useHistory()
+    const[todoList, setTodo] = useState<ITodo[]>([])
 
+    console.log('id_user : ', pk)
     const handleSubmit = ( values : any ) => {
 
         const newTask : ITodo = {
@@ -63,6 +66,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
         props.onAddTask(newTask)
     }
 
+    console.log("TODOLIST: ", props)
     const onToggle = (task : ITodo) =>{
         props.onToggle(task)
     }
@@ -71,6 +75,34 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
         props.onRemove(task)
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        props.onLogout()
+        history.push('/')
+    }
+
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            console.log('Fetching...')
+            const data = fetch('http://127.0.0.1:8000/api/task_list/',
+            {
+                mode: 'cors',
+                headers: {
+                    Authorization : 'JWT ' + localStorage.getItem('token')
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                setTodo(data)
+                console.log(data)
+        
+            })
+            .catch((error) => console.log('ERROR1: ', error))
+        }
+    }, [])
+
+
     return(
         <div className = {classes.root}>
             <AppBar position = "static">
@@ -78,7 +110,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                     <Typography variant="h6" className = {classes.title}>
                         Name User
                     </Typography>
-                    <Button color="inherit" onClick = {() => history.push('/')}>
+                    <Button color="inherit" onClick = {() => handleLogout()}>
                         Выход
                     </Button>
                 </Toolbar>
@@ -106,7 +138,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                         </Grid>
                     </Grid>    
             </form>
-            <ListTask todoList = { props.todoList } onRemove = {onRemove} onToggle = {onToggle} />
+            <ListTask todoList = { todoList } onRemove = {onRemove} onToggle = {onToggle} />
            
         </div>
     )

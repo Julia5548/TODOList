@@ -2,10 +2,10 @@ import React from 'react';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { makeStyles, Typography, TextField, Button, Container, CssBaseline, Grid} from '@material-ui/core';
 import { NavLink, useHistory } from 'react-router-dom';
+import { IUser } from '../../../interface';
 
 interface IProps{
     name : string;
-    email : string;
     password : string;
 }
 const renderTextField = 
@@ -49,8 +49,14 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
     const history = useHistory()
     
     const handleSubmit = (values: any) => {
-       window.alert(JSON.stringify(values));
-       history.push('/')
+        const new_user : IUser = {
+            username : values.name,
+            password : values.password,
+            id : 0,
+            logged_in : false
+        }
+        console.log(new_user)
+        //props.onCreateUser(new_user)
     }
 
     return (
@@ -62,7 +68,6 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
                 </Typography>
                 <form onSubmit={props.handleSubmit(handleSubmit)}>
                     <Field name="name" component={renderTextField} label="name" />
-                    <Field name="email" component={renderTextField} label="email" />
                     <Field name="password" component={renderTextField} label="password" />
                    
                     <Button
