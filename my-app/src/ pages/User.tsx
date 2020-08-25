@@ -42,8 +42,11 @@ const mapDispatchToProps = (dispatch) => {
         onLoginUser : (user : IUser, history) => {
             dispatch(onLoginUserAction(user, history))
         },
-        onCreateUser : (user : IUser) => {
-            dispatch(onCreateUserAction(user))
+        onCreateUser : (user : IUser, history) => {
+            dispatch(onCreateUserAction(user, history))
+        },
+        onResetPassword : (email: string, history) => {
+            dispatch(onResetPasswordAction(email, history))
         },
         onGetToken : () => { dispatch(onGetTokenAction()) },
         onLogout : () => { dispatch(onLogoutAction()) },
@@ -81,13 +84,21 @@ const onLoginUserAction = (user : IUser, history) => {
     }
 }
 
-const onCreateUserAction = (user : IUser) => {
+const onCreateUserAction = (user : IUser, history) => {
     return {
         type : 'CREATE_USER',
-        user
+        user,
+        history
     }
 }
 
+const onResetPasswordAction = (email: string, history) =>{
+    return{
+        type: 'RESET_PASSWORD',
+        email,
+        history
+    }
+}
 const onGetTokenAction = () => {
     return{
         type : 'GET_TOKEN'
@@ -278,16 +289,25 @@ export function* watch_create_user(){
 function* worker_create_user(action){
     
     const user : IUser = action.user
+    const { history }  = action
 
     const create_user = {
         username : user.username,
-        password : user.password!
+        password : user.password!,
+        email : user.email!
     }
 
-    //console.log('CREATE_USER: ', create_user)
+    console.log('CREATE_USER: ', create_user)
 
     const csrftoken = getCookie('csrftoken')
 
+    const body = {'user' : {
+        'username' : create_user.username,
+        'email' : create_user.email,
+        'password' : create_user.password
+        }
+    }
+    
     yield call(() => {
         fetch('http://127.0.0.1:8000/api_users/users/create', {
             mode : 'cors',
@@ -296,17 +316,52 @@ function* worker_create_user(action){
                 'Content-type' : 'application/json',
                 'X-CSRFToken' : csrftoken!,
             },
-            body : JSON.stringify({
-                'user' : {create_user}
-            })
+            body : JSON.stringify(body)
         },)
         .then(response => {
             response.json()
-            //console.log('CREATE_RESULT : ', response)
+            history.push('/')
+            console.log('CREATE_RESULT : ', response)
         })
         .catch(error => console.log('ERROR: ', error))
     })
 }
+
+export function* watch_reset_password(){
+    yield takeEvery('RESET_PASSWORD', worker_reset_password)
+}
+
+function* worker_reset_password(action){
+    const email : string = action.email
+    const { history }  = action
+
+    console.log('RESET_PASSWORD: ', email)
+
+    const body = {
+        email : email
+    }
+
+    const csrftoken = getCookie('csrftoken')
+    
+    yield call(() => {
+        fetch('http://127.0.0.1:8000/api/password_reset/', {
+            mode : 'cors',
+            method : 'POST',
+            headers: {
+                'Content-type' : 'application/json',
+                'X-CSRFToken' : csrftoken!,
+            },
+            body : JSON.stringify(body)
+        },)
+        .then(response => {
+            response.json()
+            history.push('/')
+            console.log('SEND_EMAIL : ', response)
+        })
+        .catch(error => console.log('ERROR: ', error))
+    })
+}
+
 const User = (props : any) => {
 
     if (localStorage.getItem('token')){

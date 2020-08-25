@@ -6,6 +6,7 @@ import { IUser } from '../../../interface';
 
 interface IProps{
     name : string;
+    email : string;
     password : string;
 }
 const renderTextField = 
@@ -51,12 +52,13 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
     const handleSubmit = (values: any) => {
         const new_user : IUser = {
             username : values.name,
+            email : values.email,
             password : values.password,
             id : 0,
             logged_in : false
         }
-        console.log(new_user)
-        //props.onCreateUser(new_user)
+
+        props.onCreateUser(new_user, history)
     }
 
     return (
@@ -68,6 +70,7 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
                 </Typography>
                 <form onSubmit={props.handleSubmit(handleSubmit)}>
                     <Field name="name" component={renderTextField} label="name" />
+                    <Field name="email" component={renderTextField} label="email" />
                     <Field name="password" component={renderTextField} label="password" />
                    
                     <Button

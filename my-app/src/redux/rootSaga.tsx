@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects'
-import { watchCreateTask, watchRemoveTask, watchToggleTask, watch_login_user, watch_create_user } from '../ pages/User';
+import { watchCreateTask, watchRemoveTask, watchToggleTask, watch_login_user, watch_create_user, watch_reset_password } from '../ pages/User';
 
 
 export function* rootSaga(){
@@ -8,6 +8,7 @@ export function* rootSaga(){
         watchToggleTask(),
         watchRemoveTask(),
         watch_create_user(),
-        watch_login_user()
+        watch_login_user(),
+        watch_reset_password()
     ])
 }

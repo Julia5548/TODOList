@@ -53,8 +53,7 @@ export const ResetPassword : React.FC<IProps & InjectedFormProps<{}, IProps>> = 
     const history = useHistory()
 
     const handleSubmit = (values: any) => {
-        console.log(JSON.stringify(values));
-        history.push('/password_reset_done')
+        props.onResetPassword(values.email, history)
      }
 
     return(
