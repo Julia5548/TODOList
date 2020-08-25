@@ -136,8 +136,7 @@ export function* watchCreateTask(){
 
 function* workCreateTask(action) {
 
-    
-    yield console.log(action.newTask)
+   // yield console.log(action.newTask)
 
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/task_create/'
@@ -150,6 +149,7 @@ function* workCreateTask(action) {
                 headers : {
                     'Content-type' : 'application/json',
                     'X-CSRFToken' : csrftoken!,
+                    Authorization : 'JWT ' + localStorage.getItem('token')
                 },
                 body : JSON.stringify(action.newTask)
             }).catch(function(error){
@@ -168,7 +168,7 @@ export function* watchToggleTask(){
 function* workToggleTask(action){
     
     const task : ITodo = action.task
-    console.log('toggle: ', task)
+    //console.log('toggle: ', task)
     task.completed = !task.completed
 
     const csrftoken = getCookie('csrftoken');
@@ -182,13 +182,14 @@ function* workToggleTask(action){
                 headers : {
                     'Content-type' : 'application/json',
                     'X-CSRFToken' : csrftoken!,
+                    Authorization : 'JWT ' + localStorage.getItem('token')
                 },
                 body : JSON.stringify(task)
             }).catch(function(error){
                 console.log('ERROR:' , error)
             })
         })
-        yield console.log(`response = ${JSON.stringify(data)}`); 
+        //yield console.log(`response = ${JSON.stringify(data)}`); 
     } catch(error){
         console.log(error)
     }
@@ -201,7 +202,7 @@ export function* watchRemoveTask(){
 function* workRemoveTask(action){
     
     const task : ITodo = action.task
-    console.log('remove: ', task)
+    //console.log('remove: ', task)
 
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/task_delete/' + task.id + '/'
@@ -214,6 +215,7 @@ function* workRemoveTask(action){
                 headers : {
                     'Content-type' : 'application/json',
                     'X-CSRFToken' : csrftoken!,
+                    Authorization : 'JWT ' + localStorage.getItem('token')
                 },
             }).then((response) => {
                 console.log('deleted : ', response)
@@ -241,7 +243,7 @@ function* worker_login_user(action) {
     }    
     try{
         const data  = yield call(() => fetch_token_auth(login_user))
-        console.log('CURRENT_USER : ', data.user)
+       // console.log('CURRENT_USER : ', data.user)
         localStorage.setItem('token', data.token)
         const current_user = data.user
         yield put({type : 'CURRENT_USER', current_user})
@@ -282,7 +284,7 @@ function* worker_create_user(action){
         password : user.password!
     }
 
-    console.log('CREATE_USER: ', create_user)
+    //console.log('CREATE_USER: ', create_user)
 
     const csrftoken = getCookie('csrftoken')
 
@@ -300,7 +302,7 @@ function* worker_create_user(action){
         },)
         .then(response => {
             response.json()
-            console.log('CREATE_RESULT : ', response)
+            //console.log('CREATE_RESULT : ', response)
         })
         .catch(error => console.log('ERROR: ', error))
     })
@@ -328,7 +330,6 @@ const User = (props : any) => {
                 .then(response => response.json())
                 .then(data => {
                     const current_user : IUser = {id : data.id, username : data.username, logged_in : true}
-                    console.log("USER: ", data)
                     if(current_user.id !== undefined){
                         props.onCurrentUser(current_user)
                         const url : string= 'todo/'+ current_user.id

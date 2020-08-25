@@ -53,26 +53,31 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
     const { pk } = useParams()
     const history = useHistory()
     const[todoList, setTodo] = useState<ITodo[]>([])
+    const [response, setResponse] = useState('')
 
-    console.log('id_user : ', pk)
     const handleSubmit = ( values : any ) => {
 
         const newTask : ITodo = {
             id : null,
+            user_id : pk,
             name : values.task,
             completed : false
         }
-
         props.onAddTask(newTask)
+        setResponse('create_task ' + newTask.name)
+        console.log('RESPONSE_CREATE : ', response)
     }
 
-    console.log("TODOLIST: ", props)
     const onToggle = (task : ITodo) =>{
         props.onToggle(task)
+        setResponse(task.completed + ' ' + task.name)
+        console.log('RESPONSE_TOGGLE : ', response)
     }
 
     const onRemove = (task : ITodo) =>{
         props.onRemove(task)
+        setResponse('remove_task ' + task.name)
+        console.log('RESPONSE_REMOVE : ', response)
     }
 
     const handleLogout = () => {
@@ -84,8 +89,8 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
 
     useEffect(() => {
         if(localStorage.getItem('token')){
-            console.log('Fetching...')
-            const data = fetch('http://127.0.0.1:8000/api/task_list/',
+            console.log('FETCHING...')
+            fetch('http://127.0.0.1:8000/api/task_list/' + pk,
             {
                 mode: 'cors',
                 headers: {
@@ -95,12 +100,12 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
             .then(response => response.json())
             .then(data => {
                 setTodo(data)
-                console.log(data)
+                //console.log(data)
         
             })
             .catch((error) => console.log('ERROR1: ', error))
         }
-    }, [])
+    }, [response])
 
 
     return(

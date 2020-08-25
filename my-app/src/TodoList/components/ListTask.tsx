@@ -3,6 +3,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles, Typography, Card, CardContent, IconButton, Checkbox} from '@material-ui/core';
 import { ITodo } from '../../interface';
 import FormDialog from '../components/FormDialog';
+import { useParams } from 'react-router-dom';
 
 
 
@@ -37,10 +38,12 @@ interface TodoListProps{
 const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
 
     const classes = useStyles()
+    const { pk } = useParams()
     const[open, setOpen] = useState(false)
     
     const todo : ITodo = {
         id : 0,
+        user_id: pk,
         name : '',
         completed : false,
 

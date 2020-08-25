@@ -19,8 +19,8 @@ def apiOverview(request):
 	return Response(api_urls)
 
 @api_view(['GET'])
-def taskList(request):
-	tasks = Todo.objects.all()
+def taskList(request, user_id):
+	tasks = Todo.objects.filter(user_id = user_id)
 	serializer = TodoSerializer(tasks, many=True)
 	return Response(serializer.data)
 
