@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'users'
+    'users',
+    'resetPassword',
+    'django_rest_passwordreset',
 ]
 
 MIDDLEWARE = [
@@ -148,4 +150,6 @@ CORS_ALLOW_CREDENTIALS = True
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'users.utils.custom_jwt_response_handler'
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
