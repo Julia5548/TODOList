@@ -1,6 +1,6 @@
 export interface ITodo{
     id:number | null;
-    user_id: number;
+    user: number;
     name:string;
     completed:boolean;
 }

@@ -43,7 +43,7 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
     
     const todo : ITodo = {
         id : 0,
-        user_id: pk,
+        user: pk,
         name : '',
         completed : false,
 

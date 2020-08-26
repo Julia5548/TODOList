@@ -59,7 +59,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
 
         const newTask : ITodo = {
             id : null,
-            user_id : pk,
+            user : pk,
             name : values.task,
             completed : false
         }

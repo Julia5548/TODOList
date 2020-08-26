@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 from .serializer import *
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view
@@ -18,7 +19,7 @@ class CreateUserView(APIView):
     def post(self, request):
         user = request.data.get('user')
         if not user:
-            return Response({'response': 'error', 'message': 'No data found'})
+            return Response({"response" : "not data found"}, status=status.HTTP_400_BAD_REQUEST)
         serializer = UserSerializerWithToken(data=user)
         if serializer.is_valid():
             saved_user = serializer.save()

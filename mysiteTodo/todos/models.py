@@ -5,7 +5,7 @@ from django.conf import settings
 
 
 class Todo(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default = '38')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     completed = models.BooleanField(default=False, blank=True, null= True)
 

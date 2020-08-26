@@ -21,7 +21,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('todos.api.urls')),
-    path('token-auth/', obtain_jwt_token),
+    path('token-auth/', obtain_jwt_token, name = 'token_user'),
     path('api_users/', include('users.urls')),
     path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]
