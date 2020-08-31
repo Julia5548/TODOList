@@ -3,7 +3,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles, Typography, Card, CardContent, IconButton, Checkbox} from '@material-ui/core';
 import { ITodo } from '../../interface';
 import FormDialog from '../components/FormDialog';
-import { useParams } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
+import {  withRouter } from 'react-router-dom';
+import { InjectedFormProps } from 'redux-form';
 
 
 
@@ -29,21 +31,23 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-interface TodoListProps{
+interface TodoListProps extends RouteComponentProps<{pk : string}>{
     todoList : ITodo[];
     onToggle(task : ITodo) : void;
     onRemove(task : ITodo) : void;
 }
 
-const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
+export const ListTask : React.FC<TodoListProps> = (props: TodoListProps) => {
 
-    const classes = useStyles()
-    const { pk } = useParams()
-    const[open, setOpen] = useState(false)
+    const classes = useStyles();
+    const  {todoList, onRemove, onToggle }  = props;
     
+    const[open, setOpen] = useState(false);
+    const pk : any = props.match.params.pk
+
     const todo : ITodo = {
         id : 0,
-        user: pk,
+        user : pk,
         name : '',
         completed : false,
 
@@ -72,7 +76,6 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
         setTask(task)
     }
 
-    
     return(
         <div>
             {todoList.map((todo) => {
@@ -84,6 +87,7 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
                     <Card key = {todo.id}  className = {classes.root}>
                         <Checkbox
                             checked = {todo.completed}
+                            name = 'checkBox_toggle_task'
                             onChange = {() => {onToggle(todo)}}/>
                         <CardContent className = {classCheked}>
                             <Typography variant = "h6" component = "h6">
@@ -101,4 +105,4 @@ const ListTask : React.FC<TodoListProps>= ({todoList, onToggle, onRemove}) => {
     )
 }
 
-export default ListTask
+export default withRouter(ListTask)

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { reduxForm, InjectedFormProps, Field } from 'redux-form';
 import { makeStyles, Typography, TextField, Button, AppBar, Toolbar, Grid} from '@material-ui/core';
-import { useHistory, useParams } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import { ITodo } from '../../../interface';
 import ListTask from '../../components/ListTask';
+import { withRouter } from 'react-router-dom';
 
 const renderTextField = ({
     input, 
@@ -16,7 +17,8 @@ const renderTextField = ({
         label = "Наименование задачи"
         margin = 'normal'
         fullWidth
-        name={label}
+        id = 'text_field'
+        name='task'
         error={touched && invalid}
         helperText={touched && error}
         required
@@ -26,6 +28,14 @@ const renderTextField = ({
         {...custom}
     />
 )
+
+export function validations(values){
+    const error = {};
+    if(!values['task']){
+        error['task'] = 'Необходимо ввести наименование задачи'
+    }
+    return error
+}
 
 const useStyles = makeStyles((theme) => ({
 
@@ -47,13 +57,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (props : any) => {
-
-    const classes = useStyles()
-    const { pk } = useParams()
-    const history = useHistory()
+export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo> & RouteComponentProps<{pk: string}>> = ({
+   match: { params },
+   history, 
+   ...props
+}: any) => {
+    const classes = useStyles();
+    const { pk } = params;
     const[todoList, setTodo] = useState<ITodo[]>([])
-    const [response, setResponse] = useState('')
+    const [response, setResponse] = useState([''])    
 
     const handleSubmit = ( values : any ) => {
 
@@ -63,20 +75,21 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
             name : values.task,
             completed : false
         }
+
         props.onAddTask(newTask)
-        setResponse('create_task ' + newTask.name)
+        setResponse([newTask.name])
         console.log('RESPONSE_CREATE : ', response)
     }
 
     const onToggle = (task : ITodo) =>{
         props.onToggle(task)
-        setResponse(task.completed + ' ' + task.name)
+        setResponse([task.completed + ' ' + task.name])
         console.log('RESPONSE_TOGGLE : ', response)
     }
 
     const onRemove = (task : ITodo) =>{
         props.onRemove(task)
-        setResponse('remove_task ' + task.name)
+        setResponse(['remove_task ' + task.name])
         console.log('RESPONSE_REMOVE : ', response)
     }
 
@@ -113,7 +126,7 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
             <AppBar position = "static">
                 <Toolbar>
                     <Typography variant="h6" className = {classes.title}>
-                        Name User
+                        {props.username}
                     </Typography>
                     <Button color="inherit" onClick = {() => handleLogout()}>
                         Выход
@@ -129,11 +142,13 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
                         <Grid item xs >
                             <Field name = "task" 
                             component = {renderTextField} 
+                            id= 'field_task'
                             label = "string"
                             className = {classes.textField}/>
                         </Grid>
                         <Grid item xs={3}>
                             <Button 
+                                name= "create_task"
                                 type="submit"
                                 variant = "contained"
                                 color = "primary"
@@ -150,7 +165,8 @@ export const WindowTask : React.FC<ITodo & InjectedFormProps<{}, ITodo>> = (prop
 }
 
 const form = reduxForm<{}, ITodo>({
-    form : 'createTask'
-})(WindowTask);
+    form : 'createTask', 
+    validate: validations
+})(withRouter(WindowTask));
 
-export default form;
+export default form

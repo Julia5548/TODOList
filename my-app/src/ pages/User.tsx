@@ -55,7 +55,10 @@ const mapDispatchToProps = (dispatch) => {
     })
 }
 
-const toggleTaskAction = (task : ITodo) => {
+const mapStateToProps = (state) => ({
+    username : state.user_data.username
+})
+export const toggleTaskAction = (task : ITodo) => {
     return {
         type: 'TOGGLE_TASK',
         task
@@ -69,7 +72,7 @@ const removeTaskAction = (task : ITodo) => {
     }
 }
 
-const addTaskAction = (newTask : ITodo) =>{
+export const addTaskAction = (newTask : ITodo) =>{
     return {
         type: 'CREATE_TASK',
         newTask
@@ -124,7 +127,7 @@ const onGetUserAction = () => {
     }
 }
 
-function getCookie(name : string) {
+export function getCookie(name : string) {
     let cookieValue : string | null = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -145,7 +148,7 @@ export function* watchCreateTask(){
 }
 
 
-function* workCreateTask(action) {
+export function* workCreateTask(action) {
 
    // yield console.log(action.newTask)
 
@@ -176,7 +179,7 @@ export function* watchToggleTask(){
     yield takeEvery('TOGGLE_TASK', workToggleTask)
 }
 
-function* workToggleTask(action){
+export function* workToggleTask(action){
     
     const task : ITodo = action.task
     //console.log('toggle: ', task)
@@ -405,4 +408,4 @@ const User = (props : any) => {
     );
 }
 
-export default connect(null, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(User);

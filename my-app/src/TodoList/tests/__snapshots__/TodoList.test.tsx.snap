@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<WindowTask /> defines createTask form fields renders task field 1`] = `
+<Router
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "canGo": [Function],
+      "createHref": [Function],
+      "entries": Array [
+        Object {
+          "hash": "",
+          "key": "qn096e",
+          "pathname": "/",
+          "search": "",
+          "state": undefined,
+        },
+        Object {
+          "hash": "",
+          "key": "1prqbl",
+          "pathname": "/page/10",
+          "search": "",
+          "state": undefined,
+        },
+        Object {
+          "hash": "",
+          "key": "5ort8p",
+          "pathname": "/next",
+          "search": "",
+          "state": undefined,
+        },
+      ],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "index": 1,
+      "length": 3,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "key": "1prqbl",
+        "pathname": "/page/10",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
+>
+  <Route
+    path="/page/:page"
+  >
+    <WindowTask
+      handleSubmit={[MockFunction]}
+    />
+  </Route>
+</Router>
+`;
+
+exports[`Redux-Form WindowTask displa correctly 1`] = `ReactWrapper {}`;
+
+exports[`Redux-Form WindowTask displayed correctly 1`] = `ReactWrapper {}`;
+
+exports[`Redux-Form WindowTask render correctly 1`] = `ReactWrapper {}`;
+
+exports[`Redux-Form WindowTask shows error when name task is set to blank 1`] = `ReactWrapper {}`;
