@@ -1,4 +1,4 @@
-import { IUser } from "../../interface";
+import { IUser } from "../../../interface";
 import { GET_TOKEN, CURRENT_USER, INITIAL_USER } from "../../actions/types";
 
 

@@ -1,5 +1,5 @@
-import { call, takeEvery, put } from "redux-saga/effects" ;
-import { fetch_create_task, fetch_remove_task, fetch_toggle_task } from '../../api_fetch/fetch_task';
+import { call, takeEvery } from "redux-saga/effects" ;
+import { fetch_create_task, fetch_remove_task, fetch_toggle_task } from '../../../services/services_task';
 import { CREATE_TASK, TOGGLE_TASK, REMOVE_TASK } from "../../actions/types";
 
 

@@ -1,6 +1,6 @@
 import { call, takeEvery, put } from "redux-saga/effects" ;
-import { IUser } from "../../interface";
-import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../api_fetch/fetch_user";
+import { IUser } from "../../../interface";
+import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../../services/services_user";
 import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD } from "../../actions/types";
 
 

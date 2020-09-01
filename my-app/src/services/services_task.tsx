@@ -1,5 +1,5 @@
 import { ITodo } from '../interface';
-import { getCookie } from '../api_fetch/cookie';
+import { getCookie } from './cookie';
 
 
 export const fetch_create_task = (newTask : ITodo) =>{

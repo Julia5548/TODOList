@@ -3,9 +3,9 @@ import { connect, useSelector } from 'react-redux';
 import Route from '../routes'
 import { ITodo, IUser } from '../interface';
 import { reset } from 'redux-form';
-import { RootState } from '../reducers';
-import { addTaskAction, toggleTaskAction, removeTaskAction, onLogoutAction, onCurrentUserAction } from '../actions';
-import { onLoginUserAction, onCreateUserAction, onResetPasswordAction, onGetTokenAction , onGetUserAction} from '../actions';
+import { RootState } from '../store/reducers';
+import { addTaskAction, toggleTaskAction, removeTaskAction, onLogoutAction, onCurrentUserAction } from '../store/actions';
+import { onLoginUserAction, onCreateUserAction, onResetPasswordAction, onGetTokenAction , onGetUserAction} from '../store/actions';
 
 
 const mapDispatchToProps = (dispatch) => {

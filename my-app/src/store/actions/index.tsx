@@ -1,4 +1,4 @@
-import { ITodo, IUser } from "../interface";
+import { ITodo, IUser } from "../../interface";
 import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, GET_TOKEN, INITIAL_USER, CURRENT_USER, GET_USER } from "./types";
 
 
