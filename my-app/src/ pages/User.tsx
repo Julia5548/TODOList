@@ -1,33 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useSelector } from 'react-redux';
-import Route from '../Router'
+import Route from '../routes'
 import { ITodo, IUser } from '../interface';
 import { reset } from 'redux-form';
-import { call, takeEvery, put } from "redux-saga/effects" ;
-import { RootState } from '../redux/reduxStore';
+import { RootState } from '../reducers';
+import { addTaskAction, toggleTaskAction, removeTaskAction, onLogoutAction, onCurrentUserAction } from '../actions';
+import { onLoginUserAction, onCreateUserAction, onResetPasswordAction, onGetTokenAction , onGetUserAction} from '../actions';
 
-
-const initialStateUser : IUser = {
-    id: 0,
-    username: '',
-    logged_in : false
-}
-
-export function user_reducer ( state = initialStateUser, action) : IUser {
-    switch(action.type){
-        case 'GET_TOKEN':
-            return { ...state, logged_in : state.logged_in = true };
-        case 'CURRENT_USER':
-            return { ...state, username : action.current_user.username, id : action.current_user.id, logged_in : true };
-        case 'INITIAL_USER':
-            localStorage.removeItem('token')
-            return { ...state, username : '', id : 0, logged_in : false };
-        default : return state
-    }
-}
 
 const mapDispatchToProps = (dispatch) => {
-
     return({
         onAddTask : (newTask : ITodo) => {
             dispatch(addTaskAction(newTask))
@@ -48,330 +29,32 @@ const mapDispatchToProps = (dispatch) => {
         onResetPassword : (email: string, history) => {
             dispatch(onResetPasswordAction(email, history))
         },
-        onGetToken : () => { dispatch(onGetTokenAction()) },
-        onLogout : () => { dispatch(onLogoutAction()) },
-        onCurrentUser : (current_user: IUser) => { dispatch(onCurrentUserAction(current_user) )},
-        onGetUser : () => {dispatch(onGetUserAction())}
+        onGetToken : () => { 
+            dispatch(onGetTokenAction()) 
+        },
+        onLogout : () => { 
+            dispatch(onLogoutAction()) 
+        },
+        onCurrentUser : (current_user: IUser) => { 
+            dispatch(onCurrentUserAction(current_user))
+        },
+        onGetUser : () => {
+            dispatch(onGetUserAction())
+        }
     })
 }
 
 const mapStateToProps = (state) => ({
     username : state.user_data.username
 })
-export const toggleTaskAction = (task : ITodo) => {
-    return {
-        type: 'TOGGLE_TASK',
-        task
-    }
-}
-
-const removeTaskAction = (task : ITodo) => {
-    return {
-        type : 'REMOVE_TASK',
-        task
-    }
-}
-
-export const addTaskAction = (newTask : ITodo) =>{
-    return {
-        type: 'CREATE_TASK',
-        newTask
-    }
-}
-
-const onLoginUserAction = (user : IUser, history) => {
-    return {
-        type : 'LOGIN_USER',
-        user, 
-        history
-    }
-}
-
-const onCreateUserAction = (user : IUser, history) => {
-    return {
-        type : 'CREATE_USER',
-        user,
-        history
-    }
-}
-
-const onResetPasswordAction = (email: string, history) =>{
-    return{
-        type: 'RESET_PASSWORD',
-        email,
-        history
-    }
-}
-const onGetTokenAction = () => {
-    return{
-        type : 'GET_TOKEN'
-    }
-}
-
-const onLogoutAction = () => {
-    return {
-        type: 'INITIAL_USER'
-    }
-}
-
-const onCurrentUserAction = (current_user : IUser) => {
-    return {
-        type: 'CURRENT_USER',
-        current_user
-    }
-}
-
-const onGetUserAction = () => {
-    return{
-        type: 'GET_USER'
-    }
-}
-
-export function getCookie(name : string) {
-    let cookieValue : string | null = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-export function* watchCreateTask(){
-    yield takeEvery('CREATE_TASK', workCreateTask)
-}
-
-
-export function* workCreateTask(action) {
-
-   // yield console.log(action.newTask)
-
-    const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/task_create/'
-        
-    try{
-        const data = yield call(() => {
-            fetch(url, {
-                mode : 'cors',
-                method: 'POST',
-                headers : {
-                    'Content-type' : 'application/json',
-                    'X-CSRFToken' : csrftoken!,
-                    Authorization : 'JWT ' + localStorage.getItem('token')
-                },
-                body : JSON.stringify(action.newTask)
-            }).catch(function(error){
-                console.log('ERROR:' , error)
-            })
-        })
-    } catch(error){
-        console.log(error)
-    }
-}
-
-export function* watchToggleTask(){
-    yield takeEvery('TOGGLE_TASK', workToggleTask)
-}
-
-export function* workToggleTask(action){
-    
-    const task : ITodo = action.task
-    //console.log('toggle: ', task)
-    task.completed = !task.completed
-
-    const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/task_update/' + task.id + '/'
-        
-    try{
-        const data = yield call(() => {
-            fetch(url, {
-                mode : 'cors',
-                method: 'POST',
-                headers : {
-                    'Content-type' : 'application/json',
-                    'X-CSRFToken' : csrftoken!,
-                    Authorization : 'JWT ' + localStorage.getItem('token')
-                },
-                body : JSON.stringify(task)
-            }).catch(function(error){
-                console.log('ERROR:' , error)
-            })
-        })
-        //yield console.log(`response = ${JSON.stringify(data)}`); 
-    } catch(error){
-        console.log(error)
-    }
-}
-
-export function* watchRemoveTask(){
-    yield takeEvery('REMOVE_TASK', workRemoveTask)
-}
-
-function* workRemoveTask(action){
-    
-    const task : ITodo = action.task
-    //console.log('remove: ', task)
-
-    const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/task_delete/' + task.id + '/'
-        
-    try{
-        yield call(() => {
-            fetch(url, {
-                mode : 'cors',
-                method: 'DELETE',
-                headers : {
-                    'Content-type' : 'application/json',
-                    'X-CSRFToken' : csrftoken!,
-                    Authorization : 'JWT ' + localStorage.getItem('token')
-                },
-            }).then((response) => {
-                console.log('deleted : ', response)
-            })
-            .catch(function(error){
-                console.log('ERROR:' , error)
-            })
-        })
-    } catch(error){
-        console.log(error)
-    }
-}
-
-export function* watch_login_user(){
-    yield takeEvery('LOGIN_USER', worker_login_user)
-}
-
-function* worker_login_user(action) {
-    
-    const user : IUser = action.user
-    const { history } = action
-    const login_user = {
-        username : user.username,
-        password : user.password!
-    }    
-    try{
-        const data  = yield call(() => fetch_token_auth(login_user))
-       // console.log('CURRENT_USER : ', data.user)
-        localStorage.setItem('token', data.token)
-        const current_user = data.user
-        yield put({type : 'CURRENT_USER', current_user})
-        const url : string = '/todo/' + current_user.id
-        history.push(url)
-    }catch(error){
-        console.log('ERROR: ', error)
-    }
-}
-
-async function fetch_token_auth(login_user) {
-
-    const csrftoken = getCookie('csrftoken')
-    const response = fetch('http://127.0.0.1:8000/token-auth/', {
-        mode : 'cors',
-        method : 'POST',
-        headers: {
-            'Content-type' : 'application/json',
-            'X-CSRFToken' : csrftoken!,
-        },
-        body : JSON.stringify(login_user)
-    })
-    const data = response.then(response => response.json())
-    .catch(error => console.log('ERROR: ', error))
-    return await data
-}
-
-export function* watch_create_user(){
-    yield takeEvery('CREATE_USER', worker_create_user)
-}
-
-function* worker_create_user(action){
-    
-    const user : IUser = action.user
-    const { history }  = action
-
-    const create_user = {
-        username : user.username,
-        password : user.password!,
-        email : user.email!
-    }
-
-    console.log('CREATE_USER: ', create_user)
-
-    const csrftoken = getCookie('csrftoken')
-
-    const body = {'user' : {
-        'username' : create_user.username,
-        'email' : create_user.email,
-        'password' : create_user.password
-        }
-    }
-    
-    yield call(() => {
-        fetch('http://127.0.0.1:8000/api_users/users/create', {
-            mode : 'cors',
-            method : 'POST',
-            headers: {
-                'Content-type' : 'application/json',
-                'X-CSRFToken' : csrftoken!,
-            },
-            body : JSON.stringify(body)
-        },)
-        .then(response => {
-            response.json()
-            history.push('/')
-            console.log('CREATE_RESULT : ', response)
-        })
-        .catch(error => console.log('ERROR: ', error))
-    })
-}
-
-export function* watch_reset_password(){
-    yield takeEvery('RESET_PASSWORD', worker_reset_password)
-}
-
-function* worker_reset_password(action){
-    const email : string = action.email
-    const { history }  = action
-
-    console.log('RESET_PASSWORD: ', email)
-
-    const body = {
-        email : email
-    }
-
-    const csrftoken = getCookie('csrftoken')
-    
-    yield call(() => {
-        fetch('http://127.0.0.1:8000/api/password_reset/', {
-            mode : 'cors',
-            method : 'POST',
-            headers: {
-                'Content-type' : 'application/json',
-                'X-CSRFToken' : csrftoken!,
-            },
-            body : JSON.stringify(body)
-        },)
-        .then(response => {
-            response.json()
-            history.push('/')
-            console.log('SEND_EMAIL : ', response)
-        })
-        .catch(error => console.log('ERROR: ', error))
-    })
-}
 
 const User = (props : any) => {
 
     if (localStorage.getItem('token')){
-        props.onGetToken()
+        props.onGetToken();
     }
 
-    const current_state_user = useSelector((state : RootState) => state.user_data.logged_in)
+    const current_state_user = useSelector((state : RootState) => state.user_data.logged_in);
 
     useEffect(() => {
         if(current_state_user){
@@ -385,14 +68,20 @@ const User = (props : any) => {
                         }
                     }
                 )
-                .then(response => response.json())
+                .then(response => 
+                    response.json()
+                )
                 .then(data => {
-                    const current_user : IUser = {id : data.id, username : data.username, logged_in : true}
+                    const current_user : IUser = {
+                        id : data.id, 
+                        username : data.username, 
+                        logged_in : true
+                    };
                     if(current_user.id !== undefined){
-                        props.onCurrentUser(current_user)
-                        const url : string= 'todo/'+ current_user.id
+                        props.onCurrentUser(current_user);
+                        const url : string= 'todo/'+ current_user.id;
                     }else{
-                        props.onLogout()
+                        props.onLogout();
                     }
                 })
             }catch(error){
@@ -401,8 +90,6 @@ const User = (props : any) => {
         }
     }, [current_state_user])
 
-    
-    
     return (
         <Route  {...props} />
     );
