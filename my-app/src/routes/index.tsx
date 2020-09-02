@@ -1,35 +1,28 @@
 import React from 'react';
-import  Authorization  from '../components/authorization';
-import  Registration  from '../Registration/pages/Registration';
-import  ResetPassword  from '../ResetPassword/pages/ResetPassword';
-import  TodoList  from '../TodoList/pages/TodoList';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import  Sign_In from '../ pages/authorization/sign_in';
+import AuthRouter from '../ pages/authorization/index'
+import { IUser } from '../interface';
+import { InjectedProps } from '@material-ui/core';
 
 
-const Router = ( props : any) => {
-    
-    const handleSubmit = (values: any) => {
-        window.alert(JSON.stringify(values));
-    }
+interface IProps {
+    onLoginUser(user : IUser, history) : void;
+    error_sign_in : boolean;
+}
+
+const Routers : React.FC<IProps> = ({onLoginUser, error_sign_in} : IProps) => {
     return(
-        
         <BrowserRouter>
             <Switch>
                 <Route exact path = "/">
-                    {<Authorization {...props} /> }
+                    {<Sign_In onLoginUser= {onLoginUser} error_sign_in = {error_sign_in}/> }
                 </Route>
-                <Route path = "/registration">
-                    {<Registration {...props} /> }
-                </Route>
-                <Route path = "/reset">
-                    {<ResetPassword onSubmit = {handleSubmit} {...props} />}
-                </Route>
-                <Route path = "/todo/:pk">
-                    {<TodoList  {...props} />}
-                </Route> 
+                <AuthRouter/>
             </Switch>
         </BrowserRouter>
     )
 }
 
-export default Router
+export default Routers

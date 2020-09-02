@@ -11,4 +11,5 @@ export interface IUser{
     password? : string;
     email? : string;
     logged_in : boolean;
+    error_sign_in : boolean;
 }

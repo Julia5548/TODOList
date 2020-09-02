@@ -1,7 +1,7 @@
-import { call, takeEvery, put } from "redux-saga/effects" ;
+import { call, takeEvery, put, delay } from "redux-saga/effects" ;
 import { IUser } from "../../../interface";
 import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../../services/services_user";
-import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD } from "../../actions/types";
+import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD, ERROR_SIGN_IN, HIDE_ERROR } from "../../actions/types";
 
 
 export function* watch_login_user(){
@@ -27,7 +27,10 @@ function* worker_login_user(action) {
         history.push(url);
 
     }catch(error){
-        console.log('ERROR: ', error)
+        console.log('ERROR_SAGA: ', error);
+        yield put({type : ERROR_SIGN_IN});
+        yield delay(2000)
+        yield put({type : HIDE_ERROR});
     }
 }
 

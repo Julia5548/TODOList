@@ -45,7 +45,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => ({
-    username : state.user_data.username
+    username : state.user_data.username,
+    error_sign_in : state.user_data.error_sign_in
 })
 
 const User = (props : any) => {
@@ -75,7 +76,8 @@ const User = (props : any) => {
                     const current_user : IUser = {
                         id : data.id, 
                         username : data.username, 
-                        logged_in : true
+                        logged_in : true,
+                        error_sign_in : false
                     };
                     if(current_user.id !== undefined){
                         props.onCurrentUser(current_user);
@@ -91,7 +93,7 @@ const User = (props : any) => {
     }, [current_state_user])
 
     return (
-        <Route  {...props} />
+        <Route {...props}/>
     );
 }
 

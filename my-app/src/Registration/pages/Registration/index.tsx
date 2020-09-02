@@ -55,7 +55,8 @@ export const Registration : React.FC<IProps & InjectedFormProps<{}, IProps>> = (
             email : values.email,
             password : values.password,
             id : 0,
-            logged_in : false
+            logged_in : false,
+            error_sign_in : false
         }
 
         props.onCreateUser(new_user, history)

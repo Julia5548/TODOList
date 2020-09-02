@@ -17,7 +17,7 @@ export const fetch_create_task = (newTask : ITodo) =>{
         },
         body : JSON.stringify(newTask)
     }).catch(function(error){
-        console.log('ERROR:' , error)
+        console.log('ERROR:' , error);
     });
 }
 
@@ -38,7 +38,7 @@ export const fetch_toggle_task = (task : ITodo) => {
         },
         body : JSON.stringify(task)
     }).catch(function(error){
-        console.log('ERROR:' , error)
+        console.log('ERROR:' , error);
     });
 }
 
@@ -56,8 +56,8 @@ export const fetch_remove_task = (task : ITodo) => {
             Authorization : 'JWT ' + localStorage.getItem('token')
         },
     }).then((response) => {
-        console.log('deleted : ', response)
+        console.log('deleted : ', response);
     }).catch(function(error){
-        console.log('ERROR:' , error)
+        console.log('ERROR:' , error);
     });
 }

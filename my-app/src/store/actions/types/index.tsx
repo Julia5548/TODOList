@@ -8,3 +8,5 @@ export const INITIAL_USER = 'INITIAL_USER';
 export const CURRENT_USER = 'CURRENT_USER';
 export const GET_TOKEN = 'GET_TOKEN';
 export const GET_USER = 'GET_USER';
+export const ERROR_SIGN_IN = 'ERROR_SIGN_IN';
+export const HIDE_ERROR = 'HIDE_ERROR';

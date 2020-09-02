@@ -11,5 +11,5 @@ export function* rootSaga(){
         watch_create_user(),
         watch_login_user(),
         watch_reset_password()
-    ])
+    ]);
 }

@@ -1,4 +1,5 @@
 import { IUser } from "../interface";
+import React from 'react';
 import { getCookie } from "./cookie";
 
 export const fetch_create_user = (user : IUser, history) => {
@@ -30,18 +31,19 @@ export const fetch_create_user = (user : IUser, history) => {
 
     }).then(response => {
         
-        response.json()
-        history.push('/')
-        console.log('CREATE_RESULT : ', response)
+        response.json();
+        history.push('/');
+        console.log('CREATE_RESULT : ', response);
 
     }).catch(error => 
-        console.log('ERROR: ', error)
+        console.log('ERROR_FETCH: ', error)
     );
 
 }
 
 export async function fetch_login_user(login_user){
 
+    console.log(login_user)
     const csrftoken = getCookie('csrftoken');
     const response = fetch('http://127.0.0.1:8000/token-auth/', 
     {
@@ -52,12 +54,13 @@ export async function fetch_login_user(login_user){
             'X-CSRFToken' : csrftoken!,
         },
         body : JSON.stringify(login_user)
-    })
+    });
 
     const data = response.then(response => 
         response.json()
-    ).catch(error => 
-        console.log('ERROR: ', error)
+    ).catch(error => {
+        console.log('ERROR_FETCH: ', error);
+    }
     );
 
     return await data;
@@ -85,11 +88,11 @@ export const fetch_reset_password = (email : string, history) => {
 
     }).then(response => {
 
-        response.json()
-        history.push('/')
-        console.log('SEND_EMAIL : ', response)
+        response.json();
+        history.push('/');
+        console.log('SEND_EMAIL : ', response);
     
     }).catch(error => 
-        console.log('ERROR: ', error)    
+        console.log('ERROR_FETCH: ', error)    
     );
 }
