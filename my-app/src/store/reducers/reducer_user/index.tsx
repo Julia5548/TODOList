@@ -20,6 +20,6 @@ export function user_reducer ( state = initialStateUser, action) : IUser {
             return { ...state, username : '', id : 0, logged_in : false, error_sign_in : false };
         case ERROR_SIGN_IN : return { ...state, error_sign_in : true };
         case HIDE_ERROR : return { ...state, error_sign_in : false };
-        default : return state
+        default : return state;
     }
 }
