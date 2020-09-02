@@ -1,6 +1,6 @@
 import { IUser } from "../interface";
-import React from 'react';
 import { getCookie } from "./cookie";
+
 
 export const fetch_create_user = (user : IUser, history) => {
 

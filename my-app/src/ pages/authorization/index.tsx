@@ -1,26 +1,23 @@
 import React from 'react';
-import  Registration  from '../../Registration/pages/Registration';
+import  SignUp  from '../authorization/sing_up/index';
 import  ResetPassword  from '../../ResetPassword/pages/ResetPassword';
 import  TodoList  from '../../TodoList/pages/TodoList';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 
 const Router = ( props : any) => {
-    
     return(
-        <div>         
-                <Switch>
-                    <Route path = "/registration">
-                        {<Registration {...props} /> }
-                    </Route>
-                    <Route path = "/reset">
-                        {<ResetPassword  {...props} />}
-                    </Route>
-                    <Route path = "/todo/:pk">
-                        {<TodoList name = '' id = {1} completed = {false} user = {1} />}
-                    </Route> 
-                </Switch>
-        </div>
+        <Switch>
+            <Route path = "/registration">
+                <SignUp />
+            </Route>
+            <Route path = "/reset">
+                {<ResetPassword  {...props} />}
+            </Route>
+            <Route path = "/todo/:pk">
+                {<TodoList name = '' id = {1} completed = {false} user = {1} />}
+            </Route> 
+        </Switch>
     );
 }
 

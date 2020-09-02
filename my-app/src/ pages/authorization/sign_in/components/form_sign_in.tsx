@@ -23,7 +23,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, e
 
     const classes = useStyles()
 
-    const submit = (values:any) => {
+    const submit = values => {
         const user : IUser = {
             username : values.username,
             password : values.password,

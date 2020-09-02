@@ -1,10 +1,10 @@
 import React from 'react';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import  Sign_In from '../ pages/authorization/sign_in';
 import AuthRouter from '../ pages/authorization/index'
 import { IUser } from '../interface';
-import { InjectedProps } from '@material-ui/core';
+import { ConnectedRouter } from 'connected-react-router';
 
 
 interface IProps {
@@ -13,15 +13,17 @@ interface IProps {
 }
 
 const Routers : React.FC<IProps> = ({onLoginUser, error_sign_in} : IProps) => {
+
+    const history = createBrowserHistory()
     return(
-        <BrowserRouter>
+        <ConnectedRouter history = {history}>
             <Switch>
                 <Route exact path = "/">
                     {<Sign_In onLoginUser= {onLoginUser} error_sign_in = {error_sign_in}/> }
                 </Route>
                 <AuthRouter/>
             </Switch>
-        </BrowserRouter>
+        </ConnectedRouter>
     )
 }
 
