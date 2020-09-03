@@ -1,7 +1,7 @@
 import { call, takeEvery, put, delay } from "redux-saga/effects" ;
-import { IUser } from "../../../interface";
 import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../../services/services_user";
 import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD, HIDE_ERROR, SHOW_ERROR } from "../../actions/types";
+import { IUser } from "../../../interfaces/IUser";
 
 
 export function* watch_login_user(){

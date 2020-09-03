@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-import  Sign_In from '../ pages/authorization/sign_in';
-import AuthRouter from '../ pages/authorization/index'
+import  Sign_In from '../pages/authorization/sign_in';
+import AuthRouter from '../pages/authorization/index'
 import { ConnectedRouter } from 'connected-react-router';
 
 

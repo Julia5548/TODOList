@@ -1,5 +1,5 @@
-import { ITodo } from '../interface';
 import { getCookie } from './cookie';
+import { ITodo } from '../interfaces/ITodo';
 
 
 export const fetch_create_task = (newTask : ITodo) =>{
@@ -23,7 +23,7 @@ export const fetch_create_task = (newTask : ITodo) =>{
 
 export const fetch_toggle_task = (task : ITodo) => {
     
-    task.completed = !task.completed;
+    // task.completed = !task.completed;
 
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/task_update/' + task.id + '/';

@@ -1,5 +1,5 @@
-import { IUser } from "../interface";
 import { getCookie } from "./cookie";
+import { IUser } from "../interfaces/IUser";
 
 
 export async function fetch_create_user(user : IUser){
