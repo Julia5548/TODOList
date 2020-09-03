@@ -1,6 +1,6 @@
 import React from 'react';
 import  SignUp  from '../authorization/sing_up/index';
-import  ResetPassword  from '../../ResetPassword/pages/ResetPassword';
+import  ResetPassword  from '../authorization/reset_password/index';
 import  TodoList  from '../../TodoList/pages/TodoList';
 import { Switch, Route } from 'react-router-dom';
 

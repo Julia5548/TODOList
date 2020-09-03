@@ -45,7 +45,7 @@ export const Sign_In : React.FC<IProps> = (props : IProps) => {
             </Typography>
             <Form onLoginUser = {props.onLoginUser} is_error_auth = {props.is_error_auth}/>
         </div>
-    )
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sign_In);
