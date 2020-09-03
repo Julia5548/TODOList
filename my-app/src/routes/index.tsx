@@ -9,17 +9,17 @@ import { ConnectedRouter } from 'connected-react-router';
 
 interface IProps {
     onLoginUser(user : IUser, history) : void;
-    error_sign_in : boolean;
+    is_error_auth : boolean;
 }
 
-const Routers : React.FC<IProps> = ({onLoginUser, error_sign_in} : IProps) => {
+const Routers : React.FC<IProps> = ({onLoginUser, is_error_auth} : IProps) => {
 
     const history = createBrowserHistory()
     return(
         <ConnectedRouter history = {history}>
             <Switch>
                 <Route exact path = "/">
-                    {<Sign_In onLoginUser= {onLoginUser} error_sign_in = {error_sign_in}/> }
+                    {<Sign_In onLoginUser= {onLoginUser} is_error_auth = {is_error_auth}/> }
                 </Route>
                 <AuthRouter/>
             </Switch>

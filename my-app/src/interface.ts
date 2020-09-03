@@ -10,6 +10,6 @@ export interface IUser{
     username : string;
     password? : string;
     email? : string;
-    logged_in : boolean;
-    error_sign_in : boolean;
+    is_logged_in : boolean;
+    is_error_auth : boolean;
 }

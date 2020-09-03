@@ -9,7 +9,7 @@ import Alert from "./alert";
 
 interface IProps extends RouteComponentProps{
     onLoginUser(user : IUser, history) : void;
-    error_sign_in: boolean;
+    is_error_auth: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, error_sign_in, history , ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, is_error_auth, history , ...props}) => {
 
     const classes = useStyles()
 
@@ -28,8 +28,8 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, e
             username : values.username,
             password : values.password,
             id : 0,
-            logged_in : true,
-            error_sign_in : false
+            is_logged_in : true,
+            is_error_auth : false
         };
         onLoginUser(user, history);
     }
@@ -46,7 +46,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, e
                 className = {classes.submit}>
                     Войти
             </Button>
-            {error_sign_in && <Alert error_text = {'Неверен логин или пароль'}/>}
+            {is_error_auth && <Alert error_text = {'Неверен логин или пароль'}/>}
             <Grid container>
                 <Grid item xs>
                     <NavLink to="/reset">

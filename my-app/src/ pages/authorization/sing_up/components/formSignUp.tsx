@@ -28,8 +28,8 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, 
             email : values.email,
             password : values.password,
             id : 0,
-            logged_in : false,
-            error_sign_in : false
+            is_logged_in : false,
+            is_error_auth : false
         };
         onCreateUser(user, history);
     }

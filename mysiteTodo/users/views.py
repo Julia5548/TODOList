@@ -24,5 +24,5 @@ class CreateUserView(APIView):
         if serializer.is_valid():
             saved_user = serializer.save()
         else:
-            return Response({"response": "error", "message": serializer.errors})
+            return Response({"response": "error", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         return Response({"response": "success", "message": "user created successfully"})

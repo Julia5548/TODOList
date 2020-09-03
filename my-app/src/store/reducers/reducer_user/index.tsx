@@ -1,25 +1,25 @@
 import { IUser } from "../../../interface";
-import { GET_TOKEN, CURRENT_USER, INITIAL_USER, ERROR_SIGN_IN, HIDE_ERROR } from "../../actions/types";
+import { GET_TOKEN, CURRENT_USER, INITIAL_USER, SHOW_ERROR, HIDE_ERROR } from "../../actions/types";
 
 
 const initialStateUser : IUser = {
     id: 0,
     username: '',
-    logged_in : false,
-    error_sign_in : false
+    is_logged_in : false,
+    is_error_auth : false
 };
 
 export function user_reducer ( state = initialStateUser, action) : IUser {
     switch(action.type){
         case GET_TOKEN:
-            return { ...state, logged_in : state.logged_in = true };
+            return { ...state, is_logged_in : state.is_logged_in = true };
         case CURRENT_USER:
-            return { ...state, username : action.current_user.username, id : action.current_user.id, logged_in : true, error_sign_in: false };
+            return { ...state, username : action.current_user.username, id : action.current_user.id, is_logged_in : true, is_error_auth: false };
         case INITIAL_USER:
             localStorage.removeItem('token');
-            return { ...state, username : '', id : 0, logged_in : false, error_sign_in : false };
-        case ERROR_SIGN_IN : return { ...state, error_sign_in : true };
-        case HIDE_ERROR : return { ...state, error_sign_in : false };
+            return { ...state, username : '', id : 0, is_logged_in : false, is_error_auth : false };
+        case SHOW_ERROR : return { ...state, is_error_auth : true };
+        case HIDE_ERROR : return { ...state, is_error_auth : false };
         default : return state;
     }
 }

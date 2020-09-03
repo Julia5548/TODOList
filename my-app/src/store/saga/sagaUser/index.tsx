@@ -1,7 +1,7 @@
 import { call, takeEvery, put, delay } from "redux-saga/effects" ;
 import { IUser } from "../../../interface";
 import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../../services/services_user";
-import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD, ERROR_SIGN_IN, HIDE_ERROR } from "../../actions/types";
+import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD, HIDE_ERROR, SHOW_ERROR } from "../../actions/types";
 
 
 export function* watch_login_user(){
@@ -28,7 +28,7 @@ function* worker_login_user(action) {
 
     }catch(error){
         console.log('ERROR_SAGA: ', error);
-        yield put({type : ERROR_SIGN_IN});
+        yield put({type : SHOW_ERROR});
         yield delay(2000)
         yield put({type : HIDE_ERROR});
     }
@@ -43,7 +43,18 @@ function* worker_create_user(action){
     
     const { history } = action;
     
-    yield call(() => fetch_create_user(action.user, history));
+    try{
+        const data = yield call(() => fetch_create_user(action.user));
+        if (data.response === "error"){
+            yield put({type : SHOW_ERROR})
+            yield delay(2000)
+            yield put({type : HIDE_ERROR});
+        }else{
+            history.push('/');
+        }
+    }catch(error){
+        console.log('ERROR_SAGA_SIGN_UP ', error )
+    }
 }
 
 export function* watch_reset_password(){

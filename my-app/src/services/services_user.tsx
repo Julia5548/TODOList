@@ -2,7 +2,7 @@ import { IUser } from "../interface";
 import { getCookie } from "./cookie";
 
 
-export const fetch_create_user = (user : IUser, history) => {
+export async function fetch_create_user(user : IUser){
 
     const create_user = {
         username : user.username,
@@ -20,7 +20,7 @@ export const fetch_create_user = (user : IUser, history) => {
         }
     };
 
-    fetch('http://127.0.0.1:8000/api_users/users/create', {
+    const response = fetch('http://127.0.0.1:8000/api_users/users/create', {
         mode : 'cors',
         method : 'POST',
         headers: {
@@ -29,16 +29,13 @@ export const fetch_create_user = (user : IUser, history) => {
         },
         body : JSON.stringify(body)
 
-    }).then(response => {
-        
-        response.json();
-        history.push('/');
-        console.log('CREATE_RESULT : ', response);
-
-    }).catch(error => 
+    })
+    
+    const data = response.then(response =>response.json())
+    .catch(error => 
         console.log('ERROR_FETCH: ', error)
     );
-
+    return await data;
 }
 
 export async function fetch_login_user(login_user){

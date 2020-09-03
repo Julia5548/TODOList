@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
     username : state.user_data.username,
-    error_sign_in : state.user_data.error_sign_in
+    is_error_auth : state.user_data.is_error_auth
 })
 
 const User = (props : any) => {
@@ -55,7 +55,7 @@ const User = (props : any) => {
         props.onGetToken();
     }
 
-    const current_state_user = useSelector((state : RootState) => state.user_data.logged_in);
+    const current_state_user = useSelector((state : RootState) => state.user_data.is_logged_in);
 
     useEffect(() => {
         if(current_state_user){
@@ -76,8 +76,8 @@ const User = (props : any) => {
                     const current_user : IUser = {
                         id : data.id, 
                         username : data.username, 
-                        logged_in : true,
-                        error_sign_in : false
+                        is_logged_in : true,
+                        is_error_auth : false
                     };
                     if(current_user.id !== undefined){
                         props.onCurrentUser(current_user);

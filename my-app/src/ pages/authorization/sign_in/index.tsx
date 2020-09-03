@@ -6,7 +6,7 @@ import { IUser } from '../../../interface';
 
 interface IProps{
     onLoginUser(user : IUser, history) : void;
-    error_sign_in : boolean;
+    is_error_auth : boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const Sign_In : React.FC<IProps> = ( {
     onLoginUser,
-    error_sign_in
+    is_error_auth
 }: IProps) => {
 
     const classes = useStyles();
@@ -31,7 +31,7 @@ export const Sign_In : React.FC<IProps> = ( {
             <Typography variant = 'h5' component = "h1">
                 Авторизация
             </Typography>
-            <Form onLoginUser = {onLoginUser} error_sign_in = {error_sign_in}/>
+            <Form onLoginUser = {onLoginUser} is_error_auth = {is_error_auth}/>
         </div>
     )
 }
