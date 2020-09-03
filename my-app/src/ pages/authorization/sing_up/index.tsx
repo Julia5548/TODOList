@@ -6,6 +6,11 @@ import { IUser } from '../../../interface';
 import { connect } from 'react-redux';
 
 
+interface IProps{
+    onCreateUser(user : IUser, history) : void;
+    is_error_auth : boolean;
+}
+
 const useStyles = makeStyles((theme) => ({
 
     page: {
@@ -31,7 +36,7 @@ const mapStateToProps = (state) => ({
     is_error_auth : state.user_data.is_error_auth
 })
 
-export const SignUp  = props => {
+export const SignUp  = (props : IProps) => {
 
     const classes = useStyles()
 

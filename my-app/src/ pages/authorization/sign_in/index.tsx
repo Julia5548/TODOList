@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Form from './components/form_sign_in';
 import { IUser } from '../../../interface';
+import { onLoginUserAction } from '../../../store/actions';
+import { connect } from 'react-redux';
 
 
 interface IProps{
@@ -19,10 +21,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Sign_In : React.FC<IProps> = ( {
-    onLoginUser,
-    is_error_auth
-}: IProps) => {
+const mapDispatchToProps = (dispatch) => (
+    { 
+        onLoginUser : (user : IUser, history) => {
+            dispatch(onLoginUserAction(user, history))
+        }
+    }
+)
+
+const mapStateToProps = (state) => ({
+    is_error_auth : state.user_data.is_error_auth
+})
+
+
+export const Sign_In : React.FC<IProps> = (props : IProps) => {
 
     const classes = useStyles();
 
@@ -31,9 +43,9 @@ export const Sign_In : React.FC<IProps> = ( {
             <Typography variant = 'h5' component = "h1">
                 Авторизация
             </Typography>
-            <Form onLoginUser = {onLoginUser} is_error_auth = {is_error_auth}/>
+            <Form onLoginUser = {props.onLoginUser} is_error_auth = {props.is_error_auth}/>
         </div>
     )
 }
 
-export default Sign_In;
+export default connect(mapStateToProps, mapDispatchToProps)(Sign_In);
