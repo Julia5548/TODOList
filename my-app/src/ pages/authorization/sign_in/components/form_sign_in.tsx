@@ -4,7 +4,7 @@ import { renderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { IUser } from "../../../../interface";
-import Alert from "./alert";
+import Alert from "../../../../components/Alert/index";
 
 
 interface IProps extends RouteComponentProps{

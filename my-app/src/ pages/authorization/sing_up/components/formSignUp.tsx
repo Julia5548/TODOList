@@ -4,10 +4,12 @@ import { renderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import { IUser } from "../../../../interface";
+import Alert from "../../../../components/Alert/index";
 
 
 interface IProps extends RouteComponentProps{
     onCreateUser(newUser : IUser, history) : void;
+    is_error_auth : boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, history , ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, is_error_auth, history , ...props}) => {
 
     const classes = useStyles()
 
@@ -48,6 +50,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, 
                 className = {classes.submit}>
                     Зарегистрироваться
             </Button>
+            {is_error_auth && <Alert error_text = {'Такой пользователь уже существует'}/>}
             <Grid 
                 container
                 direction="row"

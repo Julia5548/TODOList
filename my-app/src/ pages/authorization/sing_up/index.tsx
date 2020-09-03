@@ -27,6 +27,10 @@ const mapDispatchToProps = (dispatch) => {
     })
 }
 
+const mapStateToProps = (state) => ({
+    is_error_auth : state.user_data.is_error_auth
+})
+
 export const SignUp  = props => {
 
     const classes = useStyles()
@@ -38,10 +42,10 @@ export const SignUp  = props => {
                 <Typography variant = 'h5' component = "h1">
                     Регистрация
                 </Typography>
-                <Form onCreateUser = {props.onCreateUser}/>
+                <Form onCreateUser = {props.onCreateUser} is_error_auth = {props.is_error_auth}/>
             </div>
         </Container>
     )
 }
     
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
