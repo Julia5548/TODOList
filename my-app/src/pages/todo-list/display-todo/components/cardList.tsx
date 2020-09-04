@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ITodoList } from '../../../../interfaces/ITodoList';
-import { makeStyles, Grid, CardHeader, Card, CardActions, Button, IconButton } from '@material-ui/core';
+import { makeStyles, Grid, CardHeader, Card, CardActions, Button, IconButton, TextField } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 import FormDialog from '../../../../components/FormDialog';
 import ListTasks from './listTask'
@@ -24,7 +24,7 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const classes = useStyles();
     const [removeTodo, setRemoveTodo] = useState<ITodoList>(); 
     const[open, setOpen] = useState(false);
-    
+    let isCreateTask = true;
     const handleClose = () => {
         setOpen(false);
     };
@@ -60,6 +60,11 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                             subheader = "Ваши задачи: "
                         />
                         <CardActions className={classes.cardMedia}>
+                            <TextField
+                                    fullWidth
+                                    margin = 'normal'
+                                    variant = 'standard'
+                                    hidden/>
                             <ListTasks idTodo = {todo.id!}/>
                             <Button size = "small" color = "secondary" onClick = {() => handleOpen(todo)}>
                                 Удалить список

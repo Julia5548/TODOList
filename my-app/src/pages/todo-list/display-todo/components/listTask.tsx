@@ -88,7 +88,13 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
         task.isCompleted = !task.isCompleted;
         console.log(task);
     };
-    
+    if(taskList.find((task) => task.idTodoList===idTodo) === undefined){
+        return(
+            <Typography variant = "h6" component = "h6">
+                Задач нет!
+            </Typography>
+        );
+    }
     return(
         <div>
             {taskList.map((task) => {
@@ -123,7 +129,7 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
                         </Card>
                     );
                 }
-                })}
+            })}
         </div>
     );
 }
