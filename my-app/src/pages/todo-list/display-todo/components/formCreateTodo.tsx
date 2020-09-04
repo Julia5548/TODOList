@@ -6,12 +6,12 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ITask } from "../../../../interfaces/ITask";
-import { ITodo } from "../../../../interfaces/ITodo";
+import { ITodoList } from "../../../../interfaces/ITodoList";
 
 
 interface IProps extends RouteComponentProps<{pk:string}>{
-    todoList : ITodo[];
-    onCreateTodo(sortTodo : ITodo) : void;
+    todoList : ITodoList[];
+    onCreateTodo(sortTodo : ITodoList) : void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, 
         const month = selectedDate.getMonth() + 1;
         const date : string =  " " + selectedDate.getDate().toString() + "." +  month.toString() + "." + selectedDate.getFullYear().toString();
 
-        const sortTodo : ITodo ={
+        const sortTodo : ITodoList ={
             id: null, 
             user: pk,
             title : values.title + date 

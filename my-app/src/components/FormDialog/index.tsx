@@ -5,19 +5,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { ITodo } from '../../interfaces/ITodo';
+import { ITodoList } from '../../interfaces/ITodoList';
 import { ITask } from '../../interfaces/ITask';
 
 
 interface Props  {
-    removeElement : ITodo | ITask;
+    removeElement : ITodoList | ITask;
     dialogContextText : string;
     dialogTitle : string;
     isTask : boolean;
     isOpen : boolean;
     handeleClose() : void;
     handlerRemove?(task : ITask) : void;
-    handleRemoveTodo?(todo : ITodo) : void;
+    handleRemoveTodo?(todo : ITodoList) : void;
 }
 
 const FormDialog : React.FC<Props> = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, handeleClose,  handleRemoveTodo, handlerRemove}: Props) =>{
@@ -35,7 +35,7 @@ const FormDialog : React.FC<Props> = ({removeElement, isOpen ,dialogContextText,
                 <Button  color = "primary"  onClick = {() => handeleClose()}>
                     Отмена
                 </Button>
-                <Button color = "primary" onClick = {() => {isTask ? handlerRemove!((removeElement as ITask)) : handleRemoveTodo!((removeElement as ITodo))}}>
+                <Button color = "primary" onClick = {() => {isTask ? handlerRemove!((removeElement as ITask)) : handleRemoveTodo!((removeElement as ITodoList))}}>
                     Удалить
                 </Button>
             </DialogActions>

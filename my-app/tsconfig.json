@@ -16,7 +16,6 @@
     "moduleResolution": "node",
     "noImplicitAny": false,
     "resolveJsonModule": true,
-    "noImplicitAny": false,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react"

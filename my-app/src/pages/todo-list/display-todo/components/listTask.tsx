@@ -49,19 +49,19 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
     const taskList : ITask[] = [
         {
             id: 7,
-            idTodo : 1,
+            idTodoList : 1,
             title : 'покормить кота',
             isCompleted : false,
         },
         {
             id: 5,
-            idTodo : 1,
+            idTodoList : 1,
             title : 'покормить себя',
             isCompleted : true,
         },
         {
             id: 6,
-            idTodo : 1,
+            idTodoList : 1,
             title : 'покормить брата',
             isCompleted : false,
         },
@@ -96,7 +96,7 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
                 if(task.isCompleted){
                     classCheked = classes.check
                 }
-                if(task.idTodo === idTodo){
+                if(task.idTodoList === idTodo){
                     return(
                         <Card key = {task.id}  className = {classes.root}>
                             <Checkbox

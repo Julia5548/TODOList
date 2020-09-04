@@ -1,8 +1,8 @@
 import { getCookie } from './cookie';
-import { ITodo } from '../interfaces/ITodo';
+import { ITodoList } from '../interfaces/ITodoList';
 
 
-export const fetch_create_task = (newTask : ITodo) =>{
+export const fetch_create_task = (newTask : ITodoList) =>{
     
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/task_create/';
@@ -21,7 +21,7 @@ export const fetch_create_task = (newTask : ITodo) =>{
     });
 }
 
-export const fetch_toggle_task = (task : ITodo) => {
+export const fetch_toggle_task = (task : ITodoList) => {
     
     // task.completed = !task.completed;
 
@@ -42,7 +42,7 @@ export const fetch_toggle_task = (task : ITodo) => {
     });
 }
 
-export const fetch_remove_task = (task : ITodo) => {
+export const fetch_remove_task = (task : ITodoList) => {
     
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/task_delete/' + task.id + '/';

@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 import { addTaskAction, onLogoutAction, addTodoAction } from '../../../store/actions';
 import { reset } from 'redux-form';
 import { ITask } from '../../../interfaces/ITask';
-import { ITodo } from '../../../interfaces/ITodo';
+import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 
 interface IProps extends RouteComponentProps{
     onAddTask(newTask : ITask) : void;
-    onCreateTodo(sortTodo : ITodo) : void;
+    onCreateTodo(sortTodo : ITodoList) : void;
     onLogout(): void;
 }
 
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch) => {
         onAddTask : (newTask : ITask) => {
             dispatch(addTaskAction(newTask))
         },
-        onCreateTodo : (sortTodo : ITodo) =>{
+        onCreateTodo : (sortTodo : ITodoList) =>{
             dispatch(addTodoAction(sortTodo))
             dispatch(reset('createTodo'))
         },
@@ -48,7 +48,7 @@ const mapStateToProps = (state) => ({})
 
 export const DisplayTodo : React.FC<IProps> = ({onAddTask, onLogout, onCreateTodo, history} : IProps) => {
     const classes = useStyles();
-    const todoList : ITodo[]= [
+    const todoList : ITodoList[]= [
         {
             id:1,
             user:1,

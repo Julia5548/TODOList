@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { ITodo } from '../../../../interfaces/ITodo';
-import { makeStyles, Grid, CardHeader, Card, CardActions, Button } from '@material-ui/core';
+import { ITodoList } from '../../../../interfaces/ITodoList';
+import { makeStyles, Grid, CardHeader, Card, CardActions, Button, IconButton } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import FormDialog from '../../../../components/FormDialog';
 import ListTasks from './listTask'
 
 
 interface IProps{
-    todoList : ITodo[];
+    todoList : ITodoList[];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,19 +22,19 @@ const useStyles = makeStyles((theme) => ({
 
 export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const classes = useStyles();
-    const [removeTodo, setRemoveTodo] = useState<ITodo>(); 
+    const [removeTodo, setRemoveTodo] = useState<ITodoList>(); 
     const[open, setOpen] = useState(false);
     
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleRemoveTodo = ( todo : ITodo) => {
+    const handleRemoveTodo = ( todo : ITodoList) => {
         
         setOpen(false);
     };
 
-    const handleOpen = (todo : ITodo) => {
+    const handleOpen = (todo : ITodoList) => {
         setOpen(true);
         setRemoveTodo(todo);
     };
@@ -50,6 +51,11 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                 <Grid key = {todo.id} item xs={6} md={3}>
                     <Card>
                         <CardHeader
+                            action= {
+                                <IconButton  aria-label="add" color="primary">
+                                    <Add/>
+                                </IconButton>
+                            }
                             title = {todo.title}
                             subheader = "Ваши задачи: "
                         />

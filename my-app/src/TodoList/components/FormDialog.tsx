@@ -6,11 +6,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { /*connectModal,*/ InjectedProps  } from 'redux-modal';
-import { ITodo } from '../../interfaces/ITodo';
+import { ITodoList } from '../../interfaces/ITodoList';
 
 interface Props extends InjectedProps {
-    todo : ITodo;
-    handlerRemove(task : ITodo) : void;
+    todo : ITodoList;
+    handlerRemove(task : ITodoList) : void;
 }
 
 // const FormDialog = ({todo, handlerRemove, show, handleHide }: Props) => {
