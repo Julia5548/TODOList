@@ -1,17 +1,17 @@
-import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, GET_TOKEN, INITIAL_USER, CURRENT_USER, GET_USER } from "./types";
+import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, GET_TOKEN, INITIAL_USER, CURRENT_USER, GET_USER, REMOVE_TODO, CREATE_TODO } from "./types";
 import { ITodo } from "../../interfaces/ITodo";
 import { IUser } from "../../interfaces/IUser";
 import { ITask } from "../../interfaces/ITask";
 
 
-export const toggleTaskAction = (task : ITodo) => {
+export const toggleTaskAction = (task : ITask) => {
     return {
         type: TOGGLE_TASK,
         task
     }
 }
 
-export const removeTaskAction = (task : ITodo) => {
+export const removeTaskAction = (task : ITask) => {
     return {
         type : REMOVE_TASK,
         task
@@ -22,6 +22,20 @@ export const addTaskAction = (newTask : ITask) =>{
     return {
         type: CREATE_TASK,
         newTask
+    }
+}
+
+export const addTodoAction = (sortTodo : ITodo) =>{
+    return {
+        type: CREATE_TODO,
+        sortTodo
+    }
+}
+
+export const removeTodoAction = (sortTodo : ITodo) => {
+    return {
+        type : REMOVE_TODO,
+        sortTodo
     }
 }
 

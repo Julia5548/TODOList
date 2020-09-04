@@ -10,3 +10,6 @@ export const GET_TOKEN = 'GET_TOKEN';
 export const GET_USER = 'GET_USER';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const HIDE_ERROR = 'HIDE_ERROR';
+export const CREATE_TODO = 'CREATE_TODO';
+export const REMOVE_TODO = 'REMOVE_TODO';
+

@@ -2,7 +2,7 @@ import React from 'react';
 import  SignUp  from '../authorization/sing_up/index';
 import  ResetPassword  from '../authorization/reset_password/index';
 import { Switch, Route } from 'react-router-dom';
-import DisplayTodo from '../todo-list/display-task';
+import DisplayTodo from '../todo-list/display-todo';
 
 
 const Router = ( props : any) => {

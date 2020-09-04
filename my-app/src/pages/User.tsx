@@ -1,29 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
-import Route from '../routes'
-import { reset } from 'redux-form';
+import Route from '../routes';
 import { RootState } from '../store/reducers';
-import { addTaskAction, toggleTaskAction, removeTaskAction, onLogoutAction, onCurrentUserAction } from '../store/actions';
-import { onLoginUserAction, onCreateUserAction, onResetPasswordAction, onGetTokenAction , onGetUserAction} from '../store/actions';
-import { ITodo } from '../interfaces/ITodo';
+import {  onCurrentUserAction } from '../store/actions';
+import { onGetTokenAction , onGetUserAction} from '../store/actions';
 import { IUser } from '../interfaces/IUser';
 
 
 const mapDispatchToProps = (dispatch) => {
     return({
         
-        onToggle : (task : ITodo) => {
-            dispatch(toggleTaskAction(task))
-        },
-        onRemove : (task : ITodo) => {
-            dispatch(removeTaskAction(task))
-        },
         onGetToken : () => { 
             dispatch(onGetTokenAction()) 
         },
-        onLogout : () => { 
-            dispatch(onLogoutAction()) 
-        },
+
         onCurrentUser : (current_user: IUser) => { 
             dispatch(onCurrentUserAction(current_user))
         },
@@ -70,7 +60,6 @@ const User = (props : any) => {
                     };
                     if(current_user.id !== undefined){
                         props.onCurrentUser(current_user);
-                        const url : string= 'todo/'+ current_user.id;
                     }else{
                         props.onLogout();
                     }
