@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         marginTop : theme.spacing(1),
     },
-}))
+}));
 
 const mapDispatchToProps = (dispatch) => {
     return({
@@ -30,6 +30,7 @@ const mapDispatchToProps = (dispatch) => {
         }
     });
 }
+
 const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, onAddTask, ...props}) => {
     const classes = useStyles()
     

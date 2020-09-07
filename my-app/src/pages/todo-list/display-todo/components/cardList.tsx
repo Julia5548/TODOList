@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft : theme.spacing(3),
         width : '90%'
     },
-}))
+}));
 
-export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
+const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const classes = useStyles();
     const [todos, setTodos] = useState<ITodoList>(); 
 
@@ -30,7 +30,7 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const handleCreateTask = (todo: ITodoList) =>{
         setIsCreateTask(true)
         setTodos(todo)
-    }
+    };
     
     return(
         <Grid container

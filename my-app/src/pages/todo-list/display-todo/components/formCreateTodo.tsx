@@ -49,10 +49,10 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, 
             id: null, 
             user: pk,
             title : values.title + date 
-        } 
+        }; 
 
         if(todoList.find((todo) => todo.title === sortTodo.title) === undefined){
-            onCreateTodo(sortTodo)
+            onCreateTodo(sortTodo);
         }
     };
 

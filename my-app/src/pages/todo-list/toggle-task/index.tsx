@@ -30,8 +30,9 @@ export const ToggleTask : React.FC<IProps> = ({toggleTask, onToggle} : IProps) =
     const classes = useStyles()
     const onToggleTask = (task : ITask) =>{
         task.isCompleted = !task.isCompleted;
-        onToggle(task)
+        onToggle(task);
     };
+    
     return(
         <div>
            <Checkbox

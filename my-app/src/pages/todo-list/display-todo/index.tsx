@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     cardMedia: {
         display: 'block',
     },
-}))
+}));
 
 const mapDispatchToProps = (dispatch) => {
     return({
@@ -59,7 +59,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history
             user:1,
             title : '2.8.2020'
         }
-    ]
+    ];
 
     const handleLogout = () => {
         localStorage.removeItem('token');

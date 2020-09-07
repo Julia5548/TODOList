@@ -1,18 +1,18 @@
 import { call, takeEvery } from "redux-saga/effects" ;
 import { CREATE_TODO, REMOVE_TODO } from "../../actions/types";
+import { fetchCreateTodo, fetchRemoveTodo } from "../../../services/servicesTodo";
 
 
 export function* watchCreateTodo(){
     yield takeEvery(CREATE_TODO, workCreateTodo);
 }
 
-
 export function* workCreateTodo(action) {
 
-   yield console.log(action.sortTodo);
+   yield console.log('CREATE-Todo ',action.sortTodo);
 
     try{
-        // yield call(() => fetch_create_task(action.newTask));
+        yield call(() => fetchCreateTodo(action.sortTodo));
     } catch(error){
         console.log(error);
     }
@@ -24,10 +24,10 @@ export function* watchRemoveTodo(){
 
 function* workRemoveTodo(action){
     
-    yield console.log(action.sortTodo);
+    yield console.log('REMOVE_TODO ',action.sortTodo);
         
     try{
-        // yield call(() => fetch_remove_task(action.task));
+        yield call(() => fetchRemoveTodo(action.sortTodo));
     } catch(error){
         console.log(error);
     }

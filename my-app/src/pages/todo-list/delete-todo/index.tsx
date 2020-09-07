@@ -2,13 +2,24 @@ import React, { useState } from 'react';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import { Button } from '@material-ui/core';
 import FormDialog from '../../../components/FormDialog';
+import { removeTodoAction } from '../../../store/actions';
+import { connect } from 'react-redux';
 
 
 interface IProps{
     todo : ITodoList;
+    onRemoveTodo(sortTodo : ITodoList) : void;
 }
 
-export const DeletedTodo : React.FC<IProps> = ({todo}: IProps) => {
+const mapDispatchToProps = (dispatch) => {
+    return({
+        onRemoveTodo : (sortTodo : ITodoList) =>{
+            dispatch(removeTodoAction(sortTodo))
+        }
+    });
+}
+
+export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => {
 
     const[open, setOpen] = useState(false);
     
@@ -17,7 +28,7 @@ export const DeletedTodo : React.FC<IProps> = ({todo}: IProps) => {
     };
 
     const handleRemoveTodo = ( todo : ITodoList) => {
-        console.log("удален ",todo)
+        onRemoveTodo(todo)
         setOpen(false);
     };
 
@@ -43,5 +54,4 @@ export const DeletedTodo : React.FC<IProps> = ({todo}: IProps) => {
     );
 }
 
-
-export default DeletedTodo;
+export default connect(null, mapDispatchToProps)(DeletedTodo);
