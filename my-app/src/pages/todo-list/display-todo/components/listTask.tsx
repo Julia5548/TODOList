@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { makeStyles, Typography, Card, CardContent, IconButton, Checkbox} from '@material-ui/core';
+import React from 'react';
+import { makeStyles, Typography, Card, CardContent } from '@material-ui/core';
 import { ITask } from '../../../../interfaces/ITask';
-import  FormDialog  from '../../../../components/FormDialog';
-import { toggleTaskAction, removeTaskAction } from '../../../../store/actions';
+import DeleteTask  from '../../delete-task';
+import ToggleTask from '../../toggle-task';
 import { connect } from 'react-redux';
 
 
-interface TodoListProps {
+interface IProps {
     idTodo : number;
-    onToggle(task : ITask) : void;
-    onRemove(task : ITask) : void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -31,21 +28,9 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-const mapDispatchToProps = (dispatch) => {
-    return({
-        onToggle : (task : ITask) => {
-            dispatch(toggleTaskAction(task))
-        },
-        onRemove : (task : ITask) => {
-            dispatch(removeTaskAction(task))
-        },
-    })
-}
-
-export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => {
+export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
 
     const classes = useStyles();
-    const [removeTask, setRemoveTask] = useState<ITask>(); 
     const taskList : ITask[] = [
         {
             id: 7,
@@ -66,28 +51,7 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
             isCompleted : false,
         },
     ];
-    
-    const[open, setOpen] = useState(false);
-    
-    const handleClose = () => {
-        setOpen(false);
-    };
 
-    const handleRemoveTask = ( task : ITask) => {
-        console.log('Задача удалена : ', task);
-        setOpen(false);
-    };
-
-    const handleOpen = (task : ITask) => {
-        setOpen(true);
-        setRemoveTask(task);
-    };
-
-    const onToggle = (task : ITask) =>{
-        // props.onToggle(task)
-        task.isCompleted = !task.isCompleted;
-        console.log(task);
-    };
     if(taskList.find((task) => task.idTodoList===idTodo) === undefined){
         return(
             <Typography variant = "h6" component = "h6">
@@ -105,27 +69,13 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
                 if(task.idTodoList === idTodo){
                     return(
                         <Card key = {task.id}  className = {classes.root}>
-                            <Checkbox
-                                checked = {task.isCompleted}
-                                name = 'checkBox_toggle_task'
-                                onChange = {() => onToggle(task)}/>
+                            <ToggleTask toggleTask = {task} />
                             <CardContent className = {classCheked}>
                                 <Typography variant = "h6" component = "h6">
                                     {task.title}
                                 </Typography>
                             </CardContent>
-                            <IconButton aria-label = "delete" color="secondary" edge="end" onClick = {() => handleOpen(task)}>
-                                <DeleteIcon fontSize = "small"/>
-                            </IconButton>
-                            <FormDialog 
-                                removeElement = {removeTask!}
-                                isOpen = {open}
-                                isTask = {true}
-                                dialogTitle = 'Удалить задачу?'
-                                dialogContextText = "Вы действительно хотите удалить данную задачу?"
-                                handlerRemove = {handleRemoveTask}
-                                handeleClose = {handleClose}
-                            />
+                            <DeleteTask removeTask = {task}/>
                         </Card>
                     );
                 }
@@ -134,4 +84,4 @@ export const ListTask : React.FC<TodoListProps> = ({idTodo} : TodoListProps) => 
     );
 }
 
-export default connect(null, mapDispatchToProps)(ListTask);
+export default ListTask;

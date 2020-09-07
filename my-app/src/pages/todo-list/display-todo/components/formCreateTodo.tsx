@@ -5,7 +5,6 @@ import { Button, makeStyles, Grid } from "@material-ui/core";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { ITask } from "../../../../interfaces/ITask";
 import { ITodoList } from "../../../../interfaces/ITodoList";
 
 
@@ -97,7 +96,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, 
 }
 
 const form = reduxForm<{}, IProps>({
-    form : 'createTodo'
+    form : 'create-todo'
 })(Form);
 
 export default withRouter(form);

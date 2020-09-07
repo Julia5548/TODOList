@@ -2,16 +2,14 @@ import React from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
-import { addTaskAction, onLogoutAction, addTodoAction } from '../../../store/actions';
+import {  onLogoutAction, addTodoAction } from '../../../store/actions';
 import { reset } from 'redux-form';
-import { ITask } from '../../../interfaces/ITask';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 
 interface IProps extends RouteComponentProps{
-    onAddTask(newTask : ITask) : void;
     onCreateTodo(sortTodo : ITodoList) : void;
     onLogout(): void;
 }
@@ -31,12 +29,9 @@ const useStyles = makeStyles((theme) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        onAddTask : (newTask : ITask) => {
-            dispatch(addTaskAction(newTask))
-        },
         onCreateTodo : (sortTodo : ITodoList) =>{
             dispatch(addTodoAction(sortTodo))
-            dispatch(reset('createTodo'))
+            dispatch(reset('create-todo'))
         },
         onLogout : () => { 
             dispatch(onLogoutAction()) 
@@ -46,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({})
 
-export const DisplayTodo : React.FC<IProps> = ({onAddTask, onLogout, onCreateTodo, history} : IProps) => {
+export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history} : IProps) => {
     const classes = useStyles();
     const todoList : ITodoList[]= [
         {
