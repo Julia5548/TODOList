@@ -1,6 +1,4 @@
 from django.urls import path
-
-from rest.v1 import views
 from rest.v1.create_todo_list.index import CreateTodo
 from rest.v1.get_list_todo.index import GetTodoList
 from rest.v1.remove_todo.index import DeleteTodo

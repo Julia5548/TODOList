@@ -1,6 +1,4 @@
 from django.urls import path
-
-from rest.v1 import views
 from rest.v1.create_task.index import CreateTask
 from rest.v1.get_list_task.index import GetTaskList
 from rest.v1.toggle_task.index import UpdateTask
