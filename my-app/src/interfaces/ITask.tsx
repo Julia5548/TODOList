@@ -1,6 +1,6 @@
 export interface ITask{
     id:number | null;
-    idTodoList: number;
+    id_todo: number;
     title:string;
-    isCompleted:boolean;
+    is_completed:boolean;
 }

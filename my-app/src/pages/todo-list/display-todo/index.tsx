@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
@@ -7,9 +7,10 @@ import { reset } from 'redux-form';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { fetchGetTodo } from '../../../services/servicesTodo';
 
 
-interface IProps extends RouteComponentProps{
+interface IProps extends RouteComponentProps<{pk : string}>{
     onCreateTodo(sortTodo : ITodoList) : void;
     onLogout(): void;
 }
@@ -41,25 +42,18 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({})
 
-export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history} : IProps) => {
+export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history, ...props} : IProps) => {
     const classes = useStyles();
-    const todoList : ITodoList[]= [
-        {
-            id:1,
-            user:1,
-            title : '1.8.2020'
-        }, 
-        {
-            id:3,
-            user:1,
-            title : '2.8.2020'
-        },
-        {
-            id:2,
-            user:1,
-            title : '2.8.2020'
-        }
-    ];
+    const [todoList, setTodoList] = useState<ITodoList[]>([]);
+    const pk : any = props.match.params;
+
+    useEffect(() => {
+            try{
+               fetchGetTodo(pk).then((todo) => setTodoList(todo));
+            }catch(error){
+                console.log('ERROR: ', error);
+            }
+    }, [])
 
     const handleLogout = () => {
         localStorage.removeItem('token');

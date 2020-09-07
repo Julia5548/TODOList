@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect, useSelector } from 'react-redux';
 import Route from '../routes';
 import { RootState } from '../store/reducers';
-import {  onCurrentUserAction } from '../store/actions';
+import {  onCurrentUserAction, onLogoutAction } from '../store/actions';
 import { onGetTokenAction , onGetUserAction} from '../store/actions';
 import { IUser } from '../interfaces/IUser';
 
@@ -19,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onGetUser : () => {
             dispatch(onGetUserAction())
+        },
+        onLogout : () => { 
+            dispatch(onLogoutAction()) 
         }
     })
 }

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, Typography, Card, CardContent } from '@material-ui/core';
 import { ITask } from '../../../../interfaces/ITask';
 import DeleteTask  from '../../delete-task';
 import ToggleTask from '../../toggle-task';
 import { connect } from 'react-redux';
+import { fetchGetTask } from '../../../../services/services_task';
 
 
 interface IProps {
@@ -26,35 +27,28 @@ const useStyles = makeStyles((theme) => ({
         color: 'rgba(0, 0, 0, 0.12)',
         boxShadow: 'none',
       },
+      typography: {
+        marginLeft : theme.spacing(1.5),
+      },
 }))
 
 export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
 
     const classes = useStyles();
-    const taskList : ITask[] = [
-        {
-            id: 7,
-            idTodoList : 1,
-            title : 'покормить кота',
-            isCompleted : false,
-        },
-        {
-            id: 5,
-            idTodoList : 1,
-            title : 'покормить себя',
-            isCompleted : true,
-        },
-        {
-            id: 6,
-            idTodoList : 1,
-            title : 'покормить брата',
-            isCompleted : false,
-        },
-    ];
+    const [taskList, setTaskList] = useState<ITask[]>([]);
 
-    if(taskList.find((task) => task.idTodoList===idTodo) === undefined){
+    useEffect(() => {
+        try{
+            fetchGetTask(idTodo)
+                .then((task) => setTaskList(task));
+        }catch(error){
+            console.log('ERROR: ', error);
+        }
+    },[]);
+  
+    if(taskList.find((task) => task.id_todo===idTodo) === undefined){
         return(
-            <Typography variant = "h6" component = "h6">
+            <Typography className = {classes.typography} variant = "h6" component = "h6">
                 Задач нет!
             </Typography>
         );
@@ -63,10 +57,10 @@ export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
         <div>
             {taskList.map((task) => {
                 let classCheked = classes.notCheck
-                if(task.isCompleted){
+                if(task.is_completed){
                     classCheked = classes.check
                 }
-                if(task.idTodoList === idTodo){
+                if(task.id_todo === idTodo){
                     return(
                         <Card key = {task.id}  className = {classes.root}>
                             <ToggleTask toggleTask = {task} />

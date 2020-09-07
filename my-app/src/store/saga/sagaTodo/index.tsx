@@ -12,7 +12,7 @@ export function* workCreateTodo(action) {
    yield console.log('CREATE-Todo ',action.sortTodo);
 
     try{
-        yield call(() => fetchCreateTodo(action.sortTodo));
+        yield call(() => (fetchCreateTodo(action.sortTodo)));
     } catch(error){
         console.log(error);
     }

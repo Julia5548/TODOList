@@ -37,9 +37,9 @@ const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, 
     const submit = values => {
         const newTask : ITask = {
             id: null,
-            idTodoList : idTodo,
+            id_todo : idTodo,
             title: values.title,
-            isCompleted : false
+            is_completed : false
         }
         onAddTask(newTask)
     };
