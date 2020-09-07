@@ -22,9 +22,9 @@ const useStyles = makeStyles((theme) => ({
 
 export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const classes = useStyles();
-    const [removeTodo, setRemoveTodo] = useState<ITodoList>(); 
+    const [todos, setTodos] = useState<ITodoList>(); 
     const[open, setOpen] = useState(false);
-    let isCreateTask = true;
+    const[isCreateTask, setIsCreateTask] = useState(false);
     const handleClose = () => {
         setOpen(false);
     };
@@ -36,8 +36,13 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
 
     const handleOpen = (todo : ITodoList) => {
         setOpen(true);
-        setRemoveTodo(todo);
+        setTodos(todo);
     };
+
+    const handleCreateTask = (todo: ITodoList) =>{
+        setIsCreateTask(true)
+        setTodos(todo)
+    }
     
     return(
         <Grid container
@@ -52,7 +57,7 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                     <Card>
                         <CardHeader
                             action= {
-                                <IconButton  aria-label="add" color="primary">
+                                <IconButton  aria-label="add" color="primary" onClick = {() => handleCreateTask(todo)}>
                                     <Add/>
                                 </IconButton>
                             }
@@ -60,17 +65,22 @@ export const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                             subheader = "Ваши задачи: "
                         />
                         <CardActions className={classes.cardMedia}>
-                            <TextField
-                                    fullWidth
-                                    margin = 'normal'
-                                    variant = 'standard'
-                                    hidden/>
+                            {isCreateTask && (todo.id===todos!.id) ?
+                                <div>
+                                    <TextField
+                                        fullWidth
+                                        margin = 'normal'
+                                        variant = 'standard'/>
+                                    <Button size = "small" color = "secondary"> Добавить задачу</Button>
+                                </div>
+                                : null
+                            }
                             <ListTasks idTodo = {todo.id!}/>
                             <Button size = "small" color = "secondary" onClick = {() => handleOpen(todo)}>
                                 Удалить список
                             </Button>
                             <FormDialog 
-                                removeElement = {removeTodo!}
+                                removeElement = {todos!}
                                 isOpen = {open}
                                 isTask = {false}
                                 dialogTitle = 'Удалить список?'
