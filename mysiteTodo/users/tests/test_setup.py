@@ -8,6 +8,7 @@ class TestSetUp(APITestCase):
         self.register_url = reverse('create_user')
         self.login_url = reverse('token_user')
         self.current_user_url = reverse('current_user')
+        self.create_todo_url = reverse('todo_create')
         self.create_task_url = reverse('task_create')
         self.get_tasks_url = reverse('task_list', args="1")
         self.update_task_url = reverse('task_update', kwargs={'pk' : 1})
@@ -25,23 +26,27 @@ class TestSetUp(APITestCase):
             'username' : 'Nami',
             'password' : 'asdfg123'
         }
-
+        
+        self.todo_data = {
+            "user": 1,
+            "title" : "дом"
+        }
         self.task_data = {
-            'name': 'покормить кота',
-            'completed': False,
-            "user" : 1
+            'title': 'покормить кота',
+            'is_completed': False,
+            "id_todo" : 1
         }
 
         self.task_two = {
-            "user" : 1,
-            'name': 'Дописать программу',
-            'completed' : False
+            "id_todo" : 1,
+            'title': 'Дописать программу',
+            'is_completed' : False
         }
 
         self.task_update = {
-            'name': 'покормить кота',
-            'completed': True,
-            "user" : 1
+            'title': 'покормить кота',
+            'is_completed': True,
+            "id_todo" : 1
         }
         
         return super().setUp()

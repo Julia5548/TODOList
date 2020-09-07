@@ -6,9 +6,7 @@ from django.conf import settings
 
 class Todo(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
-    completed = models.BooleanField(default=False, blank=True, null= True)
-
+    title = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.name
+        return self.title

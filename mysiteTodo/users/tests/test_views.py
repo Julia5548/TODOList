@@ -41,23 +41,25 @@ class TestViews(TestSetUp):
         res = client.get(self.current_user_url)
 
         self.assertEqual(res.status_code, 200)
+        
+        res_create_todo = client.post(self.create_todo_url, self.todo_data, format="json")
+        self.assertEqual(res_create_todo.status_code, 201)
 
         res_create = client.post(self.create_task_url, self.task_data, format="json")
         res_create_two = client.post(self.create_task_url, self.task_two, format="json")
         
-        self.assertEqual(res_create.status_code, 200)
-        self.assertEqual(res_create_two.status_code, 200)
+        self.assertEqual(res_create.status_code, 201)
+        self.assertEqual(res_create_two.status_code, 201)
 
         res_get_tasks = client.get(self.get_tasks_url)
 
         self.assertEqual(res_get_tasks.status_code, 200)
 
-        res_update_task = client.post(self.update_task_url, self.task_update, format="json")
+        res_update_task = client.put(self.update_task_url, self.task_update, format="json")
         res_delete_task = client.delete(self.deleted_task_url)
-        # import pdb; 
-        # pdb.set_trace()
-        self.assertEqual(res_create.status_code, 200)
-        self.assertEqual(res_create_two.status_code, 200)
+        
+        self.assertEqual(res_update_task.status_code, 200)
+        self.assertEqual(res_delete_task.status_code, 200)
         
     
 

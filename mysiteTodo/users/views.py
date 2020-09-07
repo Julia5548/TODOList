@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from .serializer import *
-from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import permissions
@@ -13,7 +13,7 @@ def get_current_user(request):
     return Response(serializer.data)
 
 
-class CreateUserView(APIView):
+class CreateUserView(CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
