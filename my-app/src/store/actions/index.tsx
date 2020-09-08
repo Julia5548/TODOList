@@ -1,4 +1,4 @@
-import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, GET_TOKEN, INITIAL_USER, CURRENT_USER, GET_USER, REMOVE_TODO, CREATE_TODO } from "./types";
+import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, INITIAL_USER, CURRENT_USER, GET_USER, REMOVE_TODO, CREATE_TODO, INITIAL_TASK, GET_TASK } from "./types";
 import { ITodoList } from "../../interfaces/ITodoList";
 import { IUser } from "../../interfaces/IUser";
 import { ITask } from "../../interfaces/ITask";
@@ -63,15 +63,16 @@ export const onResetPasswordAction = (email: string, history) =>{
     }
 }
 
-export const onGetTokenAction = () => {
-    return{
-        type : GET_TOKEN
-    }
-}
-
 export const onLogoutAction = () => {
     return {
         type: INITIAL_USER
+    }
+}
+
+export const onInitalTaskAction = (task : ITask[]) => {
+    return{
+        type: INITIAL_TASK,
+        task
     }
 }
 
@@ -85,5 +86,11 @@ export const onCurrentUserAction = (current_user : IUser) => {
 export const onGetUserAction = () => {
     return{
         type: GET_USER
+    }
+}
+export const onGetTaskAction = (idTodo : number) => {
+    return{
+        type: GET_TASK,
+        idTodo
     }
 }

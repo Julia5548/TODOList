@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Form from './components/form_sign_in';
-import { onLoginUserAction } from '../../../store/actions';
+import { onLoginUserAction, onCurrentUserAction, onLogoutAction } from '../../../store/actions';
 import { connect } from 'react-redux';
 import { IUser } from '../../../interfaces/IUser';
+import { fetchGetDataUser } from '../../../services/services_user';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 
-interface IProps{
+interface IProps extends RouteComponentProps{
     onLoginUser(user : IUser, history) : void;
+    onLogout() : void;
+    onCurrentUser (user : IUser) : void;
     isErrorAuth : boolean;
 }
 
@@ -25,6 +29,12 @@ const mapDispatchToProps = (dispatch) => (
     { 
         onLoginUser : (user : IUser, history) => {
             dispatch(onLoginUserAction(user, history))
+        },
+        onCurrentUser : (user : IUser) => {
+            dispatch(onCurrentUserAction(user))
+        },
+        onLogout : () => { 
+            dispatch(onLogoutAction()) 
         }
     }
 )
@@ -34,18 +44,36 @@ const mapStateToProps = (state) => ({
 })
 
 
-export const Sign_In : React.FC<IProps> = (props : IProps) => {
+export const SignIn : React.FC<IProps> = ({history, onCurrentUser, onLoginUser, onLogout, isErrorAuth} : IProps) => {
 
     const classes = useStyles();
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            try{
+                const result = fetchGetDataUser();
+                result.then((user) => {
+                    if(user.id !== undefined){
+                        onCurrentUser(user);
+                        history.push(`/todo/${user.id}`);
+                    }else{
+                        onLogout();
+                    }
+                });
+            }catch(error){
+                console.log('ERROR: ', error);
+            }
+        }
+    }, [onCurrentUser, history, onLogout]);
 
     return (
         <div className = {classes.page}>
             <Typography variant = 'h5' component = "h1">
                 Авторизация
             </Typography>
-            <Form onLoginUser = {props.onLoginUser} isErrorAuth = {props.isErrorAuth}/>
+            <Form onLoginUser = {onLoginUser} isErrorAuth = {isErrorAuth}/>
         </div>
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sign_In);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

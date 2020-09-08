@@ -43,7 +43,6 @@ export const fetchRemoveTodo = (sortTodo : ITodoList) => {
 
 export async function fetchGetTodo(user_id : number){
     
-    const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/todo_list/' + user_id;
     
     const response = await fetch(url, {

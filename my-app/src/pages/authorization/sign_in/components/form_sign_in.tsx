@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, isErrorAuth, history , ...props}) => {
 
     const classes = useStyles()
-
     const submit = values => {
         const user : IUser = {
             username : values.username,
@@ -32,7 +31,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, i
             isErrorAuth : false
         };
         onLoginUser(user, history);
-    }
+    };
 
     return(
         <form onSubmit= {props.handleSubmit(submit)}>
@@ -60,7 +59,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, i
                 </Grid>
             </Grid>
         </form>
-    )
+    );
 }
 
 const form = reduxForm<{}, IProps>({

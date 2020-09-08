@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { makeStyles, Typography, Card, CardContent } from '@material-ui/core';
 import { ITask } from '../../../../interfaces/ITask';
 import DeleteTask  from '../../delete-task';
 import ToggleTask from '../../toggle-task';
-import { connect } from 'react-redux';
 import { fetchGetTask } from '../../../../services/services_task';
+import { connect } from 'react-redux';
+import { onInitalTaskAction, onGetTaskAction } from '../../../../store/actions';
 
 
 interface IProps {
     idTodo : number;
+    tasks: ITask[];
+    onGetTask(idTodo : number) : void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -32,21 +35,32 @@ const useStyles = makeStyles((theme) => ({
       },
 }))
 
-export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
+const mapDispatchToProps = (dispatch) => {
+    return({
+        onGetTask : (idTodo : number) =>{
+            dispatch(onGetTaskAction(idTodo))
+        }
+    });
+}
+
+
+const mapStateToProps = (state) => ({
+    tasks : state.taskData.tasks
+})
+
+export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps) => {
 
     const classes = useStyles();
-    const [taskList, setTaskList] = useState<ITask[]>([]);
 
     useEffect(() => {
-        try{
-            fetchGetTask(idTodo)
-                .then((task) => setTaskList(task));
-        }catch(error){
+        try{    
+            onGetTask(idTodo)
+        }catch(error){ 
             console.log('ERROR: ', error);
         }
     },[]);
-  
-    if(taskList.find((task) => task.id_todo===idTodo) === undefined){
+
+    if(tasks.find((task) => task.id_todo===idTodo) === undefined){
         return(
             <Typography className = {classes.typography} variant = "h6" component = "h6">
                 Задач нет!
@@ -55,7 +69,7 @@ export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
     }
     return(
         <div>
-            {taskList.map((task) => {
+            {tasks.map((task) => {
                 let classCheked = classes.notCheck
                 if(task.is_completed){
                     classCheked = classes.check
@@ -78,4 +92,4 @@ export const ListTask : React.FC<IProps> = ({idTodo} : IProps) => {
     );
 }
 
-export default ListTask;
+export default connect(mapStateToProps, mapDispatchToProps)(ListTask);

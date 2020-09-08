@@ -13,6 +13,8 @@ import { fetchGetTodo } from '../../../services/servicesTodo';
 interface IProps extends RouteComponentProps<{pk : string}>{
     onCreateTodo(sortTodo : ITodoList) : void;
     onLogout(): void;
+    todos: ITodoList[];
+    username: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +42,10 @@ const mapDispatchToProps = (dispatch) => {
     });
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+    todos : state.todoListData.todos,
+    username: state.user_data.username
+})
 
 export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history, ...props} : IProps) => {
     const classes = useStyles();
@@ -53,7 +58,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history
             }catch(error){
                 console.log('ERROR: ', error);
             }
-    }, [])
+    }, [pk, props.todos])
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -66,7 +71,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history
             <AppBar position = "static">
                 <Toolbar>
                     <Typography variant="h6" className = {classes.title}>
-                        username
+                       {props.username}
                     </Typography>
                     <Button color="inherit" onClick = {() => handleLogout()}>
                         Выход

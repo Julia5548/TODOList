@@ -40,7 +40,6 @@ export async function fetch_create_user(user : IUser){
 
 export async function fetch_login_user(login_user){
 
-    console.log(login_user)
     const csrftoken = getCookie('csrftoken');
     const response = fetch('http://127.0.0.1:8000/token-auth/', 
     {
@@ -92,4 +91,22 @@ export const fetch_reset_password = (email : string, history) => {
     }).catch(error => 
         console.log('ERROR_FETCH: ', error)    
     );
+}
+
+export async function fetchGetDataUser(){
+
+    const response = fetch('http://127.0.0.1:8000/api_users/current_user/',
+    {
+        mode: 'cors',
+        method : 'GET',
+        headers: {
+            Authorization : 'JWT ' + localStorage.getItem('token')
+        }
+    });
+    const data = response.then(response =>response.json()
+    ).catch(error => 
+        console.log('ERROR_FETCH: ', error)
+    );
+
+    return await data;
 }

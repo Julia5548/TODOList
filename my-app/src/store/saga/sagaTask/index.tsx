@@ -1,6 +1,6 @@
-import { call, takeEvery } from "redux-saga/effects" ;
-import { fetch_create_task, fetch_remove_task, fetch_toggle_task } from '../../../services/services_task';
-import { CREATE_TASK, TOGGLE_TASK, REMOVE_TASK } from "../../actions/types";
+import { call, takeEvery, put } from "redux-saga/effects" ;
+import { fetch_create_task, fetch_remove_task, fetch_toggle_task, fetchGetTask } from '../../../services/services_task';
+import { CREATE_TASK, TOGGLE_TASK, REMOVE_TASK, INITIAL_TASK, GET_TASK } from "../../actions/types";
 
 
 export function* watch_create_task(){
@@ -10,10 +10,15 @@ export function* watch_create_task(){
 
 export function* work_create_task(action) {
 
-   yield console.log(action.newTask);
 
+   yield console.log(action.newTask);
+    const idTodo = action.newTask.id_todo
     try{
-        yield call(() => fetch_create_task(action.newTask));
+        const data = yield call(() => fetch_create_task(action.newTask));
+        if(data != undefined){
+            yield put({type : GET_TASK, idTodo });
+        }
+ 
     } catch(error){
         console.log(error);
     }
@@ -44,6 +49,21 @@ function* workRemoveTask(action){
         
     try{
         yield call(() => fetch_remove_task(action.task));
+    } catch(error){
+        console.log(error);
+    }
+}
+
+export function* watchGetTask(){
+    yield takeEvery(GET_TASK, workGetTask);
+}
+
+function* workGetTask(action){
+    
+    yield console.log(action.idTodo);
+    try{
+        const task = yield call(() => fetchGetTask(action.idTodo));
+        yield put({type : INITIAL_TASK, task});
     } catch(error){
         console.log(error);
     }

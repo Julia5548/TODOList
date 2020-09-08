@@ -4,7 +4,8 @@ import { Field, reduxForm, InjectedFormProps, reset } from 'redux-form';
 import { renderTextField } from '../../../components/TextField';
 import { ITask } from '../../../interfaces/ITask';
 import { connect } from 'react-redux';
-import { addTaskAction } from '../../../store/actions';
+import { addTaskAction, onInitalTaskAction } from '../../../store/actions';
+import { fetchGetTask } from '../../../services/services_task';
 
 
 interface IProps{
@@ -27,11 +28,12 @@ const mapDispatchToProps = (dispatch) => {
         onAddTask : (newTask : ITask) => {
             dispatch(addTaskAction(newTask))
             dispatch(reset('create-task'))
-        }
+        },
+
     });
 }
 
-const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, onAddTask, ...props}) => {
+const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo,  onAddTask, ...props}) => {
     const classes = useStyles()
     
     const submit = values => {
@@ -43,6 +45,7 @@ const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, 
         }
         onAddTask(newTask)
     };
+
     return(
         <form onSubmit = {props.handleSubmit(submit)}>
             <Grid
@@ -55,7 +58,7 @@ const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, 
                     <Field className = {classes.field} component= {renderTextField} name = "title" label = "Введите наименование задачи"/>
                 </Grid>
                 <Grid item xs={3}>
-                    <Button type = 'submit' className = {classes.submit} size = "small" color = "primary"> Добавить задачу</Button>
+                    <Button type = 'submit' className = {classes.submit} size = "small" color = "primary">Добавить</Button>
                 </Grid>
             </Grid>
         </form>

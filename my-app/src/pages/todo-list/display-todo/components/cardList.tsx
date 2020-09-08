@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ITodoList } from '../../../../interfaces/ITodoList';
 import { makeStyles, Grid, CardHeader, Card, CardActions, IconButton } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, Close } from '@material-ui/icons';
 import DeleteTodo from '../../delete-todo';
 import ListTasks from './listTask';
 import FormCreateTask from '../../create-task';
@@ -28,8 +28,11 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const[isCreateTask, setIsCreateTask] = useState(false);
 
     const handleCreateTask = (todo: ITodoList) =>{
-        setIsCreateTask(true)
-        setTodos(todo)
+        setIsCreateTask(true);
+        setTodos(todo);
+    };
+    const handleCLoseForm = () =>{
+        setIsCreateTask(false);
     };
     
     return(
@@ -45,9 +48,15 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                     <Card>
                         <CardHeader
                             action= {
-                                <IconButton  aria-label="add" color="primary" onClick = {() => handleCreateTask(todo)}>
-                                    <Add/>
-                                </IconButton>
+                                isCreateTask && (todo.id === todos!.id) ?    
+                                    <IconButton  aria-label="close" color="primary" onClick = {() => handleCLoseForm()}>
+                                        <Close/>
+                                    </IconButton>
+                                    :  
+                                    <IconButton  aria-label="add" color="primary" onClick = {() => handleCreateTask(todo)}>
+                                        <Add/>
+                                    </IconButton>
+                                
                             }
                             title = {todo.title}
                             subheader = "Ваши задачи: "

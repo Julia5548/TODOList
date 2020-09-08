@@ -16,12 +16,12 @@ export async function fetchGetTask(id_todo : number){
     return await response.json();
 }
 
-export const fetch_create_task = (newTask : ITask) =>{
+export async function fetch_create_task(newTask : ITask){
     
     const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/detail_todo/task_create/';
 
-    fetch(url, {
+    const response = fetch(url, {
         mode : 'cors',
         method: 'POST',
         headers : {
@@ -30,9 +30,13 @@ export const fetch_create_task = (newTask : ITask) =>{
             Authorization : 'JWT ' + localStorage.getItem('token')
         },
         body : JSON.stringify(newTask)
-    }).catch(function(error){
+    });
+    const data = response.then(response => 
+        response.json()
+    ).catch(function(error){
         console.log('ERROR:' , error);
     });
+    return await data;
 }
 
 export const fetch_toggle_task = (task : ITask) => {
