@@ -1,4 +1,4 @@
-import { CREATE_TASK, REMOVE_TASK, TOGGLE_TASK, INITIAL_TASK } from "../../actions/types";
+import { REMOVE_TASK, TOGGLE_TASK, INITIAL_TASK } from "../../actions/types";
 import  { ITask }  from "../../../interfaces/ITask";
 
 
@@ -9,7 +9,7 @@ const initialStateUser = {
 export function task_reducer ( state = initialStateUser, action) {
     switch(action.type){
         case INITIAL_TASK:
-                state.tasks.filter((element : ITask) => {
+                state.tasks.filter((element : ITask)  => {
                     action.task=action.task.filter((newElement) => newElement.id !== element.id)
                 })
             return {...state , tasks : [...state.tasks.concat(action.task)]} 

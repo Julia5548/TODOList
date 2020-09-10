@@ -4,9 +4,7 @@ import { Field, reduxForm, InjectedFormProps, reset } from 'redux-form';
 import { renderTextField } from '../../../components/TextField';
 import { ITask } from '../../../interfaces/ITask';
 import { connect } from 'react-redux';
-import { addTaskAction, onInitalTaskAction } from '../../../store/actions';
-import { fetchGetTask } from '../../../services/services_task';
-
+import { addTaskAction } from '../../../store/actions';
 
 interface IProps{
     idTodo : number;

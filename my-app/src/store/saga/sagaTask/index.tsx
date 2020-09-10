@@ -13,7 +13,7 @@ export function* workCreateTask(action) {
     const idTodo = action.newTask.id_todo
     try{
         const data = yield call(() => fetch_create_task(action.newTask));
-        if(data != undefined){
+        if(data !== undefined){
             yield put({type : GET_TASK, idTodo });
         }
     } catch(error){

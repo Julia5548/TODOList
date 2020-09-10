@@ -1,11 +1,10 @@
-import React, {  useEffect, useState } from 'react';
+import React, {  useEffect } from 'react';
 import { makeStyles, Typography, Card, CardContent } from '@material-ui/core';
 import { ITask } from '../../../../interfaces/ITask';
 import DeleteTask  from '../../delete-task';
 import ToggleTask from '../../toggle-task';
-import { fetchGetTask } from '../../../../services/services_task';
 import { connect } from 'react-redux';
-import { onInitalTaskAction, onGetTaskAction } from '../../../../store/actions';
+import { onGetTaskAction } from '../../../../store/actions';
 
 
 interface IProps {
@@ -58,7 +57,7 @@ export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps)
         }catch(error){ 
             console.log('ERROR: ', error);
         }
-    },[]);
+    },[idTodo, onGetTask]);
 
     if(tasks.find((task) => task.id_todo===idTodo) === undefined){
         return(
@@ -69,7 +68,7 @@ export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps)
     }
     return(
         <div>
-            {tasks.map((task) => {
+            {tasks.map((task)  => {
                 let classCheked = classes.notCheck
                 if(task.is_completed){
                     classCheked = classes.check
