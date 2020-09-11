@@ -1,9 +1,9 @@
 import { call, takeEvery } from 'redux-saga/effects';
-import { ITask } from '../../../interfaces/ITask';
-import { TOGGLE_TASK } from '../../actions/types';
-import { toggleTaskAction } from '../../actions';
-import { watchToggleTask, workToggleTask } from '../../saga/sagaTask';
-import { fetch_create_task } from '../../../services/services_task';
+import { ITask } from '../../interfaces/ITask';
+import { TOGGLE_TASK } from '../actions/types';
+import { toggleTaskAction } from '../actions';
+import { watchToggleTask, workToggleTask } from '../saga/sagaTask';
+import { fetch_toggle_task } from '../../services/services_task';
 
 
 describe('toggle_task', () =>{
@@ -36,6 +36,6 @@ describe('toggle_task', () =>{
         const fake_action = {task};
         const generator = workToggleTask(fake_action);
 
-        expect(JSON.stringify(generator.next().value)).toEqual(JSON.stringify(call(() => {fetch_create_task})))
+        expect(JSON.stringify(generator.next().value)).toEqual(JSON.stringify(call(fetch_toggle_task, task)))
     })
 })

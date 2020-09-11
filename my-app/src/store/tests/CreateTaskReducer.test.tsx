@@ -1,9 +1,9 @@
 import { call, takeEvery } from 'redux-saga/effects';
-import { ITask } from '../../../interfaces/ITask';
-import { CREATE_TASK } from '../../actions/types';
-import { addTaskAction } from '../../actions';
-import { watchCreateTask, workCreateTask } from '../../saga/sagaTask';
-import { fetch_create_task } from '../../../services/services_task';
+import { ITask } from '../../interfaces/ITask';
+import { CREATE_TASK } from '../actions/types';
+import { addTaskAction } from '../actions';
+import { watchCreateTask, workCreateTask } from '../saga/sagaTask';
+import { fetch_create_task } from '../../services/services_task';
 
 
 describe('create_task', () =>{
@@ -37,6 +37,6 @@ describe('create_task', () =>{
         const action = {newTask};
         const generator = workCreateTask(action);
         
-        expect(JSON.stringify(generator.next().value)).toEqual(JSON.stringify(call(() => {fetch_create_task})))
+        expect(JSON.stringify(generator.next().value)).toEqual(JSON.stringify(call(fetch_create_task, newTask)))
     })
 })

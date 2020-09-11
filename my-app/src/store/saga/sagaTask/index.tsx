@@ -12,7 +12,7 @@ export function* workCreateTask(action) {
 
     const idTodo = action.newTask.id_todo
     try{
-        const data = yield call(() => fetch_create_task(action.newTask));
+        const data = yield call(fetch_create_task,action.newTask);
         if(data !== undefined){
             yield put({type : GET_TASK, idTodo });
         }
@@ -28,7 +28,7 @@ export function* watchToggleTask(){
 export function* workToggleTask(action){
         
    try{
-        yield call(() => fetch_toggle_task(action.task));
+        yield call(fetch_toggle_task,action.task);
     } catch(error){
         console.log(error);
     }
@@ -43,7 +43,7 @@ function* workRemoveTask(action){
     yield console.log(action.task);
         
     try{
-        yield call(() => fetch_remove_task(action.task));
+        yield call(fetch_remove_task,action.task);
     } catch(error){
         console.log(error);
     }
@@ -57,7 +57,7 @@ function* workGetTask(action){
     
     yield console.log(action.idTodo);
     try{
-        const task = yield call(() => fetchGetTask(action.idTodo));
+        const task = yield call(fetchGetTask,action.idTodo);
         yield put({type : INITIAL_TASK, task});
     } catch(error){
         console.log(error);

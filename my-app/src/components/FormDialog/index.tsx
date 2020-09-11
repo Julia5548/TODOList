@@ -20,8 +20,7 @@ interface Props  {
     handleRemoveTodo?(todo : ITodoList) : void;
 }
 
-const FormDialog : React.FC<Props> = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, handeleClose,  handleRemoveTodo, handlerRemove}: Props) =>{
-    return (
+const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, handeleClose,  handleRemoveTodo, handlerRemove}: Props) =>(
         <Dialog open = {isOpen} aria-labelledby = "form-dialog-title">
             <DialogTitle id = "form-dialog-title">
                 {dialogTitle}
@@ -40,8 +39,7 @@ const FormDialog : React.FC<Props> = ({removeElement, isOpen ,dialogContextText,
                 </Button>
             </DialogActions>
         </Dialog>
-    );
-}
+);
 
 export default FormDialog;
 

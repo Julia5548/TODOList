@@ -17,7 +17,7 @@ function* worker_login_user(action) {
         password : user.password!
     };
     try{
-        const data  = yield call(() => fetch_login_user(login_user));
+        const data  = yield call(fetch_login_user,login_user);
         localStorage.setItem('token', data.token);
         
         const current_user = data.user;
@@ -44,7 +44,7 @@ function* worker_create_user(action){
     const { history } = action;
     
     try{
-        const data = yield call(() => fetch_create_user(action.user));
+        const data = yield call(fetch_create_user,action.user);
         if (data.response === "error"){
             yield put({type : SHOW_ERROR})
             yield delay(2000)
@@ -65,5 +65,5 @@ function* worker_reset_password(action){
     const email : string = action.email;
     const { history }  = action;
 
-    yield call(() => fetch_reset_password(email, history));
+    yield call(fetch_reset_password, email, history);
 }
