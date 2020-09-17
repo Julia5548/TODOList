@@ -1,4 +1,4 @@
-from .serializer import GetFullUserSerializer
+from rest.v1.auth.serializers import GetFullUserSerializer
 
 
 def custom_jwt_response_handler(token, user=None, request=None):
