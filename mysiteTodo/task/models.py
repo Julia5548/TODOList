@@ -8,7 +8,7 @@ from todos.models import Todo
 class Task(models.Model):
     id_todo = models.ForeignKey(Todo, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
-    is_completed = models.BooleanField(default=False, blank=True, null= True)
+    is_completed = models.BooleanField(default=False)
 
 
     def __str__(self):

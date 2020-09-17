@@ -10,6 +10,5 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = ('id', 'id_todo', 'title', 'is_completed')
 
     def validate_id_todo(self, value):
-        print(value)
         user = self.context['request'].user
         return get_object_or_404(Todo, user=user, pk=value.pk)

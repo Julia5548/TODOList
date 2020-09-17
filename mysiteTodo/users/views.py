@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework import status
 from .serializer import *
 from rest_framework.generics import CreateAPIView
@@ -12,17 +11,17 @@ def get_current_user(request):
     serializer = GetFullUserSerializer(request.user)
     return Response(serializer.data)
 
-
 class CreateUserView(CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
-    def post(self, request):
+    def post(self, request, *args,**kwargs):
         user = request.data.get('user')
-        if not user:
-            return Response({"response" : "not data found"}, status=status.HTTP_400_BAD_REQUEST)
-        serializer = UserSerializerWithToken(data=user)
-        if serializer.is_valid():
-            saved_user = serializer.save()
+        
+        if user:
+            serializer = UserSerializerWithToken(data=user)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
         else:
-            return Response({"response": "error", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"response": "error", "message": "not data found"})
+
         return Response({"response": "success", "message": "user created successfully"})
