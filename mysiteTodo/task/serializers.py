@@ -8,8 +8,8 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ('id', 'id_todo', 'title', 'is_completed')
-        read_only_fields = ('id',)
 
     def validate_id_todo(self, value):
+        print(value)
         user = self.context['request'].user
         return get_object_or_404(Todo, user=user, pk=value.pk)
