@@ -5,6 +5,7 @@ export const REMOVE_TASK = 'REMOVE_TASK';
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN_USER = 'LOGIN_USER';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const SEND_EMAIL = 'SEND_EMAIL';
 export const INITIAL_USER = 'INITIAL_USER';
 export const CURRENT_USER = 'CURRENT_USER';
 export const GET_USER = 'GET_USER';
@@ -13,4 +14,4 @@ export const HIDE_ERROR = 'HIDE_ERROR';
 export const CREATE_TODO = 'CREATE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const GET_TASK = 'GET_TASK';
-
+export const GET_TODO = 'GET_TODO';

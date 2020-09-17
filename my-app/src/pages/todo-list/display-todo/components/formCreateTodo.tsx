@@ -10,7 +10,7 @@ import { ITodoList } from "../../../../interfaces/ITodoList";
 
 interface IProps extends RouteComponentProps<{pk:string}>{
     todoList : ITodoList[];
-    onCreateTodo(sortTodo : ITodoList) : void;
+    onCreateTodo : (sortTodo : ITodoList) => void;
 }
 
 const useStyles = makeStyles((theme) => ({

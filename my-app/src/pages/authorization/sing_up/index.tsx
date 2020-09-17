@@ -7,7 +7,7 @@ import { IUser } from '../../../interfaces/IUser';
 
 
 interface IProps{
-    onCreateUser(user : IUser, history) : void;
+    onCreateUser : (user : IUser, history) => void;
     isErrorAuth : boolean;
 }
 

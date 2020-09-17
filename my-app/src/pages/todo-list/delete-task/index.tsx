@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 interface IProps {
     removeTask : ITask;
-    onRemove(task : ITask) : void;
+    onRemove : (task : ITask) => void;
 }
 
 const useStyles = makeStyles((theme) => ({

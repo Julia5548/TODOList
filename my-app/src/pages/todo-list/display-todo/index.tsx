@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
-import {  onLogoutAction, addTodoAction } from '../../../store/actions';
+import {  onLogoutAction, addTodoAction, getTodoAction } from '../../../store/actions';
 import { reset } from 'redux-form';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
@@ -11,8 +11,9 @@ import { fetchGetTodo } from '../../../services/servicesTodo';
 
 
 interface IProps extends RouteComponentProps<{pk : string}>{
-    onCreateTodo(sortTodo : ITodoList) : void;
-    onLogout(): void;
+    onCreateTodo : (sortTodo : ITodoList) => void;
+    onLogout : () => void;
+    onGetTodos: () => void;
     todos: ITodoList[];
     username: string;
 }
@@ -38,7 +39,10 @@ const mapDispatchToProps = (dispatch) => {
         },
         onLogout : () => { 
             dispatch(onLogoutAction()) 
-        }
+        },
+        onGetTodos: () => {
+            dispatch(getTodoAction())
+        },
     });
 }
 
@@ -47,18 +51,15 @@ const mapStateToProps = (state) => ({
     username: state.user_data.username
 })
 
-export const DisplayTodo : React.FC<IProps> = ({ onLogout, onCreateTodo, history, ...props} : IProps) => {
+export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateTodo, history, ...props} : IProps) => {
     const classes = useStyles();
     const [todoList, setTodoList] = useState<ITodoList[]>([]);
     const pk : any = props.match.params;
 
     useEffect(() => {
-            try{
-               fetchGetTodo(pk).then((todo) => setTodoList(todo));
-            }catch(error){
-                console.log('ERROR: ', error);
-            }
-    }, [pk, props.todos])
+        const result = onGetTodos()
+        console.log('get_todo ', result)  
+    }, [])
 
     const handleLogout = () => {
         localStorage.removeItem('token');

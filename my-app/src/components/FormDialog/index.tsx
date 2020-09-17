@@ -15,9 +15,9 @@ interface Props  {
     dialogTitle : string;
     isTask : boolean;
     isOpen : boolean;
-    handeleClose() : void;
-    handlerRemove?(task : ITask) : void;
-    handleRemoveTodo?(todo : ITodoList) : void;
+    handeleClose : () => void;
+    handlerRemove? : (task : ITask) => void;
+    handleRemoveTodo? : (todo : ITodoList) => void;
 }
 
 const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, handeleClose,  handleRemoveTodo, handlerRemove}: Props) =>(

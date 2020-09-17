@@ -8,7 +8,7 @@ import { addTaskAction } from '../../../store/actions';
 
 interface IProps{
     idTodo : number;
-    onAddTask(newTask : ITask) : void;
+    onAddTask : (newTask : ITask) => void;
 }
 
 const useStyles = makeStyles((theme) => ({

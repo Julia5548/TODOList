@@ -1,19 +1,22 @@
-import { all } from 'redux-saga/effects';
-import { watchGetTask, watchCreateTask, watchRemoveTask, watchToggleTask } from '../saga/sagaTask';
-import { watch_login_user, watch_create_user, watch_reset_password } from '../saga/sagaUser';
-import { watchCreateTodo, watchRemoveTodo } from './sagaTodo';
+import { all, takeEvery } from 'redux-saga/effects';
+import { CREATE_TASK, CREATE_TODO, CREATE_USER, GET_TASK, GET_TODO, LOGIN_USER, REMOVE_TASK, REMOVE_TODO, RESET_PASSWORD, SEND_EMAIL, TOGGLE_TASK } from '../actions/types';
+import { workCreateTask, workGetTask, workRemoveTask, workToggleTask } from './sagaTask';
+import { workCreateTodo, workGetTodo, workRemoveTodo } from './sagaTodo';
+import { workerCreateUser, workerLoginUser, workerResetPassword, workerSendEmail } from './sagaUser';
 
 
 export function* rootSaga(){
     yield all ([
-        watchCreateTask(),
-        watchRemoveTask(),
-        watchToggleTask(),
-        watch_create_user(),
-        watch_login_user(),
-        watch_reset_password(),
-        watchCreateTodo(),
-        watchRemoveTodo(),
-        watchGetTask()
+        yield takeEvery(CREATE_TASK, workCreateTask),
+        yield takeEvery(TOGGLE_TASK, workToggleTask),
+        yield takeEvery(REMOVE_TASK, workRemoveTask),
+        yield takeEvery(GET_TASK, workGetTask),
+        yield takeEvery(GET_TODO, workGetTodo),
+        yield takeEvery(CREATE_TODO, workCreateTodo),
+        yield takeEvery(REMOVE_TODO, workRemoveTodo),
+        yield takeEvery(LOGIN_USER, workerLoginUser),
+        yield takeEvery(CREATE_USER, workerCreateUser),
+        yield takeEvery(RESET_PASSWORD, workerResetPassword),
+        yield takeEvery(SEND_EMAIL, workerSendEmail)
     ]);
 }

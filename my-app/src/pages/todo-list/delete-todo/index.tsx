@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 interface IProps{
     todo : ITodoList;
-    onRemoveTodo(sortTodo : ITodoList) : void;
+    onRemoveTodo : (sortTodo : ITodoList) => void;
 }
 
 const mapDispatchToProps = (dispatch) => {

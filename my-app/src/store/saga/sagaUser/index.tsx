@@ -1,14 +1,16 @@
-import { call, takeEvery, put, delay } from "redux-saga/effects" ;
-import { fetch_create_user, fetch_login_user, fetch_reset_password } from "../../../services/services_user";
-import { LOGIN_USER, CURRENT_USER, CREATE_USER, RESET_PASSWORD, HIDE_ERROR, SHOW_ERROR } from "../../actions/types";
+import { call, delay, put, race } from "redux-saga/effects" ;
+import { fetchSendEmail, fetch_create_user, fetch_login_user, fetchResetPassword } from "../../../services/services_user";
+import { CURRENT_USER, HIDE_ERROR, SHOW_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
 
 
-export function* watch_login_user(){
-    yield takeEvery(LOGIN_USER, worker_login_user);
+function* show_error(){
+    yield put({type : SHOW_ERROR});
+    yield delay(2000);
+    yield put({type : HIDE_ERROR});
 }
 
-function* worker_login_user(action) {
+export function* workerLoginUser(action) {
     
     const user : IUser = action.user;
     const { history } = action;
@@ -23,32 +25,22 @@ function* worker_login_user(action) {
         const current_user = data.user;
         yield put({type : CURRENT_USER, current_user});
         
-        const url : string = '/todo/' + current_user.id;
-        history.push(url);
+        history.push('/todo/' + current_user.id);
 
     }catch(error){
         console.log('ERROR_SAGA: ', error);
-        yield put({type : SHOW_ERROR});
-        yield delay(2000)
-        yield put({type : HIDE_ERROR});
+        yield call(show_error)
     }
 }
 
-
-export function* watch_create_user(){
-    yield takeEvery(CREATE_USER, worker_create_user);
-}
-
-function* worker_create_user(action){
+export function* workerCreateUser(action){
     
     const { history } = action;
     
     try{
         const data = yield call(fetch_create_user,action.user);
         if (data.response === "error"){
-            yield put({type : SHOW_ERROR})
-            yield delay(2000)
-            yield put({type : HIDE_ERROR});
+            yield call(show_error)
         }else{
             history.push('/');
         }
@@ -57,13 +49,17 @@ function* worker_create_user(action){
     }
 }
 
-export function* watch_reset_password(){
-    yield takeEvery(RESET_PASSWORD, worker_reset_password);
+export function* workerResetPassword(action){
+    const password : string = action.password;
+    const token = action.token
+    const { history }  = action;
+
+    yield call(fetchResetPassword, password, token, history);
 }
 
-function* worker_reset_password(action){
+export function* workerSendEmail(action){
     const email : string = action.email;
     const { history }  = action;
 
-    yield call(fetch_reset_password, email, history);
+    yield call(fetchSendEmail, email, history);
 }

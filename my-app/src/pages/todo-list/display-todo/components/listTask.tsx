@@ -10,7 +10,7 @@ import { onGetTaskAction } from '../../../../store/actions';
 interface IProps {
     idTodo : number;
     tasks: ITask[];
-    onGetTask(idTodo : number) : void;
+    onGetTask : (idTodo : number) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,11 +52,7 @@ export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps)
     const classes = useStyles();
 
     useEffect(() => {
-        try{    
-            onGetTask(idTodo)
-        }catch(error){ 
-            console.log('ERROR: ', error);
-        }
+        onGetTask(idTodo)
     },[idTodo, onGetTask]);
 
     if(tasks.find((task) => task.id_todo===idTodo) === undefined){

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 interface IProps {
     toggleTask : ITask;
-    onToggle(task : ITask) : void;
+    onToggle : (task : ITask) => void;
 }
 
 const useStyles = makeStyles((theme) => ({

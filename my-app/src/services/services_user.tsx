@@ -62,9 +62,41 @@ export async function fetch_login_user(login_user){
     return await data;
 }
 
-export const fetch_reset_password = (email : string, history) => {
+export const fetchResetPassword = (password : string, token: number, history) => {
 
-    console.log('RESET_PASSWORD: ', email);
+    console.log('RESET_PASSWORD: ', password);
+
+    const body = {
+        token: token,
+        password : password
+    };
+
+    const csrftoken = getCookie('csrftoken');
+
+    fetch('http://127.0.0.1:8000/api/password_reset/confirm/', 
+    {
+        mode : 'cors',
+        method : 'POST',
+        headers: {
+            'Content-type' : 'application/json',
+            'X-CSRFToken' : csrftoken!,
+        },
+        body : JSON.stringify(body)
+
+    }).then(response => {
+
+        response.json();
+        history.push('/');
+        console.log('RESET_PASSWORD : ', response);
+    
+    }).catch(error => 
+        console.log('ERROR_FETCH: ', error)    
+    );
+}
+
+export const fetchSendEmail = (email : string, history) => {
+
+    console.log('SEND_EMAIL: ', email);
 
     const body = {
         email : email

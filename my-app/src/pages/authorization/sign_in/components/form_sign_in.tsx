@@ -8,7 +8,7 @@ import { IUser } from "../../../../interfaces/IUser";
 
 
 interface IProps extends RouteComponentProps{
-    onLoginUser(user : IUser, history) : void;
+    onLoginUser : (user : IUser, history) => void;
     isErrorAuth: boolean;
 }
 

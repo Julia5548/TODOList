@@ -9,9 +9,9 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 
 interface IProps extends RouteComponentProps{
-    onLoginUser(user : IUser, history) : void;
-    onLogout() : void;
-    onCurrentUser (user : IUser) : void;
+    onLoginUser : (user : IUser, history) => void;
+    onLogout : () => void;
+    onCurrentUser : (user : IUser) => void;
     isErrorAuth : boolean;
 }
 
@@ -50,19 +50,15 @@ export const SignIn : React.FC<IProps> = ({history, onCurrentUser, onLoginUser, 
 
     useEffect(() => {
         if(localStorage.getItem('token')){
-            try{
-                const result = fetchGetDataUser();
-                result.then((user) => {
-                    if(user.id !== undefined){
-                        onCurrentUser(user);
-                        history.push(`/todo/${user.id}`);
-                    }else{
-                        onLogout();
-                    }
-                });
-            }catch(error){
-                console.log('ERROR: ', error);
-            }
+            const result = fetchGetDataUser();
+            result.then((user) => {
+                if(user.id !== undefined){
+                    onCurrentUser(user);
+                    history.push(`/todo/${user.id}`);
+                }else{
+                    onLogout();
+                }
+            });
         }
     }, [onCurrentUser, history, onLogout]);
 

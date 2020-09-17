@@ -1,11 +1,6 @@
-import { call, takeEvery, put } from "redux-saga/effects" ;
+import { call, put } from "redux-saga/effects" ;
 import { fetch_create_task, fetch_remove_task, fetch_toggle_task, fetchGetTask } from '../../../services/services_task';
-import { CREATE_TASK, TOGGLE_TASK, REMOVE_TASK, INITIAL_TASK, GET_TASK } from "../../actions/types";
-
-
-export function* watchCreateTask(){
-    yield takeEvery(CREATE_TASK, workCreateTask);
-}
+import { INITIAL_TASK, GET_TASK } from "../../actions/types";
 
 
 export function* workCreateTask(action) {
@@ -21,10 +16,6 @@ export function* workCreateTask(action) {
     }
 }
 
-export function* watchToggleTask(){
-    yield takeEvery(TOGGLE_TASK, workToggleTask);
-}
-
 export function* workToggleTask(action){
         
    try{
@@ -34,11 +25,7 @@ export function* workToggleTask(action){
     }
 }
 
-export function* watchRemoveTask(){
-    yield takeEvery(REMOVE_TASK, workRemoveTask);
-}
-
-function* workRemoveTask(action){
+export function* workRemoveTask(action){
     
     yield console.log(action.task);
         
@@ -49,11 +36,7 @@ function* workRemoveTask(action){
     }
 }
 
-export function* watchGetTask(){
-    yield takeEvery(GET_TASK, workGetTask);
-}
-
-function* workGetTask(action){
+export function* workGetTask(action){
     
     yield console.log(action.idTodo);
     try{

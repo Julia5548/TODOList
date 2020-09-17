@@ -2,7 +2,8 @@ import React from 'react';
 import { Route,Switch, Redirect } from 'react-router-dom';
 import  SignIn  from './authorization/sign_in';
 import  SignUp  from './authorization/sing_up/index';
-import  ResetPassword  from './authorization/reset_password/index';
+import  SendEmail  from './authorization/send_email/index';
+import  ResetPassword  from './authorization/reset_password_confirm/index';
 import DisplayTodo from './todo-list/display-todo';
 import { connect } from 'react-redux';
 
@@ -16,7 +17,7 @@ interface IProps{
 }
 
 export const Root = (props: IProps) => {
-    console.log(props)
+
     return(
         <Switch>
             <Route exact path = "/">
@@ -26,13 +27,16 @@ export const Root = (props: IProps) => {
                 <SignUp />
             </Route>
             <Route path = "/reset">
+                <SendEmail />
+            </Route>
+            <Route path = "/confirm/password/:token">
                 <ResetPassword />
             </Route>
             <PrivateRoute path = "/todo/:pk" isLoggedIn = {props.isLoggedIn}>
                 <DisplayTodo />
             </PrivateRoute> 
         </Switch>
-);
+    );
 }
 
 
