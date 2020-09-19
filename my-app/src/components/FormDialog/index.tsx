@@ -15,7 +15,7 @@ interface Props  {
     dialogTitle : string;
     isTask : boolean;
     isOpen : boolean;
-    handeleClose : () => void;
+    handeleClose : (result : boolean) => void;
     handlerRemove? : (task : ITask) => void;
     handleRemoveTodo? : (todo : ITodoList) => void;
 }
@@ -31,7 +31,7 @@ const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isT
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button  color = "primary"  onClick = {() => handeleClose()}>
+                <Button  color = "primary"  onClick = {() => handeleClose(false)}>
                     Отмена
                 </Button>
                 <Button color = "primary" onClick = {() => {isTask ? handlerRemove!((removeElement as ITask)) : handleRemoveTodo!((removeElement as ITodoList))}}>

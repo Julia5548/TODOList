@@ -2,14 +2,13 @@ import { TextField } from "@material-ui/core";
 import React from "react";
 
 
-export const renderTextField = 
+export const RenderTextField = 
 ({  input, 
     label,
     meta: { touched, error, invalid }, 
     ...custom 
 }) => (
     <TextField
-        autoComplete = {label}
         fullWidth
         label = {label}
         margin = 'normal'

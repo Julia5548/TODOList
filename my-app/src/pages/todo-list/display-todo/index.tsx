@@ -57,8 +57,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
     const pk : any = props.match.params;
 
     useEffect(() => {
-        const result = onGetTodos()
-        console.log('get_todo ', result)  
+        onGetTodos()
     }, [])
 
     const handleLogout = () => {
@@ -80,7 +79,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
                 </Toolbar>
             </AppBar>
             <FormCreateTask onCreateTodo = {onCreateTodo} todoList = {todoList}/>
-            <CardTodo todoList = {todoList}/>
+            <CardTodo todoList = {props.todos}/>
         </div>
     );
 }

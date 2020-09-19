@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { renderTextField } from "../../../../components/TextField";
+import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 
@@ -31,7 +31,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onSendEmail, h
 
     return(
         <form onSubmit={props.handleSubmit(submit)}>        
-            <Field name="email" component={renderTextField} label="email" className = {classes.textField}/>
+            <Field name="email" component={RenderTextField} label="email" className = {classes.textField}/>
             <Button
                 type="submit"
                 fullWidth

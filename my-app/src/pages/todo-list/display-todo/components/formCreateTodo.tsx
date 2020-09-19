@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { renderTextField } from "../../../../components/TextField";
+import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import DateFnsUtils from '@date-io/date-fns';
@@ -63,7 +63,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, 
                 justify="center"
                 alignItems="flex-start">
                     <Grid item xs >
-                        <Field name = "title" component = {renderTextField} label = "Наименование списка" className = {classes.textField}/>
+                        <Field name = "title" component = {RenderTextField} label = "Наименование списка" className = {classes.textField}/>
                     </Grid>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid item className = {classes.dateGrid}>

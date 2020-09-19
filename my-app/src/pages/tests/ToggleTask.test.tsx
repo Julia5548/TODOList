@@ -8,7 +8,7 @@ import ToggleTask from '../todo-list/toggle-task'
 import Checkbox from '@material-ui/core/Checkbox';
 
 
-describe('<ListTask />', () => {
+describe('<ToggleTask />', () => {
     let wrapper: any;
 
     const todoList: ITask = 
@@ -19,16 +19,15 @@ describe('<ListTask />', () => {
             is_completed : false
         };
 
-    it('checks if initial state is equal to 0', () => {
+    it('changes as checkbox is checked/unchecked', () =>{
         const store = createStore(combineReducers({form : formReducer}));
+        
         wrapper = mount(
             <Provider store= {store}>
                 <ToggleTask toggleTask = {todoList}/>
             </Provider>
         );
-    });
-
-    it('changes as checkbox is checked/unchecked', () =>{
+        
         const checkboxTask = wrapper.find(Checkbox);
 
         expect(checkboxTask.prop('name')).toBe('checkBox_toggle_task');

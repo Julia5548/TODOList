@@ -1,6 +1,6 @@
 import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
-import { renderTextField } from "../../../../components/TextField";
+import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
 import Alert from "../../../../components/Alert/index";
@@ -35,8 +35,8 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, i
 
     return(
         <form onSubmit= {props.handleSubmit(submit)}>
-            <Field name="username" component={renderTextField} label="username" />
-            <Field name="password" component={renderTextField} label="password" />
+            <Field name="username" component={RenderTextField} label="username" />
+            <Field name="password" component={RenderTextField} label="password" />
             <Button
                 type="submit"
                 fullWidth

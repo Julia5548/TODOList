@@ -1,7 +1,7 @@
 import React from'react';
 import { Grid, Button, makeStyles } from '@material-ui/core';
 import { Field, reduxForm, InjectedFormProps, reset } from 'redux-form';
-import { renderTextField } from '../../../components/TextField';
+import { RenderTextField } from '../../../components/TextField';
 import { ITask } from '../../../interfaces/ITask';
 import { connect } from 'react-redux';
 import { addTaskAction } from '../../../store/actions';
@@ -53,7 +53,7 @@ const CreateTask : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({idTodo, 
                 alignItems="center"
             > 
                 <Grid item xs>
-                    <Field className = {classes.field} component= {renderTextField} name = "title" label = "Введите наименование задачи"/>
+                    <Field className = {classes.field} component= {RenderTextField} name = "title" label = "Введите наименование задачи"/>
                 </Grid>
                 <Grid item xs={3}>
                     <Button type = 'submit' className = {classes.submit} size = "small" color = "primary">Добавить</Button>

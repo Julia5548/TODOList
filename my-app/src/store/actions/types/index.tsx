@@ -11,6 +11,7 @@ export const CURRENT_USER = 'CURRENT_USER';
 export const GET_USER = 'GET_USER';
 export const SHOW_ERROR = 'SHOW_ERROR';
 export const HIDE_ERROR = 'HIDE_ERROR';
+export const INITIAL_TODO = 'INITIAL_TODO';
 export const CREATE_TODO = 'CREATE_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const GET_TASK = 'GET_TASK';

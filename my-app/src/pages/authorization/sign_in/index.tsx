@@ -52,7 +52,8 @@ export const SignIn : React.FC<IProps> = ({history, onCurrentUser, onLoginUser, 
         if(localStorage.getItem('token')){
             const result = fetchGetDataUser();
             result.then((user) => {
-                if(user.id !== undefined){
+                console.log(user)
+                if(user !== undefined && user.id !== undefined){
                     onCurrentUser(user);
                     history.push(`/todo/${user.id}`);
                 }else{

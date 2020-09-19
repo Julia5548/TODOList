@@ -17,7 +17,7 @@ export const fetchCreateTodo = (sortTodo: ITodoList) =>{
         },
         body : JSON.stringify(sortTodo)
     }).catch(function(error){
-        console.log('ERROR:' , error);
+        console.log('ERROR_FETCH:' , error);
     });
 }
 

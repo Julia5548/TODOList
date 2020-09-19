@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core';
 import FormDialog from '../../../components/FormDialog';
 import { removeTodoAction } from '../../../store/actions';
 import { connect } from 'react-redux';
+import { useCallback } from 'react';
 
 
 interface IProps{
@@ -23,22 +24,20 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
 
     const[open, setOpen] = useState(false);
     
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     const handleRemoveTodo = ( todo : ITodoList) => {
         onRemoveTodo(todo)
         setOpen(false);
     };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleFormDialog = useCallback(
+        result => {
+            setOpen(result)
+        }, [setOpen]
+    )
     
     return(
         <div>
-            <Button size = "small" color = "secondary" onClick = {() => handleOpen()}>
+            <Button size = "small" color = "secondary" onClick = {() => handleFormDialog(true)}>
                 Удалить список
             </Button>
             <FormDialog 
@@ -48,7 +47,7 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
                 dialogTitle = 'Удалить список?'
                 dialogContextText = "Вы действительно хотите удалить список?"
                 handleRemoveTodo = {handleRemoveTodo}
-                handeleClose = {handleClose}
+                handeleClose = {handleFormDialog}
             />
         </div> 
     );
