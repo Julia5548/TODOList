@@ -3,10 +3,13 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles } from "@material-ui/core";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import Alert from "../../../../components/Alert";
 
 
 interface IProps extends RouteComponentProps<{token : string}>{
     onResetPassword : (password : string, token: number, history) => void;
+    isErrorAuth: boolean;
+    textError: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onResetPassword, history , ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onResetPassword, isErrorAuth, textError, history , ...props}) => {
 
     const classes = useStyles();
     const token: any = props.match.params.token;
@@ -40,6 +43,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onResetPasswor
                 className = {classes.submit}>
                     Изменить 
             </Button>
+            {isErrorAuth && <Alert error_text = {textError}/>}
         </form>
     );
 }

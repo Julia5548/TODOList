@@ -98,9 +98,10 @@ export const onCurrentUserAction = (current_user : IUser) => {
     }
 }
 
-export const onGetUserAction = () => {
+export const onGetUserAction = (history) => {
     return{
-        type: GET_USER
+        type: GET_USER, 
+        history
     }
 }
 export const onGetTaskAction = (idTodo : number) => {

@@ -6,6 +6,8 @@ import Form from './components/formResetPassword';
 
 interface IProps{
     onResetPassword : (password: string,token: number, history) => void;
+    isErrorAuth : boolean;
+    textError : string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +27,11 @@ const mapDispatchToProps = (dispatch) => (
     }
 )
 
+const mapStateToProps = (state) => ({
+    isErrorAuth : state.user_data.isErrorAuth,
+    textError : state.user_data.textError
+})
+
 export const ResetPassword : React.FC<IProps> = (props : IProps) => {
     
     const classes = useStyles();
@@ -34,9 +41,9 @@ export const ResetPassword : React.FC<IProps> = (props : IProps) => {
             <Typography variant = 'h5' component = "h1">
                 Введите новый пароль
             </Typography>
-            <Form onResetPassword = {props.onResetPassword}/>
+            <Form onResetPassword = {props.onResetPassword} isErrorAuth = {props.isErrorAuth} textError = {props.textError}/>
         </div>
     );
 }
 
-export default connect(null, mapDispatchToProps)(ResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);

@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Form from './components/form_sign_in';
-import { onLoginUserAction, onCurrentUserAction, onLogoutAction } from '../../../store/actions';
+import { onLoginUserAction, onGetUserAction } from '../../../store/actions';
 import { connect } from 'react-redux';
 import { IUser } from '../../../interfaces/IUser';
-import { fetchGetDataUser } from '../../../services/services_user';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 
 interface IProps extends RouteComponentProps{
     onLoginUser : (user : IUser, history) => void;
-    onLogout : () => void;
-    onCurrentUser : (user : IUser) => void;
+    onGetUser : (history) => void;
     isErrorAuth : boolean;
 }
 
@@ -30,12 +28,9 @@ const mapDispatchToProps = (dispatch) => (
         onLoginUser : (user : IUser, history) => {
             dispatch(onLoginUserAction(user, history))
         },
-        onCurrentUser : (user : IUser) => {
-            dispatch(onCurrentUserAction(user))
+        onGetUser : (history) => {
+            dispatch(onGetUserAction(history))
         },
-        onLogout : () => { 
-            dispatch(onLogoutAction()) 
-        }
     }
 )
 
@@ -44,24 +39,15 @@ const mapStateToProps = (state) => ({
 })
 
 
-export const SignIn : React.FC<IProps> = ({history, onCurrentUser, onLoginUser, onLogout, isErrorAuth} : IProps) => {
+export const SignIn : React.FC<IProps> = ({onGetUser, onLoginUser, history, isErrorAuth} : IProps) => {
 
     const classes = useStyles();
 
     useEffect(() => {
         if(localStorage.getItem('token')){
-            const result = fetchGetDataUser();
-            result.then((user) => {
-                console.log(user)
-                if(user !== undefined && user.id !== undefined){
-                    onCurrentUser(user);
-                    history.push(`/todo/${user.id}`);
-                }else{
-                    onLogout();
-                }
-            });
+            onGetUser(history)
         }
-    }, [onCurrentUser, history, onLogout]);
+    }, [onGetUser, history]);
 
     return (
         <div className = {classes.page}>

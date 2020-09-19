@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
@@ -7,7 +7,6 @@ import { reset } from 'redux-form';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { fetchGetTodo } from '../../../services/servicesTodo';
 
 
 interface IProps extends RouteComponentProps<{pk : string}>{
@@ -53,12 +52,10 @@ const mapStateToProps = (state) => ({
 
 export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateTodo, history, ...props} : IProps) => {
     const classes = useStyles();
-    const [todoList, setTodoList] = useState<ITodoList[]>([]);
-    const pk : any = props.match.params;
 
     useEffect(() => {
         onGetTodos()
-    }, [])
+    }, [onGetTodos])
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -78,7 +75,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
                     </Button>
                 </Toolbar>
             </AppBar>
-            <FormCreateTask onCreateTodo = {onCreateTodo} todoList = {todoList}/>
+            <FormCreateTask onCreateTodo = {onCreateTodo} todoList = {props.todos}/>
             <CardTodo todoList = {props.todos}/>
         </div>
     );

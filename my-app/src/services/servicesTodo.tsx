@@ -2,12 +2,12 @@ import { getCookie } from './cookie';
 import { ITodoList } from '../interfaces/ITodoList';
 
 
-export const fetchCreateTodo = (sortTodo: ITodoList) =>{
+export const fetchCreateTodo = async (sortTodo: ITodoList) =>{
     
     const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/todo_create/';
+    const url = 'http://127.0.0.1:8000/api/todo/create/';
 
-    fetch(url, {
+    const response = fetch(url, {
         mode : 'cors',
         method: 'POST',
         headers : {
@@ -16,15 +16,20 @@ export const fetchCreateTodo = (sortTodo: ITodoList) =>{
             Authorization : 'JWT ' + localStorage.getItem('token')
         },
         body : JSON.stringify(sortTodo)
-    }).catch(function(error){
-        console.log('ERROR_FETCH:' , error);
     });
+    const data = response.then(response => 
+        response.json()
+    ).catch(function(error){
+        console.log('ERROR:' , error);
+    });
+    
+    return await data;
 }
 
 export const fetchRemoveTodo = (sortTodo : ITodoList) => {
     
     const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/todo_delete/' + sortTodo.id + '/';
+    const url = 'http://127.0.0.1:8000/api/todo/delete/' + sortTodo.id + '/';
     
     fetch(url, {
         mode : 'cors',
@@ -43,7 +48,7 @@ export const fetchRemoveTodo = (sortTodo : ITodoList) => {
 
 export async function fetchGetTodo(){
     
-    const url = 'http://127.0.0.1:8000/api/todo_list';
+    const url = 'http://127.0.0.1:8000/api/todo/list/';
     
     const response = await fetch(url, {
         mode : 'cors',

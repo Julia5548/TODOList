@@ -9,6 +9,7 @@ import { IUser } from '../../../interfaces/IUser';
 interface IProps{
     onCreateUser : (user : IUser, history) => void;
     isErrorAuth : boolean;
+    textError : string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => ({
-    isErrorAuth : state.user_data.isErrorAuth
+    isErrorAuth : state.user_data.isErrorAuth,
+    textError : state.user_data.textError
 })
 
 export const SignUp  = (props : IProps) => {
@@ -47,7 +49,7 @@ export const SignUp  = (props : IProps) => {
                 <Typography variant = 'h5' component = "h1">
                     Регистрация
                 </Typography>
-                <Form onCreateUser = {props.onCreateUser} isErrorAuth = {props.isErrorAuth}/>
+                <Form onCreateUser = {props.onCreateUser} isErrorAuth = {props.isErrorAuth} textError = {props.textError}/>
             </div>
         </Container>
     )

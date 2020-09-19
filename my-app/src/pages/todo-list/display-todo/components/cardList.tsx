@@ -34,7 +34,7 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     const handleCLoseForm = () =>{
         setIsCreateTask(false);
     };
-    
+
     return(
         <Grid container
             direction = 'row'

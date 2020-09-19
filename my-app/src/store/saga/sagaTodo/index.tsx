@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects" ;
 import { fetchCreateTodo, fetchGetTodo, fetchRemoveTodo } from "../../../services/servicesTodo";
-import { INITIAL_TODO } from "../../actions/types";
+import { GET_TODO, INITIAL_TODO } from "../../actions/types";
 
 
 export function* workGetTodo(){
@@ -13,14 +13,18 @@ export function* workGetTodo(){
         console.log('ERROR_SAGA ', error);
     }
 }
+
 export function* workCreateTodo(action) {
 
    yield console.log('CREATE-TODO ',action.sortTodo);
 
     try{
-        yield call(fetchCreateTodo,action.sortTodo);
+        const data = yield call(fetchCreateTodo,action.sortTodo);
+        if(data !== undefined){
+            yield put({type : GET_TODO});
+        }
     } catch(error){
-        console.log(error);
+        console.log('ERROR_SAGA ', error);
     }
 }
 
@@ -31,6 +35,6 @@ export function* workRemoveTodo(action){
     try{
         yield call(fetchRemoveTodo,action.sortTodo);
     } catch(error){
-        console.log(error);
+        console.log('ERROR_SAGA ', error);
     }
 }

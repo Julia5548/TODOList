@@ -21,8 +21,8 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('rest.v1.todo.urls')),
-    path('api/detail_todo/', include('rest.v1.task.urls')),
-    path('token-auth/', obtain_jwt_token, name = 'token_user'),
-    path('api_users/', include('rest.v1.auth.urls')),
-    path('api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    path('api/detail/todo/', include('rest.v1.task.urls')),
+    path('token/auth/', obtain_jwt_token, name = 'token_user'),
+    path('api/users/', include('rest.v1.auth.urls')),
+    path('api/password/reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 ]

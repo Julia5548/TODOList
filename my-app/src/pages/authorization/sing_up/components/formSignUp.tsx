@@ -10,6 +10,7 @@ import { IUser } from "../../../../interfaces/IUser";
 interface IProps extends RouteComponentProps{
     onCreateUser : (newUser : IUser, history) => void;
     isErrorAuth : boolean;
+    textError : string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, isErrorAuth, history , ...props}) => {
 
     const classes = useStyles();
-
     const submit = values => {
         
         const user : IUser = {
@@ -49,7 +49,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, 
                 className = {classes.submit}>
                     Зарегистрироваться
             </Button>
-            {isErrorAuth && <Alert error_text = {'Такой пользователь уже существует'}/>}
+            {isErrorAuth && <Alert error_text = {props.textError}/>}
             <Grid 
                 container
                 direction="row"

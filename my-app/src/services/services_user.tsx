@@ -2,7 +2,7 @@ import { getCookie } from "./cookie";
 import { IUser } from "../interfaces/IUser";
 
 
-export async function fetch_create_user(user : IUser){
+export async function fetchCreateUser(user : IUser){
 
     const create_user = {
         username : user.username,
@@ -20,7 +20,7 @@ export async function fetch_create_user(user : IUser){
         }
     };
 
-    const response = fetch('http://127.0.0.1:8000/api_users/users/create', {
+    const response = fetch('http://127.0.0.1:8000/api/users/create/', {
         mode : 'cors',
         method : 'POST',
         headers: {
@@ -30,18 +30,17 @@ export async function fetch_create_user(user : IUser){
         body : JSON.stringify(body)
 
     })
-    
-    const data = response.then(response =>response.json())
+    const data = response.then(respon => respon.json())
     .catch(error => 
         console.log('ERROR_FETCH: ', error)
     );
     return await data;
 }
 
-export async function fetch_login_user(login_user){
+export async function fetchLoginUser(login_user){
 
     const csrftoken = getCookie('csrftoken');
-    const response = fetch('http://127.0.0.1:8000/token-auth/', 
+    const response = fetch('http://127.0.0.1:8000/token/auth/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -62,7 +61,7 @@ export async function fetch_login_user(login_user){
     return await data;
 }
 
-export const fetchResetPassword = (password : string, token: number, history) => {
+export const fetchResetPassword = async (password : string, token: number) => {
 
     console.log('RESET_PASSWORD: ', password);
 
@@ -73,7 +72,7 @@ export const fetchResetPassword = (password : string, token: number, history) =>
 
     const csrftoken = getCookie('csrftoken');
 
-    fetch('http://127.0.0.1:8000/api/password_reset/confirm/', 
+    const response = fetch('http://127.0.0.1:8000/api/password/reset/confirm/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -83,15 +82,13 @@ export const fetchResetPassword = (password : string, token: number, history) =>
         },
         body : JSON.stringify(body)
 
-    }).then(response => {
-
-        response.json();
-        history.push('/');
-        console.log('RESET_PASSWORD : ', response);
-    
-    }).catch(error => 
+    });
+    const data = response.then(result => 
+        result.json()
+    ).catch(error => 
         console.log('ERROR_FETCH: ', error)    
     );
+    return await data;
 }
 
 export const fetchSendEmail = (email : string, history) => {
@@ -104,7 +101,7 @@ export const fetchSendEmail = (email : string, history) => {
 
     const csrftoken = getCookie('csrftoken');
 
-    fetch('http://127.0.0.1:8000/api/password_reset/', 
+    fetch('http://127.0.0.1:8000/api/password/reset/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -127,7 +124,7 @@ export const fetchSendEmail = (email : string, history) => {
 
 export async function fetchGetDataUser(){
 
-    const response = fetch('http://127.0.0.1:8000/api_users/current_user/',
+    const response = fetch('http://127.0.0.1:8000/api/users/current/',
     {
         mode: 'cors',
         method : 'GET',

@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
 const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, todoList, history , ...props}) => {
 
     const classes = useStyles();
-    const { pk } : any = props.match.params;
-
     const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     const handleDateChange = (date) => {
@@ -43,11 +41,10 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, 
     const submit = values => {
         
         const month = selectedDate.getMonth() + 1;
-        const date : string =  " " + selectedDate.getDate().toString() + "." +  month.toString() + "." + selectedDate.getFullYear().toString();
+        const date : string =  ` ${selectedDate.getDate()}.${month}.${selectedDate.getFullYear()}`;
 
         const sortTodo : ITodoList ={
             id: null, 
-            user: pk,
             title : values.title + date 
         }; 
 

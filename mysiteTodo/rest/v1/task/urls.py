@@ -7,9 +7,9 @@ from .remove_task.views import DeleteTask
 
 urlpatterns = [
 	
-	path('task_list/<str:id_todo>', GetTaskList.as_view(), name="task_list"),
-	path('task_create/', CreateTask.as_view(), name="task_create"),
+	path('task/list/<str:id_todo>', GetTaskList.as_view(), name="task_list"),
+	path('task/create/', CreateTask.as_view(), name="task_create"),
 
-	path('task_update/<str:pk>/', UpdateTask.as_view(), name="task_update"),
-	path('task_delete/<str:pk>/', DeleteTask.as_view(), name="task_delete"),
+	path('task/update/<str:pk>/', UpdateTask.as_view(), name="task_update"),
+	path('task/delete/<str:pk>/', DeleteTask.as_view(), name="task_delete"),
 ]
