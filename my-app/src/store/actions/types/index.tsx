@@ -1,5 +1,6 @@
 export const INITIAL_TASK = 'INITIAL_TASK';
 export const CREATE_TASK = 'CREATE_TASK';
+export const ADD_TASK = 'ADD_TASK';
 export const TOGGLE_TASK = 'TOGGLE_TASK';
 export const REMOVE_TASK = 'REMOVE_TASK';
 export const CREATE_USER = 'CREATE_USER';
@@ -13,6 +14,7 @@ export const SHOW_ERROR = 'SHOW_ERROR';
 export const HIDE_ERROR = 'HIDE_ERROR';
 export const INITIAL_TODO = 'INITIAL_TODO';
 export const CREATE_TODO = 'CREATE_TODO';
+export const ADD_TODO = 'ADD_TODO';
 export const REMOVE_TODO = 'REMOVE_TODO';
 export const GET_TASK = 'GET_TASK';
 export const GET_TODO = 'GET_TODO';

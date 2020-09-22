@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects" ;
 import { fetchCreateTask, fetchRemoveTask, fetchToggleTask, fetchGetTask } from '../../../services/services_task';
-import { INITIAL_TASK, GET_TASK } from "../../actions/types";
+import { INITIAL_TASK, ADD_TASK } from "../../actions/types";
 
 
 export function* workCreateTask(action) {
@@ -9,7 +9,7 @@ export function* workCreateTask(action) {
     try{
         const data = yield call(fetchCreateTask,action.newTask);
         if(data !== undefined){
-            yield put({type : GET_TASK, idTodo });
+            yield put({type : ADD_TASK, data });
         }
     } catch(error){
         console.log('ERROR_SAGA ', error);
