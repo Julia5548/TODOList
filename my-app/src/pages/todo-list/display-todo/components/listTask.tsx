@@ -82,6 +82,7 @@ export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps)
                         </Card>
                     );
                 }
+                return null;
             })}
         </div>
     );

@@ -5,7 +5,6 @@ import { INITIAL_TASK, ADD_TASK } from "../../actions/types";
 
 export function* workCreateTask(action) {
 
-    const idTodo = action.newTask.id_todo
     try{
         const data = yield call(fetchCreateTask,action.newTask);
         if(data !== undefined){

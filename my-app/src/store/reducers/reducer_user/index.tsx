@@ -12,12 +12,14 @@ const initialStateUser : IUser = {
 
 const createErrorText = (data) : string => {
     let error = '';
-    if(data.username !== undefined && data.password !== undefined){
-        error = "Такой пользователь существует. Пароль слишком легкий.";
-    }else if (data.password !== undefined){
-        error = "Пароль слишком легкий.";
-    }else if (data.username !== undefined){
-        error = "Такой пользователь существует.";
+    if(data !== undefined){
+        if(data.username !== undefined && data.password !== undefined){
+            error = "Такой пользователь существует. Пароль слишком легкий.";
+        }else if (data.password !== undefined){
+            error = "Пароль слишком легкий.";
+        }else if (data.username !== undefined){
+            error = "Такой пользователь существует.";
+        }
     }
 
     return error;

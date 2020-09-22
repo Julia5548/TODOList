@@ -45,7 +45,6 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, i
                 className = {classes.submit}>
                     Войти
             </Button>
-            {isErrorAuth && <Alert error_text = {'Неверен логин или пароль'}/>}
             <Grid container>
                 <Grid item xs>
                     <NavLink to="/reset">
@@ -58,6 +57,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onLoginUser, i
                     </NavLink>
                 </Grid>
             </Grid>
+            {isErrorAuth && <Alert error_text = {'Неверен логин или пароль'}/>}
         </form>
     );
 }

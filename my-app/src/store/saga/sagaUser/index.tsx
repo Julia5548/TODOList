@@ -1,13 +1,21 @@
-import { call, delay, put } from "redux-saga/effects" ;
+import { call, delay, put, race } from "redux-saga/effects" ;
 import { fetchSendEmail, fetchCreateUser, fetchLoginUser, fetchResetPassword, fetchGetDataUser } from "../../../services/services_user";
 import { CURRENT_USER, HIDE_ERROR, INITIAL_USER, SHOW_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
 
 
 function* show_error(data?){
-    yield put({type : SHOW_ERROR, data});
-    yield delay(2000);
-    yield put({type : HIDE_ERROR});
+
+    const { showError } = yield race({
+        showError: put({type: SHOW_ERROR, data}),
+        cancel: call(() => startDelay)
+      });
+
+    const startDelay = yield delay(3000);
+
+    if (showError) {
+        yield put({type : HIDE_ERROR});
+    }
 }
 
 export function* workGetUser(action){

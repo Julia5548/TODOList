@@ -49,7 +49,6 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, 
                 className = {classes.submit}>
                     Зарегистрироваться
             </Button>
-            {isErrorAuth && <Alert error_text = {props.textError}/>}
             <Grid 
                 container
                 direction="row"
@@ -59,6 +58,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateUser, 
                         Авторизация
                     </NavLink>
             </Grid>
+            {isErrorAuth && <Alert error_text = {props.textError}/>}
         </form>
     );
 }
