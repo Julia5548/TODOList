@@ -8,7 +8,7 @@ class TestViews(TestSetUp):
     def test_user_cannot_register_with_no_data(self):
         res = self.client.post(self.register_url)
 
-        self.assertEqual(res.data['response'], 'not data found')
+        self.assertEqual(res.data['response'], 'error')
         self.assertEqual(res.status_code, 400)
 
     # def test_user_can_register_correctly(self):
@@ -23,14 +23,14 @@ class TestViews(TestSetUp):
         self.assertEqual(res.status_code, 400)
 
     def test_user_can_register_and_login_correctly(self):
-        
         res_register = self.client.post(self.register_url, self.user_data, format = "json")
-
+        
         self.assertEqual(res_register.data['response'], 'success')
         self.assertEqual(res_register.status_code, 200)
         
         resp = self.client.post(self.login_url, self.login_data, format ="json")
-        
+        # import pdb; 
+        # pdb.set_trace()
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('token' in resp.data)
 
@@ -59,7 +59,7 @@ class TestViews(TestSetUp):
         res_delete_task = client.delete(self.deleted_task_url)
         
         self.assertEqual(res_update_task.status_code, 200)
-        self.assertEqual(res_delete_task.status_code, 200)
+        self.assertEqual(res_delete_task.status_code, 204)
         
     
 

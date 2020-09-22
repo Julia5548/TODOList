@@ -18,13 +18,13 @@ class TestSetUp(APITestCase):
             'user' : {
                 'username' : 'Nami',
                 'email' : 'negodyaeva.yulya@gmail.com',
-                'password' : 'asdfg123'
+                'password' : 'asd11fg123'
             }
         }
 
         self.login_data = {
             'username' : 'Nami',
-            'password' : 'asdfg123'
+            'password' : 'asd11fg123'
         }
         
         self.todo_data = {
