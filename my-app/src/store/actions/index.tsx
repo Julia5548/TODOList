@@ -1,4 +1,4 @@
-import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, INITIAL_USER, CURRENT_USER, GET_USER, REMOVE_TODO, CREATE_TODO, INITIAL_TASK, GET_TASK, SEND_EMAIL, GET_TODO } from "./types";
+import { TOGGLE_TASK, REMOVE_TASK, CREATE_TASK, LOGIN_USER, CREATE_USER, RESET_PASSWORD, INITIAL_USER, CURRENT_USER, GET_USER, REMOVE_TODO, CREATE_TODO, INITIAL_TASK, GET_TASK, SEND_EMAIL, GET_TODO, HIDE_ERROR, SHOW_ERROR, INITIAL_TODO, ADD_TODO, ADD_TASK } from "./types";
 import { ITodoList } from "../../interfaces/ITodoList";
 import { IUser } from "../../interfaces/IUser";
 import { ITask } from "../../interfaces/ITask";
@@ -18,14 +18,14 @@ export const removeTaskAction = (task : ITask) => {
     }
 }
 
-export const addTaskAction = (newTask : ITask) =>{
+export const createTaskAction = (newTask : ITask) =>{
     return {
         type: CREATE_TASK,
         newTask
     }
 }
 
-export const addTodoAction = (sortTodo : ITodoList) =>{
+export const createTodoAction = (sortTodo : ITodoList) =>{
     return {
         type: CREATE_TODO,
         sortTodo
@@ -108,5 +108,37 @@ export const onGetTaskAction = (idTodo : number) => {
     return{
         type: GET_TASK,
         idTodo
+    }
+}
+
+export const hideErrorAction = () =>{
+    return {
+        type: HIDE_ERROR
+    }
+}
+
+export const showErrorAction = (data?) =>{
+    return {
+        type: SHOW_ERROR,
+        data
+    }
+}
+
+export const onInitalTodoAction = (sortTodo : ITodoList[]) => {
+    return{
+        type: INITIAL_TODO,
+        sortTodo
+    }
+}
+export const addTodoAction = (sortTodo : ITodoList) =>{
+    return {
+        type: ADD_TODO,
+        sortTodo
+    }
+}
+export const addTaskAction = (task : ITask) =>{
+    return {
+        type: ADD_TASK,
+        task
     }
 }

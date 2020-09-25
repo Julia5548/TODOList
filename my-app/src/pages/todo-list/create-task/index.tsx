@@ -4,7 +4,7 @@ import { Field, reduxForm, InjectedFormProps, reset } from 'redux-form';
 import { RenderTextField } from '../../../components/TextField';
 import { ITask } from '../../../interfaces/ITask';
 import { connect } from 'react-redux';
-import { addTaskAction } from '../../../store/actions';
+import { createTaskAction } from '../../../store/actions';
 
 interface IProps{
     idTodo : number;
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 const mapDispatchToProps = (dispatch) => {
     return({
         onAddTask : (newTask : ITask) => {
-            dispatch(addTaskAction(newTask))
+            dispatch(createTaskAction(newTask))
             dispatch(reset('create-task'))
         },
 

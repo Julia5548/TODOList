@@ -1,20 +1,20 @@
-import { call, delay, put, race } from "redux-saga/effects" ;
+import { call, delay, put, race, take } from "redux-saga/effects" ;
 import { fetchSendEmail, fetchCreateUser, fetchLoginUser, fetchResetPassword, fetchGetDataUser } from "../../../services/services_user";
-import { CURRENT_USER, HIDE_ERROR, INITIAL_USER, SHOW_ERROR } from "../../actions/types";
+import { HIDE_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
+import { hideErrorAction, onCurrentUserAction, onLogoutAction, showErrorAction } from "../../actions";
 
 
 function* show_error(data?){
 
-    const { showError } = yield race({
-        showError: put({type: SHOW_ERROR, data}),
-        cancel: call(() => startDelay)
-      });
+    yield put(showErrorAction(data));
+    const { hideTimeout } = yield race({
+        hide: take(HIDE_ERROR),
+        hideTimeout: delay(3e3),
+    });
 
-    const startDelay = yield delay(3000);
-
-    if (showError) {
-        yield put({type : HIDE_ERROR});
+    if (hideTimeout) {
+        yield put(hideErrorAction())
     }
 }
 
@@ -24,11 +24,11 @@ export function* workGetUser(action){
     try{
         const current_user = yield call(fetchGetDataUser);
         if(current_user !== undefined && current_user.id !== undefined){
-            yield put({type: CURRENT_USER, current_user})
+            yield put(onCurrentUserAction(current_user))
             history.push(`/todo/${current_user.id}`);
         }else{
             localStorage.removeItem('token');
-            yield put({type: INITIAL_USER})
+            yield put(onLogoutAction())
         }
     } catch(error){
         console.log('ERROR_SAGA ', error);
@@ -48,7 +48,7 @@ export function* workerLoginUser(action) {
         localStorage.setItem('token', data.token);
         
         const current_user = data.user;
-        yield put({type : CURRENT_USER, current_user});
+        yield put(onCurrentUserAction(current_user));
         
         history.push('/todo/' + current_user.id);
 

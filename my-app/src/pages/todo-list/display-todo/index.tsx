@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
-import {  onLogoutAction, addTodoAction, getTodoAction } from '../../../store/actions';
+import {  onLogoutAction, createTodoAction, getTodoAction } from '../../../store/actions';
 import { reset } from 'redux-form';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const mapDispatchToProps = (dispatch) => {
     return({
         onCreateTodo : (sortTodo : ITodoList) =>{
-            dispatch(addTodoAction(sortTodo))
+            dispatch(createTodoAction(sortTodo))
             dispatch(reset('create-todo'))
         },
         onLogout : () => { 

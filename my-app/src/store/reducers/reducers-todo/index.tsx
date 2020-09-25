@@ -9,8 +9,8 @@ const initialStateUser = {
 export function todoList_reducer ( state = initialStateUser, action) {
     switch(action.type){
         
-        case INITIAL_TODO:return {...state, todos : [...state.todos.concat(action.data)]};
-        case ADD_TODO : return {...state, todos : state.todos.concat(action.data)};
+        case INITIAL_TODO:return {...state, todos : [...state.todos.concat(action.dasortTodota)]};
+        case ADD_TODO : return {...state, todos : state.todos.concat(action.sortTodo)};
         case REMOVE_TODO:
             return {...state, todos: state.todos.filter((item : ITodoList)=> item.id !== action.sortTodo.id)};
         default : return state;

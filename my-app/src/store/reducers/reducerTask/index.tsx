@@ -10,7 +10,7 @@ export function task_reducer ( state = initialStateUser, action) {
     switch(action.type){
         case INITIAL_TASK:
             return {...state , tasks : [...state.tasks.concat(action.task)]};
-        case ADD_TASK : return {...state, tasks: state.tasks.concat(action.data)}; 
+        case ADD_TASK : return {...state, tasks: state.tasks.concat(action.task)}; 
         case TOGGLE_TASK:
             return { ...state, tasks: state.tasks.map((task : ITask)=>
                 task.id === action.task.id ? {...task, is_completed : action.task.is_completed} : task )};
