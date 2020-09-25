@@ -35,3 +35,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('token', 'username', 'password', 'email')
+        read_only_fields =('token', ) 

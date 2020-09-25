@@ -12,9 +12,5 @@ class TaskList(ListCreateAPIView):
     def get_queryset(self):
         user = self.request.user
         id = self.kwargs['id_todo']
-        todo = get_object_or_404(Todo, user=user, pk= id)
-        
-        # вывод в виде sql запроса
-        # todo = get_object_or_404(Task, id_todo__user= user, pk = 28)
-        # print(connection.queries)
-        return Task.objects.filter(id_todo= todo)
+
+        return Task.objects.filter(id_todo__user = user, id_todo= id )

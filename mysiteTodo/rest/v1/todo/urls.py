@@ -4,7 +4,7 @@ from .remove_todo.views import DeleteTodo
 
 
 urlpatterns = [
-	path('todo/create/', TodoList.as_view(), name="todo_create"),
-	path('todo/list/', TodoList.as_view(), name="todo_list"),
-	path('todo/delete/<str:pk>/', DeleteTodo.as_view(), name="todo_delete"),
+	path('create/', TodoList.as_view(), name="todo_create"),
+	path('list/', TodoList.as_view(), name="todo_list"),
+	path('delete/<str:pk>/', DeleteTodo.as_view(), name="todo_delete"),
 ]

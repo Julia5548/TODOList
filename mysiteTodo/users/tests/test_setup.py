@@ -15,11 +15,9 @@ class TestSetUp(APITestCase):
         self.deleted_task_url = reverse('task_delete', args="2")
 
         self.user_data = {
-            'user' : {
-                'username' : 'Nami',
-                'email' : 'negodyaeva.yulya@gmail.com',
-                'password' : 'asd11fg123'
-            }
+            'username' : 'Nami',
+            'email' : 'negodyaeva.yulya@gmail.com',
+            'password' : 'asd11fg123'
         }
 
         self.login_data = {
@@ -28,9 +26,9 @@ class TestSetUp(APITestCase):
         }
         
         self.todo_data = {
-            "user": 1,
             "title" : "дом"
         }
+        
         self.task_data = {
             'title': 'покормить кота',
             'is_completed': False,
