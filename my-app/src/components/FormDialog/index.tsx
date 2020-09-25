@@ -15,12 +15,23 @@ interface Props  {
     dialogTitle : string;
     isTask : boolean;
     isOpen : boolean;
-    handeleClose : (result : boolean) => void;
-    handlerRemove? : (task : ITask) => void;
-    handleRemoveTodo? : (todo : ITodoList) => void;
+    onCloseDialog : (result : boolean) => void;
+    onRemoveTask? : (task : ITask) => void;
+    onRemoveTodo? : (todo : ITodoList) => void;
 }
 
-const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, handeleClose,  handleRemoveTodo, handlerRemove}: Props) =>(
+const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isTask, onCloseDialog,  onRemoveTask, onRemoveTodo}: Props) =>{
+    
+    const handleCloseDialog = () =>{
+        onCloseDialog(false);
+    };
+    const handleRemoveTodo = () => {
+        onRemoveTodo!(removeElement as ITodoList);
+    };
+    const handleRemoveTask = () => {
+        onRemoveTask!(removeElement as ITask);
+    };
+    return(
         <Dialog open = {isOpen} aria-labelledby = "form-dialog-title">
             <DialogTitle id = "form-dialog-title">
                 {dialogTitle}
@@ -31,15 +42,16 @@ const FormDialog  = ({removeElement, isOpen ,dialogContextText, dialogTitle, isT
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button  color = "primary"  onClick = {() => handeleClose(false)}>
+                <Button  color = "primary"  onClick = {handleCloseDialog}>
                     Отмена
                 </Button>
-                <Button color = "primary" onClick = {() => {isTask ? handlerRemove!((removeElement as ITask)) : handleRemoveTodo!((removeElement as ITodoList))}}>
+                <Button color = "primary" onClick = {isTask ? handleRemoveTask : handleRemoveTodo}>
                     Удалить
                 </Button>
             </DialogActions>
         </Dialog>
-);
+    );
+}
 
 export default FormDialog;
 

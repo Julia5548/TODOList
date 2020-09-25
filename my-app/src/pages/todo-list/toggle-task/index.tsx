@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Checkbox, makeStyles } from '@material-ui/core';
 import { ITask } from '../../../interfaces/ITask';
 import { toggleTaskAction } from '../../../store/actions';
@@ -27,11 +27,11 @@ const mapDispatchToProps = (dispatch) => {
 
 export const ToggleTask : React.FC<IProps> = ({toggleTask, onToggle} : IProps) => {
 
-    const classes = useStyles()
-    const onToggleTask = (task : ITask) =>{
-        task.is_completed = !task.is_completed;
-        onToggle(task);
-    };
+    const classes = useStyles();
+    const onToggleTask = useCallback(() =>{
+        toggleTask.is_completed = !toggleTask.is_completed;
+        onToggle(toggleTask);
+    },[onToggle,toggleTask]);
     
     return(
         <div>
@@ -39,7 +39,7 @@ export const ToggleTask : React.FC<IProps> = ({toggleTask, onToggle} : IProps) =
                 checked = {toggleTask.is_completed}
                 name = 'checkBox_toggle_task'
                 className = {classes.checkBox}
-                onChange = {() => onToggleTask(toggleTask)}
+                onChange = {onToggleTask}
             />            
         </div>
     );

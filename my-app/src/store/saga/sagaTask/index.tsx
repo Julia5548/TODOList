@@ -4,10 +4,10 @@ import {  addTaskAction, onInitalTaskAction } from "../../actions";
 
 
 export function* workCreateTask(action) {
-
+ 
     try{
         const data = yield call(fetchCreateTask,action.newTask);
-        if(data !== undefined){
+        if(data){
             yield put(addTaskAction(data));
         }
     } catch(error){
@@ -16,8 +16,8 @@ export function* workCreateTask(action) {
 }
 
 export function* workToggleTask(action){
-        
-   try{
+
+    try{
         yield call(fetchToggleTask,action.task);
     } catch(error){
         console.log('ERROR_SAGA ', error);
@@ -25,9 +25,7 @@ export function* workToggleTask(action){
 }
 
 export function* workRemoveTask(action){
-    
-    yield console.log(action.task);
-        
+  
     try{
         yield call(fetchRemoveTask,action.task);
     } catch(error){
@@ -36,7 +34,6 @@ export function* workRemoveTask(action){
 }
 
 export function* workGetTask(action){
-    
     try{
         const task = yield call(fetchGetTask,action.idTodo);
         yield put(onInitalTaskAction(task));

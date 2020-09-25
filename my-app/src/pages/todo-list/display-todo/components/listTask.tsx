@@ -52,16 +52,17 @@ export const ListTask : React.FC<IProps> = ({idTodo, tasks, onGetTask} : IProps)
     const classes = useStyles();
 
     useEffect(() => {
-        onGetTask(idTodo)
+        onGetTask(idTodo);
     },[idTodo, onGetTask]);
 
-    if(tasks.find((task) => task.id_todo===idTodo) === undefined){
+    if(!tasks.find((task) => task.id_todo===idTodo)){
         return(
             <Typography className = {classes.typography} variant = "h6" component = "h6">
                 Задач нет!
             </Typography>
         );
     }
+
     return(
         <div>
             {tasks.map((task)  => {

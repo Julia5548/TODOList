@@ -29,21 +29,19 @@ const mapDispatchToProps = (dispatch) => {
 
 export const DeleteTask : React.FC<IProps> = ({removeTask, onRemove}: IProps) => {
 
-    const classes = useStyles()
+    const classes = useStyles();
     const[open, setOpen] = useState(false);
     
-   
-
-    const handleRemoveTask = ( task : ITask) => {
+    const handleRemoveTask = useCallback( (task : ITask) => {
         onRemove(task);
         setOpen(false);
-    };
+    },[onRemove]);
 
     const handleFormDialog = useCallback(
         result => {
-            setOpen(result)
+            setOpen(result);
         }, [setOpen]
-    )
+    );
 
     return(
         <div>
@@ -56,8 +54,8 @@ export const DeleteTask : React.FC<IProps> = ({removeTask, onRemove}: IProps) =>
                 isTask = {true}
                 dialogTitle = 'Удалить задачу?'
                 dialogContextText = "Вы действительно хотите удалить данную задачу?"
-                handlerRemove = {handleRemoveTask}
-                handeleClose = {handleFormDialog}
+                onRemoveTask = {handleRemoveTask}
+                onCloseDialog = {handleFormDialog}
             />
         </div>
     );

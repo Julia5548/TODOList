@@ -1,9 +1,9 @@
 import React from 'react';
-import { Route,Switch, Redirect } from 'react-router-dom';
-import  SignIn  from './authorization/sign_in';
-import  SignUp  from './authorization/sing_up/index';
-import  SendEmail  from './authorization/send_email/index';
-import  ResetPassword  from './authorization/reset_password_confirm/index';
+import { Route,Switch, Redirect, NavLink } from 'react-router-dom';
+import  SignIn  from './auth/sign_in';
+import  SignUp  from './auth/sing_up/index';
+import  SendEmail  from './auth/send_email/index';
+import  ResetPassword  from './auth/reset_password_confirm/index';
 import DisplayTodo from './todo-list/display-todo';
 import { connect } from 'react-redux';
 
@@ -15,6 +15,15 @@ const mapStateToProps = (state) => ({
 interface IProps{
     isLoggedIn : boolean;
 }
+
+const NotFound = () => (
+    <div>
+      <h1>404 - Not Found!</h1>
+      <NavLink to="/">
+            Авторизация 
+      </NavLink>
+    </div>
+);
 
 export const Root = (props: IProps) => {
 
@@ -32,9 +41,12 @@ export const Root = (props: IProps) => {
             <Route path = "/confirm/password/:token">
                 <ResetPassword />
             </Route>
-            <PrivateRoute path = "/todo/:pk" isLoggedIn = {props.isLoggedIn}>
+            <PrivateRoute path = "/todo" isLoggedIn = {props.isLoggedIn}>
                 <DisplayTodo />
-            </PrivateRoute> 
+            </PrivateRoute>
+            <Route>
+                <NotFound />
+            </Route>
         </Switch>
     );
 }

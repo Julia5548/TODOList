@@ -4,11 +4,10 @@ import { addTodoAction, onInitalTodoAction } from "../../actions";
 
 
 export function* workGetTodo(){
-
     try{
         const data = yield call(fetchGetTodo);
-        // console.log(data)
-        yield put(onInitalTodoAction(data))
+        //  console.log(data)
+        yield put(onInitalTodoAction(data));
     } catch(error){
         console.log('ERROR_SAGA ', error);
     }
@@ -16,11 +15,9 @@ export function* workGetTodo(){
 
 export function* workCreateTodo(action) {
 
-   yield console.log('CREATE-TODO ',action.sortTodo);
-
     try{
         const data = yield call(fetchCreateTodo,action.sortTodo);
-        if(data !== undefined){
+        if(data){
             yield put(addTodoAction(data));
         }
     } catch(error){
@@ -29,8 +26,6 @@ export function* workCreateTodo(action) {
 }
 
 export function* workRemoveTodo(action){
-    
-    yield console.log('REMOVE_TODO ',action.sortTodo);
         
     try{
         yield call(fetchRemoveTodo,action.sortTodo);

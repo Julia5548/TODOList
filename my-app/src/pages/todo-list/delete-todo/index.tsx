@@ -24,16 +24,16 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
 
     const[open, setOpen] = useState(false);
     
-    const handleRemoveTodo = ( todo : ITodoList) => {
-        onRemoveTodo(todo)
+    const handleRemoveTodo = useCallback (( todo : ITodoList) => {
+        onRemoveTodo(todo);
         setOpen(false);
-    };
+    }, [onRemoveTodo]);
 
     const handleFormDialog = useCallback(
         result => {
-            setOpen(result)
+            setOpen(result);
         }, [setOpen]
-    )
+    );
     
     return(
         <div>
@@ -46,8 +46,8 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
                 isTask = {false}
                 dialogTitle = 'Удалить список?'
                 dialogContextText = "Вы действительно хотите удалить список?"
-                handleRemoveTodo = {handleRemoveTodo}
-                handeleClose = {handleFormDialog}
+                onRemoveTodo = {handleRemoveTodo}
+                onCloseDialog = {handleFormDialog}
             />
         </div> 
     );

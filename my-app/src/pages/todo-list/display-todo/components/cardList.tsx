@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { ITodoList } from '../../../../interfaces/ITodoList';
 import { makeStyles, Grid, CardHeader, Card, CardActions, IconButton } from '@material-ui/core';
 import { Add, Close } from '@material-ui/icons';
 import DeleteTodo from '../../delete-todo';
 import ListTasks from './listTask';
 import FormCreateTask from '../../create-task';
+import { ITask } from '../../../../interfaces/ITask';
+import { createTaskAction } from '../../../../store/actions';
+import { reset } from 'redux-form';
+import { connect } from 'react-redux';
 
 
 interface IProps{
     todoList : ITodoList[];
+    onAddTask : (newTask : ITask) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,19 +26,40 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
+const mapDispatchToProps = (dispatch) => {
+    return({
+        onAddTask : (newTask : ITask) => {
+            dispatch(createTaskAction(newTask))
+            dispatch(reset('create-task'))
+        },
+
+    });
+}
+
+const CardTodo : React.FC<IProps> = ({todoList, onAddTask}: IProps) => {
     const classes = useStyles();
     const [todos, setTodos] = useState<ITodoList>(); 
 
     const[isCreateTask, setIsCreateTask] = useState(false);
 
-    const handleCreateTask = (todo: ITodoList) =>{
+    const handleCreateTask = useCallback( (todo: ITodoList) =>{
         setIsCreateTask(true);
         setTodos(todo);
-    };
-    const handleCLoseForm = () =>{
+    }, [setIsCreateTask]);
+
+    const handleCLoseForm = useCallback(() => {
         setIsCreateTask(false);
-    };
+    }, [setIsCreateTask]);
+
+    const handleCreate = useCallback(values => {
+        const newTask : ITask = {
+            id_todo : todos!.id!,
+            title: values.title,
+            is_completed : false
+        };
+
+        onAddTask(newTask);
+    }, [onAddTask, todos]);
 
     return(
         <Grid container
@@ -49,7 +75,7 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                         <CardHeader
                             action= {
                                 isCreateTask && (todo.id === todos!.id) ?    
-                                    <IconButton  aria-label="close" color="primary" onClick = {() => handleCLoseForm()}>
+                                    <IconButton  aria-label="close" color="primary" onClick = {handleCLoseForm}>
                                         <Close/>
                                     </IconButton>
                                     :  
@@ -63,7 +89,7 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
                         />
                         <CardActions className={classes.cardMedia}>
                             {isCreateTask && (todo.id===todos!.id) ?
-                                <FormCreateTask idTodo = {todos!.id!}/>
+                                <FormCreateTask onSubmit = {handleCreate} />
                                 : null
                             }
                             <ListTasks idTodo = {todo.id!}/>
@@ -76,5 +102,4 @@ const CardTodo : React.FC<IProps> = ({todoList}: IProps) => {
     );
 }
 
-
-export default CardTodo;
+export default connect(null, mapDispatchToProps)(CardTodo);

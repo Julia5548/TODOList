@@ -45,36 +45,32 @@ export const getTodoAction = () =>{
     }
 }
 
-export const onLoginUserAction = (user : IUser, history) => {
+export const onLoginUserAction = (user : IUser) => {
     return {
         type : LOGIN_USER,
-        user, 
-        history
+        user
     }
 }
 
-export const onCreateUserAction = (user : IUser, history) => {
+export const onCreateUserAction = (user : IUser) => {
     return {
         type : CREATE_USER,
-        user,
-        history
+        user
     }
 }
 
-export const onResetPasswordAction = (password: string, token:number, history) =>{
+export const onResetPasswordAction = (password: string, token:number) =>{
     return{
         type: RESET_PASSWORD,
         password,
-        token,
-        history
+        token
     }
 }
 
-export const onSendEmailAction = (email: string, history) =>{
+export const onSendEmailAction = (email: string) =>{
     return{
         type: SEND_EMAIL,
-        email,
-        history
+        email
     }
 }
 
@@ -98,10 +94,9 @@ export const onCurrentUserAction = (current_user : IUser) => {
     }
 }
 
-export const onGetUserAction = (history) => {
+export const onGetUserAction = () => {
     return{
         type: GET_USER, 
-        history
     }
 }
 export const onGetTaskAction = (idTodo : number) => {
@@ -117,10 +112,9 @@ export const hideErrorAction = () =>{
     }
 }
 
-export const showErrorAction = (data?) =>{
+export const showErrorAction = () =>{
     return {
         type: SHOW_ERROR,
-        data
     }
 }
 

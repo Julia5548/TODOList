@@ -20,7 +20,7 @@ export async function fetchCreateUser(user : IUser){
         }
     };
 
-    const response = fetch('http://127.0.0.1:8000/api/users/create/', {
+    const response = fetch('http://127.0.0.1:8000/api/v1/users/create/', {
         mode : 'cors',
         method : 'POST',
         headers: {
@@ -40,7 +40,7 @@ export async function fetchCreateUser(user : IUser){
 export async function fetchLoginUser(login_user){
 
     const csrftoken = getCookie('csrftoken');
-    const response = fetch('http://127.0.0.1:8000/token/auth/', 
+    const response = fetch('http://127.0.0.1:8000/api/v1/token/auth/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -72,7 +72,7 @@ export const fetchResetPassword = async (password : string, token: number) => {
 
     const csrftoken = getCookie('csrftoken');
 
-    const response = fetch('http://127.0.0.1:8000/api/password/reset/confirm/', 
+    const response = fetch('http://127.0.0.1:8000/api/v1/password/reset/confirm/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -91,7 +91,7 @@ export const fetchResetPassword = async (password : string, token: number) => {
     return await data;
 }
 
-export const fetchSendEmail = (email : string, history) => {
+export const fetchSendEmail = (email : string) => {
 
     console.log('SEND_EMAIL: ', email);
 
@@ -101,7 +101,7 @@ export const fetchSendEmail = (email : string, history) => {
 
     const csrftoken = getCookie('csrftoken');
 
-    fetch('http://127.0.0.1:8000/api/password/reset/', 
+    fetch('http://127.0.0.1:8000/api/v1/password/reset/', 
     {
         mode : 'cors',
         method : 'POST',
@@ -114,7 +114,6 @@ export const fetchSendEmail = (email : string, history) => {
     }).then(response => {
 
         response.json();
-        history.push('/');
         console.log('SEND_EMAIL : ', response);
     
     }).catch(error => 
@@ -124,7 +123,7 @@ export const fetchSendEmail = (email : string, history) => {
 
 export async function fetchGetDataUser(){
 
-    const response = fetch('http://127.0.0.1:8000/api/users/current/',
+    const response = fetch('http://127.0.0.1:8000/api/v1/users/current/',
     {
         mode: 'cors',
         method : 'GET',

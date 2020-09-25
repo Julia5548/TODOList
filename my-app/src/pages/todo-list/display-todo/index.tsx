@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { makeStyles, Typography, Button, AppBar, Toolbar } from '@material-ui/core';
 import FormCreateTask from './components/formCreateTodo';
 import { connect } from 'react-redux';
@@ -6,10 +6,10 @@ import {  onLogoutAction, createTodoAction, getTodoAction } from '../../../store
 import { reset } from 'redux-form';
 import { ITodoList } from '../../../interfaces/ITodoList';
 import CardTodo from './components/cardList';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { push } from 'connected-react-router';
 
 
-interface IProps extends RouteComponentProps<{pk : string}>{
+interface IProps{
     onCreateTodo : (sortTodo : ITodoList) => void;
     onLogout : () => void;
     onGetTodos: () => void;
@@ -50,18 +50,38 @@ const mapStateToProps = (state) => ({
     username: state.user_data.username
 })
 
-export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateTodo, history, ...props} : IProps) => {
+export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateTodo, ...props} : IProps) => {
     const classes = useStyles();
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     useEffect(() => {
-        onGetTodos()
-    }, [onGetTodos])
+        onGetTodos();
+    }, [onGetTodos]);
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         localStorage.removeItem('token');
         onLogout();
-        history.push('/');
-    };
+        push('/');
+    },[onLogout]);
+
+    const handleDateChange = useCallback (date => {
+        setSelectedDate(date);
+    },[]);
+
+    const handleCreate =useCallback( values => {
+        
+        const month = selectedDate.getMonth() + 1;
+        const date : string =  ` ${selectedDate.getDate()}.${month}.${selectedDate.getFullYear()}`;
+
+        const sortTodo : ITodoList ={
+            id: null, 
+            title : values.title + date 
+        }; 
+
+        if(!props.todos.find((todo) => todo.title === sortTodo.title)){
+            onCreateTodo(sortTodo);
+        }
+    },[selectedDate, props.todos, onCreateTodo]);
 
     return(
         <div className = {classes.root}>
@@ -75,10 +95,10 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
                     </Button>
                 </Toolbar>
             </AppBar>
-            <FormCreateTask onCreateTodo = {onCreateTodo} todoList = {props.todos}/>
+            <FormCreateTask onSubmit={handleCreate} selectedDate = {selectedDate} todoList = {props.todos} handleDateChange = {handleDateChange}/>
             <CardTodo todoList = {props.todos}/>
         </div>
     );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DisplayTodo));
+export default connect(mapStateToProps, mapDispatchToProps)(DisplayTodo);

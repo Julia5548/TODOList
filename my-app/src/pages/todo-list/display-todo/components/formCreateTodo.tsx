@@ -2,15 +2,15 @@ import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
-import { RouteComponentProps, withRouter } from "react-router-dom";
 import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { ITodoList } from "../../../../interfaces/ITodoList";
 
 
-interface IProps extends RouteComponentProps<{pk:string}>{
+interface IProps {
     todoList : ITodoList[];
-    onCreateTodo : (sortTodo : ITodoList) => void;
+    selectedDate : Date,
+    handleDateChange : (date) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,32 +29,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({onCreateTodo, todoList, history , ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ todoList, selectedDate, handleDateChange, ...props}) => {
 
     const classes = useStyles();
-    const [selectedDate, setSelectedDate] = React.useState(new Date());
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
-
-    const submit = values => {
-        
-        const month = selectedDate.getMonth() + 1;
-        const date : string =  ` ${selectedDate.getDate()}.${month}.${selectedDate.getFullYear()}`;
-
-        const sortTodo : ITodoList ={
-            id: null, 
-            title : values.title + date 
-        }; 
-
-        if(todoList.find((todo) => todo.title === sortTodo.title) === undefined){
-            onCreateTodo(sortTodo);
-        }
-    };
 
     return(
-        <form onSubmit = {props.handleSubmit(submit)}>
+        <form onSubmit = {props.handleSubmit}>
             <Grid container
                 direction="row"
                 justify="center"
@@ -96,4 +76,4 @@ const form = reduxForm<{}, IProps>({
     form : 'create-todo'
 })(Form);
 
-export default withRouter(form);
+export default form;

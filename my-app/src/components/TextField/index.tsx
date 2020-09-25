@@ -16,7 +16,6 @@ export const RenderTextField =
         error={touched && invalid}
         helperText={touched && error}
         required
-        type = {label}
         variant = 'standard'
         {...input}
         {...custom}

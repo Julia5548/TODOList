@@ -2,33 +2,32 @@ import { call, delay, put, race, take } from "redux-saga/effects" ;
 import { fetchSendEmail, fetchCreateUser, fetchLoginUser, fetchResetPassword, fetchGetDataUser } from "../../../services/services_user";
 import { HIDE_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
+import { push } from 'connected-react-router';
 import { hideErrorAction, onCurrentUserAction, onLogoutAction, showErrorAction } from "../../actions";
 
 
-function* show_error(data?){
+function* show_error(){
 
-    yield put(showErrorAction(data));
+    yield put(showErrorAction());
     const { hideTimeout } = yield race({
         hide: take(HIDE_ERROR),
         hideTimeout: delay(3e3),
     });
 
     if (hideTimeout) {
-        yield put(hideErrorAction())
+        yield put(hideErrorAction());
     }
 }
 
-export function* workGetUser(action){
-    const { history } = action;
-    
+export function* workGetUser(){
     try{
         const current_user = yield call(fetchGetDataUser);
-        if(current_user !== undefined && current_user.id !== undefined){
+        if(current_user && current_user.id !== undefined){
             yield put(onCurrentUserAction(current_user))
-            history.push(`/todo/${current_user.id}`);
+            yield put(push('/todo'));
         }else{
             localStorage.removeItem('token');
-            yield put(onLogoutAction())
+            yield put(onLogoutAction());
         }
     } catch(error){
         console.log('ERROR_SAGA ', error);
@@ -38,36 +37,33 @@ export function* workGetUser(action){
 export function* workerLoginUser(action) {
     
     const user : IUser = action.user;
-    const { history } = action;
     const login_user = {
         username : user.username,
         password : user.password!
     };
     try{
+
         const data  = yield call(fetchLoginUser,login_user);
         localStorage.setItem('token', data.token);
         
         const current_user = data.user;
         yield put(onCurrentUserAction(current_user));
-        
-        history.push('/todo/' + current_user.id);
+        yield put(push('/todo'));
 
     }catch(error){
         console.log('ERROR_SAGA: ', error);
-        yield call(show_error)
+        yield call(show_error);
     }
 }
 
 export function* workerCreateUser(action){
-    
-    const { history } = action;
-    
+
     try{
         const data = yield call(fetchCreateUser,action.user);
-        if (data !== undefined){
-            yield call(show_error, data);
+        if (data){
+            yield call(show_error);
         }else{
-            history.push('/');
+            yield put(push('/'));
         }
     }catch(error){
         console.log('ERROR_SAGA_SIGN_UP ', error );
@@ -77,13 +73,12 @@ export function* workerCreateUser(action){
 export function* workerResetPassword(action){
     const password : string = action.password;
     const token = action.token;
-    const { history }  = action;
     try {
         const data = yield call(fetchResetPassword, password, token);
-        if(data !== undefined){
-            yield call(show_error, data);
+        if(data){
+            yield call(show_error);
         }else{
-            history.push('/');
+            yield put(push('/'));
         }
     }catch(error){
         console.log('ERROR_SAGA ', error );
@@ -92,10 +87,10 @@ export function* workerResetPassword(action){
 
 export function* workerSendEmail(action){
     const email : string = action.email;
-    const { history }  = action;
-    
+
     try {
-        yield call(fetchSendEmail, email, history);
+        yield call(fetchSendEmail, email);
+        yield put(push('/'));
     }catch(error){
         console.log('ERROR_SAGA ', error )
     }
