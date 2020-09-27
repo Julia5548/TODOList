@@ -60,6 +60,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
 
     const handleLogout = useCallback(() => {
         localStorage.removeItem('token');
+        console.log(localStorage.getItem('token'))
         onLogout();
         push('/');
     },[onLogout]);

@@ -3,14 +3,14 @@ import { createBrowserHistory } from 'history';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import { reducer } from './reducers';
+import { rootReducer } from './reducers';
 import { rootSaga } from './saga';
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION__COMPROSE || compose;
 export const history = createBrowserHistory()
 
-const store = createStore(reducer(history), composeWithDevTools(
+const store = createStore(rootReducer(history), composeWithDevTools(
     applyMiddleware(sagaMiddleware, routerMiddleware(history)),
     composeEnhancers()
 ));

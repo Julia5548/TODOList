@@ -2,9 +2,11 @@ import { getCookie } from './cookie';
 import { ITodoList } from '../interfaces/ITodoList';
 
 
+const csrftoken = getCookie('csrftoken');
+
 export const fetchCreateTodo = async (sortTodo: ITodoList) =>{
     
-    const csrftoken = getCookie('csrftoken');
+
     const url = 'http://127.0.0.1:8000/api/v1/todo/create/';
 
     const response = fetch(url, {
@@ -28,7 +30,6 @@ export const fetchCreateTodo = async (sortTodo: ITodoList) =>{
 
 export const fetchRemoveTodo = (sortTodo : ITodoList) => {
     
-    const csrftoken = getCookie('csrftoken');
     const url = 'http://127.0.0.1:8000/api/v1/todo/delete/' + sortTodo.id + '/';
     
     fetch(url, {

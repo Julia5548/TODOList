@@ -5,6 +5,8 @@ import { user_reducer } from './reducer_user';
 import { connectRouter } from 'connected-react-router';
 import { task_reducer } from './reducerTask';
 import { todoList_reducer } from './reducers-todo';
+import { createBrowserHistory } from 'history';
+import { INITIAL_USER } from '../actions/types';
 
 
 export const reducer = (history) => combineReducers({ 
@@ -16,4 +18,10 @@ export const reducer = (history) => combineReducers({
     modal
 })
 
-export type RootState  = ReturnType<typeof reducer>
+export const rootReducer = (history) => (state, action) => {
+    if (action.type === INITIAL_USER) {
+      state = undefined
+    }
+  
+    return reducer(history)(state, action)
+  }
