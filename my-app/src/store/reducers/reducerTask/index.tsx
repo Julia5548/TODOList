@@ -1,4 +1,4 @@
-import { REMOVE_TASK, TOGGLE_TASK, INITIAL_TASK, ADD_TASK, INITIAL_USER } from "../../actions/types";
+import { REMOVE_TASK, TOGGLE_TASK, INITIAL_TASK, ADD_TASK } from "../../actions/types";
 import  { ITask }  from "../../../interfaces/ITask";
 
 

@@ -1,34 +1,20 @@
-import { CURRENT_USER, INITIAL_USER, SHOW_ERROR, HIDE_ERROR } from "../../actions/types";
+import { CURRENT_USER, SHOW_ERROR, HIDE_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
 
 
 const initialStateUser : IUser = {
     username: '',
     isLoggedIn : false,
-    isErrorAuth : false
+    isErrorAuth : false, 
+    error : []
 };
-
-// const createErrorText = (data) : string => {
-//     let error = '';
-//     if(data !== undefined){
-//         if(data.username !== undefined && data.password !== undefined){
-//             error = "Такой пользователь существует. Пароль слишком легкий.";
-//         }else if (data.password !== undefined){
-//             error = "Пароль слишком легкий.";
-//         }else if (data.username !== undefined){
-//             error = "Такой пользователь существует.";
-//         }
-//     }
-
-//     return error;
-// }
 
 export function user_reducer ( state = initialStateUser, action) : IUser {
     switch(action.type){
         case CURRENT_USER:
             return { ...state, username : action.current_user.username, isLoggedIn : true, isErrorAuth: false };
-        case SHOW_ERROR : return { ...state, isErrorAuth : true };
-        case HIDE_ERROR : return { ...state, isErrorAuth : false };
+        case SHOW_ERROR : return { ...state, isErrorAuth : true, error: action.error };
+        case HIDE_ERROR : return { ...state, isErrorAuth : false, error: [] };
         default : return state;
     }
 }

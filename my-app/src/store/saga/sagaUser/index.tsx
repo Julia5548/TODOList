@@ -6,9 +6,9 @@ import { push } from 'connected-react-router';
 import { hideErrorAction, onCurrentUserAction, onLogoutAction, showErrorAction } from "../../actions";
 
 
-function* show_error(){
+function* show_error(data?){
 
-    yield put(showErrorAction());
+    yield put(showErrorAction(data));
     const { hideTimeout } = yield race({
         hide: take(HIDE_ERROR),
         hideTimeout: delay(3e3),
@@ -42,7 +42,6 @@ export function* workerLoginUser(action) {
         password : user.password!
     };
     try{
-
         const data  = yield call(fetchLoginUser,login_user);
         localStorage.setItem('token', data.token);
         
@@ -57,13 +56,12 @@ export function* workerLoginUser(action) {
 }
 
 export function* workerCreateUser(action){
-
     try{
         const data = yield call(fetchCreateUser,action.user);
-        if (data){
-            yield call(show_error);
-        }else{
+        if (data.token){
             yield put(push('/'));
+        }else{
+            yield call(show_error, data);
         }
     }catch(error){
         console.log('ERROR_SAGA_SIGN_UP ', error );

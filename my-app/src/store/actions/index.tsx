@@ -112,9 +112,10 @@ export const hideErrorAction = () =>{
     }
 }
 
-export const showErrorAction = () =>{
+export const showErrorAction = (error?) =>{
     return {
         type: SHOW_ERROR,
+        error
     }
 }
 

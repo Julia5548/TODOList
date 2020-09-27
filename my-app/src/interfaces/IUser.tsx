@@ -4,5 +4,5 @@ export interface IUser{
     email? : string;
     isLoggedIn? : boolean;
     isErrorAuth? : boolean;
-    textError? : string;
+    error? : any;
 }

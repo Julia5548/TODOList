@@ -41,7 +41,6 @@ const mapStateToProps = (state) => ({
 export const SignIn : React.FC<IProps> = ({onGetUser, onLoginUser,  isErrorAuth} : IProps) => {
 
     const classes = useStyles();
-
     useEffect(() => {
         if(localStorage.getItem('token')){
             onGetUser()

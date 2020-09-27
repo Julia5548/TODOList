@@ -1,4 +1,4 @@
-import { ADD_TODO, INITIAL_TODO, INITIAL_USER, REMOVE_TODO } from "../../actions/types";
+import { ADD_TODO, INITIAL_TODO, REMOVE_TODO } from "../../actions/types";
 import { ITodoList } from "../../../interfaces/ITodoList";
 
 

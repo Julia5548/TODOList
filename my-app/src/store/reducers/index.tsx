@@ -5,11 +5,10 @@ import { user_reducer } from './reducer_user';
 import { connectRouter } from 'connected-react-router';
 import { task_reducer } from './reducerTask';
 import { todoList_reducer } from './reducers-todo';
-import { createBrowserHistory } from 'history';
 import { INITIAL_USER } from '../actions/types';
 
 
-export const reducer = (history) => combineReducers({ 
+const reducer = (history) => combineReducers({ 
     user_data : user_reducer,
     taskData : task_reducer,
     todoListData : todoList_reducer, 
