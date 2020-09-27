@@ -1,8 +1,5 @@
 from rest_framework.generics import ListCreateAPIView
-from django.shortcuts import get_object_or_404
-from django.db import connection
 from task.models import Task
-from todos.models import Todo
 from rest.v1.task.serializers import TaskSerializer
 
 
