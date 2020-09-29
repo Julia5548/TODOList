@@ -8,11 +8,11 @@ class TestSetUp(APITestCase):
         self.register_url = reverse('create_user')
         self.login_url = reverse('token_user')
         self.current_user_url = reverse('current_user')
-        self.create_todo_url = reverse('todo_create')
+        self.create_todo_url = reverse('todos')
         self.create_task_url = reverse('task_create')
         self.get_tasks_url = reverse('task_list', args="1")
-        self.update_task_url = reverse('task_update', kwargs={'pk' : 1})
-        self.deleted_task_url = reverse('task_delete', args="2")
+        self.update_task_url = reverse('action_task', kwargs={'pk' : 1})
+        self.deleted_task_url = reverse('action_task', args="2")
 
         self.user_data = {
             'username' : 'Nami',

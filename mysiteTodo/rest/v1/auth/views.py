@@ -11,7 +11,7 @@ class CreateUserView(CreateAPIView):
 
 
 class CurrentUser(RetrieveAPIView):
-
-    def retrieve(self, request, *args, **kwargs):
-        serializer = GetFullUserSerializer(request.user)
-        return Response(serializer.data)
+    serializer_class = GetFullUserSerializer
+    
+    def get_object(self):
+        return self.request.user
