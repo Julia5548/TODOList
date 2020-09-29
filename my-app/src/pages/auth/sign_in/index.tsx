@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import Form from './components/form_sign_in';
 import { onLoginUserAction, onGetUserAction } from '../../../store/actions';
 import { connect } from 'react-redux';
-import { IUser } from '../../../interfaces/IUser';
+import { bindActionCreators } from 'redux';
 
 
 interface IProps{
-    onLoginUser : (user : IUser) => void;
+    onLoginUser : (values : Record<string, any>) => void;
     onGetUser : () => void;
-    isErrorAuth : boolean;
+    errorAuth : any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -22,46 +22,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const mapDispatchToProps = (dispatch) => (
-    { 
-        onLoginUser : (user : IUser) => {
-            dispatch(onLoginUserAction(user))
-        },
-        onGetUser : () => {
-            dispatch(onGetUserAction())
-        },
-    }
-)
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+    {
+        onLoginUser : onLoginUserAction,
+        onGetUser : onGetUserAction,
+    }, dispatch);
 
 const mapStateToProps = (state) => ({
-    isErrorAuth : state.user_data.isErrorAuth
+    errorAuth : state.user_data.errorAuth
 })
 
 
-export const SignIn : React.FC<IProps> = ({onGetUser, onLoginUser,  isErrorAuth} : IProps) => {
+export const SignIn : React.FC<IProps> = ({onGetUser, onLoginUser,  errorAuth} : IProps) => {
 
     const classes = useStyles();
+
     useEffect(() => {
         if(localStorage.getItem('token')){
             onGetUser()
         }
     }, [onGetUser]);
 
-    const handleLogin = useCallback(values => 
-    {
-        const user : IUser = {
-            username : values.username,
-            password : values.password,
-        };
-        onLoginUser(user);
-    }, [onLoginUser]);
-    
     return (
         <div className = {classes.page}>
             <Typography variant = 'h5' component = "h1">
                 Авторизация
             </Typography>
-            <Form onSubmit = {handleLogin} isErrorAuth = {isErrorAuth}/>
+            <Form onSubmit = {onLoginUser} errorAuth = {errorAuth}/>
         </div>
     );
 }

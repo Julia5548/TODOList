@@ -21,7 +21,7 @@ export const removeTaskAction = (task : ITask) => {
 export const createTaskAction = (newTask : ITask) =>{
     return {
         type: CREATE_TASK,
-        newTask
+        newTask 
     }
 }
 
@@ -45,17 +45,17 @@ export const getTodoAction = () =>{
     }
 }
 
-export const onLoginUserAction = (user : IUser) => {
+export const onLoginUserAction = (values : Record<string, any>) => {
     return {
         type : LOGIN_USER,
-        user
+        user : values as IUser
     }
 }
 
-export const onCreateUserAction = (user : IUser) => {
+export const onCreateUserAction = (values : Record<string, any>) => {
     return {
         type : CREATE_USER,
-        user
+        user : values as IUser
     }
 }
 
@@ -67,10 +67,10 @@ export const onResetPasswordAction = (password: string, token:number) =>{
     }
 }
 
-export const onSendEmailAction = (email: string) =>{
+export const onSendEmailAction = (values: Record<string, any>) =>{
     return{
         type: SEND_EMAIL,
-        email
+        email: values.email
     }
 }
 

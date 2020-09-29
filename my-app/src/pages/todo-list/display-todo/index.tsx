@@ -60,7 +60,6 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
 
     const handleLogout = useCallback(() => {
         localStorage.removeItem('token');
-        console.log(localStorage.getItem('token'))
         onLogout();
         push('/');
     },[onLogout]);
@@ -91,7 +90,7 @@ export const DisplayTodo : React.FC<IProps> = ({ onLogout, onGetTodos, onCreateT
                     <Typography variant="h6" className = {classes.title}>
                        {props.username}
                     </Typography>
-                    <Button color="inherit" onClick = {() => handleLogout()}>
+                    <Button color="inherit" onClick = {handleLogout}>
                         Выход
                     </Button>
                 </Toolbar>

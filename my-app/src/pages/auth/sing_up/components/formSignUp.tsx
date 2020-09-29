@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
@@ -7,7 +7,6 @@ import Alert from "../../../../components/Alert/index";
 
 
 interface IProps {
-    isErrorAuth : boolean;
     userError : any;
 }
 
@@ -17,21 +16,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ isErrorAuth, userError, ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ userError, ...props}) => {
 
     const classes = useStyles();
-    const [textError, setError] = useState('');
-    useEffect(() => {
-        if(userError){
-            if(userError.username && userError.password){
-                setError("Такой пользователь существует. Пароль слишком легкий.");
-            }else if (userError.password){
-                setError("Пароль слишком легкий.");
-            }else if (userError.username){
-                setError("Такой пользователь существует.");
-            }
-        }
-    },[userError]);
 
     return(
         <form onSubmit={props.handleSubmit}>
@@ -55,7 +42,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ isErrorAuth, 
                         Авторизация
                     </NavLink>
             </Grid>
-            {isErrorAuth && <Alert error_text = {textError}/>}
+            {userError.error && <Alert error_text = {userError.error}/>}
         </form>
     );
 }

@@ -38,28 +38,28 @@ const mapDispatchToProps = (dispatch) => {
 
 const CardTodo : React.FC<IProps> = ({todoList, onAddTask}: IProps) => {
     const classes = useStyles();
-    const [todos, setTodos] = useState<ITodoList>(); 
+    const [idTodo, setId] = useState<number>(0); 
 
-    const[isCreateTask, setIsCreateTask] = useState(false);
+    const[isCreateTask, setIsCreateTask] = useState(true);
 
-    const handleCreateTask = useCallback( (todo: ITodoList) =>{
+    const handleCreateTask = useCallback( (event) =>{
         setIsCreateTask(true);
-        setTodos(todo);
+        setId(Number.parseInt(event.currentTarget.value));
     }, [setIsCreateTask]);
 
     const handleCLoseForm = useCallback(() => {
         setIsCreateTask(false);
+        
     }, [setIsCreateTask]);
 
     const handleCreate = useCallback(values => {
         const newTask : ITask = {
-            id_todo : todos!.id!,
+            id_todo : idTodo!,
             title: values.title,
             is_completed : false
         };
-
         onAddTask(newTask);
-    }, [onAddTask, todos]);
+    }, [onAddTask, idTodo]);
 
     return(
         <Grid container
@@ -69,26 +69,25 @@ const CardTodo : React.FC<IProps> = ({todoList, onAddTask}: IProps) => {
             spacing = {1}
             className = {classes.cardGrid}
         >  
-            {todoList.map((todo) => (
+            {todoList.map((todo) =>(
                 <Grid key = {todo.id} item xs={6} md={3}>
                     <Card>
                         <CardHeader
                             action= {
-                                isCreateTask && (todo.id === todos!.id) ?    
+                                isCreateTask && (todo.id === idTodo) ?    
                                     <IconButton  aria-label="close" color="primary" onClick = {handleCLoseForm}>
                                         <Close/>
                                     </IconButton>
                                     :  
-                                    <IconButton  aria-label="add" color="primary" onClick = {() => handleCreateTask(todo)}>
+                                    <IconButton  aria-label="add" color="primary" onClick = {handleCreateTask} value = {todo.id!} >
                                         <Add/>
-                                    </IconButton>
-                                
+                                    </IconButton>   
                             }
                             title = {todo.title}
                             subheader = "Ваши задачи: "
                         />
                         <CardActions className={classes.cardMedia}>
-                            {isCreateTask && (todo.id===todos!.id) ?
+                            {isCreateTask && (todo.id===idTodo) ?
                                 <FormCreateTask onSubmit = {handleCreate} />
                                 : null
                             }

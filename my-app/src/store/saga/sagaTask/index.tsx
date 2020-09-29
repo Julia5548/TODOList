@@ -4,7 +4,7 @@ import {  addTaskAction, onInitalTaskAction } from "../../actions";
 
 
 export function* workCreateTask(action) {
- 
+
     try{
         const data = yield call(fetchCreateTask,action.newTask);
         if(data){

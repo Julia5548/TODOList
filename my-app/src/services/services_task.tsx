@@ -19,7 +19,7 @@ export async function fetchGetTask(id_todo : number){
 export async function fetchCreateTask(newTask : ITask){
     
     const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/create/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/create';
 
     const response = fetch(url, {
         mode : 'cors',
@@ -42,7 +42,7 @@ export async function fetchCreateTask(newTask : ITask){
 export const fetchToggleTask = (task : ITask) => {
 
     const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/update/' + task.id + '/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/' + task.id ;
     
     fetch(url, {
         mode : 'cors',
@@ -61,7 +61,7 @@ export const fetchToggleTask = (task : ITask) => {
 export const fetchRemoveTask = (task : ITask) => {
     
     const csrftoken = getCookie('csrftoken');
-    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/delete/' + task.id + '/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/task/' + task.id;
     
     fetch(url, {
         mode : 'cors',

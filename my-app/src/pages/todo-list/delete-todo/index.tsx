@@ -29,15 +29,15 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
         setOpen(false);
     }, [onRemoveTodo]);
 
-    const handleFormDialog = useCallback(
-        result => {
-            setOpen(result);
+    const openFormDialog = useCallback(
+        () => {
+            setOpen(true);
         }, [setOpen]
     );
     
     return(
         <div>
-            <Button size = "small" color = "secondary" onClick = {() => handleFormDialog(true)}>
+            <Button size = "small" color = "secondary" onClick = {openFormDialog}>
                 Удалить список
             </Button>
             <FormDialog 
@@ -47,7 +47,7 @@ export const DeletedTodo : React.FC<IProps> = ({todo, onRemoveTodo}: IProps) => 
                 dialogTitle = 'Удалить список?'
                 dialogContextText = "Вы действительно хотите удалить список?"
                 onRemoveTodo = {handleRemoveTodo}
-                onCloseDialog = {handleFormDialog}
+                onCloseDialog = {setOpen}
             />
         </div> 
     );

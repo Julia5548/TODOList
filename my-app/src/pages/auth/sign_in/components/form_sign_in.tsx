@@ -7,7 +7,7 @@ import Alert from "../../../../components/Alert/index";
 
 
 interface IProps{
-    isErrorAuth: boolean;
+    errorAuth: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ isErrorAuth, ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ errorAuth, ...props}) => {
 
     const classes = useStyles()
 
@@ -45,7 +45,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({ isErrorAuth, 
                     </NavLink>
                 </Grid>
             </Grid>
-            {isErrorAuth && <Alert error_text = {'Неверен логин или пароль'}/>}
+            {errorAuth.textError && <Alert error_text = {errorAuth.textError}/>}
         </form>
     );
 }

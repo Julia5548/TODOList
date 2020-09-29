@@ -37,15 +37,14 @@ export const DeleteTask : React.FC<IProps> = ({removeTask, onRemove}: IProps) =>
         setOpen(false);
     },[onRemove]);
 
-    const handleFormDialog = useCallback(
-        result => {
-            setOpen(result);
+    const openFormDialog = useCallback( () => {
+            setOpen(true);
         }, [setOpen]
     );
 
     return(
         <div>
-            <IconButton className = {classes.deleteButton} caria-label = "delete" color="secondary" edge="end" onClick = {() => handleFormDialog(true)}>
+            <IconButton className = {classes.deleteButton} caria-label = "delete" color="secondary" edge="end" onClick = {openFormDialog}>
                 <DeleteIcon fontSize = "small"/>
             </IconButton>
             <FormDialog 
@@ -55,7 +54,7 @@ export const DeleteTask : React.FC<IProps> = ({removeTask, onRemove}: IProps) =>
                 dialogTitle = 'Удалить задачу?'
                 dialogContextText = "Вы действительно хотите удалить данную задачу?"
                 onRemoveTask = {handleRemoveTask}
-                onCloseDialog = {handleFormDialog}
+                onCloseDialog = {setOpen}
             />
         </div>
     );

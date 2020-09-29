@@ -7,7 +7,7 @@ const csrftoken = getCookie('csrftoken');
 export const fetchCreateTodo = async (sortTodo: ITodoList) =>{
     
 
-    const url = 'http://127.0.0.1:8000/api/v1/todo/create/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todos/';
 
     const response = fetch(url, {
         mode : 'cors',
@@ -30,7 +30,7 @@ export const fetchCreateTodo = async (sortTodo: ITodoList) =>{
 
 export const fetchRemoveTodo = (sortTodo : ITodoList) => {
     
-    const url = 'http://127.0.0.1:8000/api/v1/todo/delete/' + sortTodo.id + '/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todo/' + sortTodo.id;
     
     fetch(url, {
         mode : 'cors',
@@ -49,7 +49,7 @@ export const fetchRemoveTodo = (sortTodo : ITodoList) => {
 
 export async function fetchGetTodo(){
     
-    const url = 'http://127.0.0.1:8000/api/v1/todo/list/';
+    const url = 'http://127.0.0.1:8000/api/v1/detail/todos/';
     
     const response = await fetch(url, {
         mode : 'cors',

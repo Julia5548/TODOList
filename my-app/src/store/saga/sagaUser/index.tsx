@@ -51,17 +51,28 @@ export function* workerLoginUser(action) {
 
     }catch(error){
         console.log('ERROR_SAGA: ', error);
-        yield call(show_error);
+        const textError = 'Неверен логин или пароль';
+        yield call(show_error, { textError });
     }
 }
 
 export function* workerCreateUser(action){
     try{
-        const data = yield call(fetchCreateUser,action.user);
-        if (data.token){
+        const responseData = yield call(fetchCreateUser,action.user);
+        if (responseData.token){
             yield put(push('/'));
         }else{
-            yield call(show_error, data);
+            let error;
+            if(responseData.username && responseData.password){
+                error = "Такой пользователь существует. Пароль слишком легкий.";
+            }else if (responseData.password){
+                error = "Пароль слишком легкий.";
+            }else if (responseData.username){
+                error = "Такой пользователь существует.";
+            }
+            if (error){
+                yield call(show_error, { error });
+            }
         }
     }catch(error){
         console.log('ERROR_SAGA_SIGN_UP ', error );
@@ -85,7 +96,6 @@ export function* workerResetPassword(action){
 
 export function* workerSendEmail(action){
     const email : string = action.email;
-
     try {
         yield call(fetchSendEmail, email);
         yield put(push('/'));

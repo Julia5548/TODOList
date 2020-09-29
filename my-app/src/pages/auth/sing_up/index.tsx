@@ -1,15 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import Form from './components/formSignUp';
 import { makeStyles, Typography, Container } from '@material-ui/core';
 import { onCreateUserAction } from '../../../store/actions';
 import { connect } from 'react-redux';
-import { IUser } from '../../../interfaces/IUser';
 
 
 interface IProps{
-    onCreateUser : (user : IUser) => void;
-    isErrorAuth : boolean;
-    error: any;
+    onCreateUser : (user : Record<string, any>) => void;
+    errorAuth: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -27,38 +25,27 @@ const useStyles = makeStyles((theme) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        onCreateUser : (user : IUser) =>{ 
+        onCreateUser : (user : Record<string, any>) =>{ 
             dispatch(onCreateUserAction(user))
         }
     })
 }
 
 const mapStateToProps = (state) => ({
-    isErrorAuth : state.user_data.isErrorAuth,
-    error: state.user_data.error
+    errorAuth: state.user_data.errorAuth
 })
 
 export const SignUp  = ({onCreateUser, ...props} : IProps) => {
 
     const classes = useStyles();
     
-    const handleCreateUser = useCallback(values => {
-        const user : IUser = {
-            username : values.username,
-            email : values.email,
-            password : values.password,
-        };
-
-        onCreateUser(user);
-    }, [onCreateUser]);
-
     return (
         <Container component="main" maxWidth="xs">
             <div className = {classes.page}>
                 <Typography variant = 'h5' component = "h1">
                     Регистрация
                 </Typography>
-                <Form onSubmit = {handleCreateUser} isErrorAuth = {props.isErrorAuth} userError = {props.error}/>
+                <Form onSubmit = {onCreateUser} userError = {props.errorAuth}/>
             </div>
         </Container>
     );
