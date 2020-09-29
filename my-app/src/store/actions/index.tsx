@@ -45,14 +45,14 @@ export const getTodoAction = () =>{
     }
 }
 
-export const onLoginUserAction = (values : Record<string, any>) => {
+export const onLoginUserAction = (user : Record<string, IUser>) => {
     return {
         type : LOGIN_USER,
-        user : values as IUser
+        user 
     }
 }
 
-export const onCreateUserAction = (values : Record<string, any>) => {
+export const onCreateUserAction = (values : Record<string, IUser>) => {
     return {
         type : CREATE_USER,
         user : values as IUser

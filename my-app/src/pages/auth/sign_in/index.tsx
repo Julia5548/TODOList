@@ -4,10 +4,11 @@ import Form from './components/form_sign_in';
 import { onLoginUserAction, onGetUserAction } from '../../../store/actions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { IUser } from '../../../interfaces/IUser';
 
 
 interface IProps{
-    onLoginUser : (values : Record<string, any>) => void;
+    onLoginUser : (values : Record<string, IUser>) => void;
     onGetUser : () => void;
     errorAuth : any;
 }

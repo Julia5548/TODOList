@@ -37,12 +37,8 @@ export function* workGetUser(){
 export function* workerLoginUser(action) {
     
     const user : IUser = action.user;
-    const login_user = {
-        username : user.username,
-        password : user.password!
-    };
     try{
-        const data  = yield call(fetchLoginUser,login_user);
+        const data  = yield call(fetchLoginUser,user);
         localStorage.setItem('token', data.token);
         
         const current_user = data.user;

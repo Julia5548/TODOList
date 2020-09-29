@@ -3,10 +3,11 @@ import Form from './components/formSignUp';
 import { makeStyles, Typography, Container } from '@material-ui/core';
 import { onCreateUserAction } from '../../../store/actions';
 import { connect } from 'react-redux';
+import { IUser } from '../../../interfaces/IUser';
 
 
 interface IProps{
-    onCreateUser : (user : Record<string, any>) => void;
+    onCreateUser : (user : Record<string, IUser>) => void;
     errorAuth: any;
 }
 
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        onCreateUser : (user : Record<string, any>) =>{ 
+        onCreateUser : (user : Record<string, IUser>) =>{ 
             dispatch(onCreateUserAction(user))
         }
     })
