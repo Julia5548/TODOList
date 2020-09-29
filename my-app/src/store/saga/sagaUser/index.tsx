@@ -4,6 +4,7 @@ import { HIDE_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
 import { push } from 'connected-react-router';
 import { hideErrorAction, onCurrentUserAction, onLogoutAction, showErrorAction } from "../../actions";
+import { signIn } from "../../../services/index";
 
 
 function* show_error(data?){
@@ -38,10 +39,13 @@ export function* workerLoginUser(action) {
     
     const user : IUser = action.user;
     try{
-        const data  = yield call(fetchLoginUser,user);
-        localStorage.setItem('token', data.token);
+        // const data  = yield call(fetchLoginUser, user);
+        const result  = yield call(signIn, user);
+        console.log(result)
+        localStorage.setItem('token', result.response.data.token);
         
-        const current_user = data.user;
+        const current_user = result.response.data.user;
+        
         yield put(onCurrentUserAction(current_user));
         yield put(push('/todo'));
 

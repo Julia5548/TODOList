@@ -1,13 +1,14 @@
 import { call, put } from "redux-saga/effects" ;
+import { getTodos } from "../../../services";
 import { fetchCreateTodo, fetchGetTodo, fetchRemoveTodo } from "../../../services/servicesTodo";
 import { addTodoAction, onInitalTodoAction } from "../../actions";
 
 
 export function* workGetTodo(){
     try{
-        const data = yield call(fetchGetTodo);
-        //  console.log(data)
-        yield put(onInitalTodoAction(data));
+        const result = yield call(getTodos);
+        // console.log(result.response.data)
+        yield put(onInitalTodoAction(result.response.data));
     } catch(error){
         console.log('ERROR_SAGA ', error);
     }
