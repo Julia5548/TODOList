@@ -11,14 +11,14 @@ interface RequestData<P extends Payload> extends RequestInit{
     payload? : P;
 }
 
-interface ResponseBody<R extends Response > {
-    data?: R;
+interface ResponseBody {
+    data?: Response;
     status: number;
     statusText: string;
 }
   
-interface ResponseData<R extends Response >{ 
-    response?: ResponseBody<R>;
+interface ResponseData{ 
+    response?: ResponseBody;
     error?: any;
 }
 
@@ -43,7 +43,7 @@ const prepareHeadersRequest = (token?: string) : Record<string, string> => {
     return headers;
 }
 
-const getResponseBody = async <R extends Response>(response : Response) : Promise<ResponseBody<R>> => {
+const getResponseBody = async(response : Response) : Promise<ResponseBody> => {
     
     let data;
     if((response.status !== 204 && response.status < 300) || response.status === 400){
@@ -57,12 +57,12 @@ const getResponseBody = async <R extends Response>(response : Response) : Promis
     };
 }
 
-const request = async <P extends Payload, R extends Response>(
+const request = async <P extends Payload>(
     url : string,
     data: RequestData<P>,
-    token? : string,
-) : Promise<ResponseData<R>> => {
-
+    token? : string
+) : Promise<ResponseData> => {
+    
     if(data.payload){
         data.body = prepareBodyRequest<Payload>(data.payload);
     }
@@ -79,7 +79,7 @@ const request = async <P extends Payload, R extends Response>(
         console.log("Что-то не так с сетью");
     }
 
-    const responseBody = await getResponseBody<R>(response);
+    const responseBody = await getResponseBody(response);
     
     if(responseBody.status < 200 || responseBody.status >= 300 ){
         console.log('error : ',responseBody);
@@ -90,54 +90,51 @@ const request = async <P extends Payload, R extends Response>(
     : { error : responseBody.data};
 }
 
-interface TokenResponse{
-    token : string;
-}
 
-export const signIn =(payload : IUser) => request<IUser, TokenResponse >(
+export const signIn =(payload : IUser) => request<IUser >(
     'token/auth/', { method : 'POST',  payload },
 );
 
-export const signUp =(payload : IUser) => request<IUser, TokenResponse >(
+export const signUp =(payload : IUser) => request<IUser>(
     'users/create/', { method : 'POST',  payload },
 );
 
-export const currentUser =() => request<IUser, TokenResponse >(
+export const currentUser =() => request<IUser >(
     'users/current/', { method : 'GET' }, localStorage.getItem('token')!,
 );
 
-export const sendEmail =(payload : IUser) => request<IUser, TokenResponse >(
+export const sendEmail =(payload : IUser) => request<IUser >(
     'password/reset/', { method : 'POST',  payload},
 );
 
-export const resetPassword =(payload) => request<IUser, TokenResponse >(
+export const resetPassword =(payload) => request<IUser >(
     'password/reset/confirm/', { method : 'POST',  payload },
 );
 
-export const getTodos = () => request<ITodoList, TokenResponse >(
+export const getTodos = () => request<ITodoList>(
     'detail/todos/', { method : 'GET' }, localStorage.getItem('token')!,
 );
 
-export const createTodo =(payload : ITodoList) => request<ITodoList, TokenResponse >(
+export const createTodo =(payload : ITodoList) => request<ITodoList >(
     'detail/todos/', { method : 'POST',  payload }, localStorage.getItem('token')!,
 );
 
-export const removeTodo =(pk:number) => request<ITodoList, TokenResponse >(
+export const removeTodo =(pk:number) => request<ITodoList >(
     `detail/todo/${pk}`, { method : 'DELETE', }, localStorage.getItem('token')!,
 );
 
-export const getTasks =(todo:number) => request<ITask, TokenResponse >(
+export const getTasks =(todo:number) => request<ITask >(
     `detail/todo/task/list/${todo}`, { method : 'GET' }, localStorage.getItem('token')!,
 );
 
-export const createTask =(payload : ITask) => request<ITask, TokenResponse >(
+export const createTask =(payload : ITask) => request<ITask >(
     'detail/todo/task/create', { method : 'POST',  payload }, localStorage.getItem('token')!,
 );
 
-export const toggleTask =(payload : ITask) => request<ITask, TokenResponse >(
+export const toggleTask =(payload : ITask) => request<ITask >(
     `detail/todo/task/${payload.id}`, { method : 'PUT',  payload }, localStorage.getItem('token')!,
 );
 
-export const removeTask =(pk:number) => request<ITask, TokenResponse >(
+export const removeTask =(pk:number) => request<ITask >(
     `detail/todo/task/${pk}`, {method : 'DELETE', }, localStorage.getItem('token')!,
 );
