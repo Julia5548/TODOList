@@ -1,6 +1,7 @@
 import { IUser } from "../interfaces/IUser";
 import { baseUrl } from "./baseUrlRequest";
 import { ITodoList } from "../interfaces/ITodoList";
+import { ITask } from "../interfaces/ITask";
 
 
 type Payload = Record<string, any>;
@@ -43,10 +44,12 @@ const prepareHeadersRequest = (token?: string) : Record<string, string> => {
 }
 
 const getResponseBody = async <R extends Response>(response : Response) : Promise<ResponseBody<R>> => {
+    
     let data;
-    if(response.status !== 204 && response.status < 300 ){
+    if((response.status !== 204 && response.status < 300) || response.status === 400){
         data = await response.json();
     }
+
     return {
         data, 
         status : response.status,
@@ -79,12 +82,12 @@ const request = async <P extends Payload, R extends Response>(
     const responseBody = await getResponseBody<R>(response);
     
     if(responseBody.status < 200 || responseBody.status >= 300 ){
-        console.log(responseBody.status, responseBody.statusText);
+        console.log('error : ',responseBody);
     }
 
     return response.ok 
     ? { response : responseBody}
-    : {error : responseBody.data};
+    : { error : responseBody.data};
 }
 
 interface TokenResponse{
@@ -92,9 +95,49 @@ interface TokenResponse{
 }
 
 export const signIn =(payload : IUser) => request<IUser, TokenResponse >(
-    'token/auth/', {method : 'POST',  payload},
+    'token/auth/', { method : 'POST',  payload },
+);
+
+export const signUp =(payload : IUser) => request<IUser, TokenResponse >(
+    'users/create/', { method : 'POST',  payload },
+);
+
+export const currentUser =() => request<IUser, TokenResponse >(
+    'users/current/', { method : 'GET' }, localStorage.getItem('token')!,
+);
+
+export const sendEmail =(payload : IUser) => request<IUser, TokenResponse >(
+    'password/reset/', { method : 'POST',  payload},
+);
+
+export const resetPassword =(payload) => request<IUser, TokenResponse >(
+    'password/reset/confirm/', { method : 'POST',  payload },
 );
 
 export const getTodos = () => request<ITodoList, TokenResponse >(
-    'detail/todos/', {method : 'GET' }, localStorage.getItem('token')!,
+    'detail/todos/', { method : 'GET' }, localStorage.getItem('token')!,
+);
+
+export const createTodo =(payload : ITodoList) => request<ITodoList, TokenResponse >(
+    'detail/todos/', { method : 'POST',  payload }, localStorage.getItem('token')!,
+);
+
+export const removeTodo =(pk:number) => request<ITodoList, TokenResponse >(
+    `detail/todo/${pk}`, { method : 'DELETE', }, localStorage.getItem('token')!,
+);
+
+export const getTasks =(todo:number) => request<ITask, TokenResponse >(
+    `detail/todo/task/list/${todo}`, { method : 'GET' }, localStorage.getItem('token')!,
+);
+
+export const createTask =(payload : ITask) => request<ITask, TokenResponse >(
+    'detail/todo/task/create', { method : 'POST',  payload }, localStorage.getItem('token')!,
+);
+
+export const toggleTask =(payload : ITask) => request<ITask, TokenResponse >(
+    `detail/todo/task/${payload.id}`, { method : 'PUT',  payload }, localStorage.getItem('token')!,
+);
+
+export const removeTask =(pk:number) => request<ITask, TokenResponse >(
+    `detail/todo/task/${pk}`, {method : 'DELETE', }, localStorage.getItem('token')!,
 );

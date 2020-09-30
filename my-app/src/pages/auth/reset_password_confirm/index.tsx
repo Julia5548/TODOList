@@ -7,8 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 interface IProps extends RouteComponentProps<{token : string}>{
     onResetPassword : (password: string,token: number) => void;
-    isErrorAuth : boolean;
-    textError : string;
+    errorAuth : any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +28,7 @@ const mapDispatchToProps = (dispatch) => (
 )
 
 const mapStateToProps = (state) => ({
-    isErrorAuth : state.user_data.isErrorAuth,
-    textError : state.user_data.textError
+    errorAuth : state.user_data.errorAuth
 })
 
 export const ResetPassword : React.FC<IProps> = ({onResetPassword, ...props} : IProps) => {
@@ -49,7 +47,7 @@ export const ResetPassword : React.FC<IProps> = ({onResetPassword, ...props} : I
             <Typography variant = 'h5' component = "h1">
                 Введите новый пароль
             </Typography>
-            <Form onSubmit = {handleReset} isErrorAuth = {props.isErrorAuth} textError = {props.textError}/>
+            <Form onSubmit = {handleReset} errorAuth = {props.errorAuth}/>
         </div>
     );
 }

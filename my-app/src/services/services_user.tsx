@@ -82,7 +82,7 @@ export const fetchSendEmail = (email : string) => {
     .then(response => {
         response.json();
         console.log('SEND_EMAIL : ', response);
-    }).catch(error => 
+    }).then(result => console.log(result)).catch(error => 
         console.log('ERROR_FETCH: ', error)    
     );
 }

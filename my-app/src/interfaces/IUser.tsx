@@ -1,5 +1,5 @@
 export interface IUser extends Record<string,any>{
-    username : string;
+    username? : string;
     password? : string;
     email? : string;
     isLoggedIn? : boolean;

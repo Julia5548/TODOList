@@ -67,10 +67,10 @@ export const onResetPasswordAction = (password: string, token:number) =>{
     }
 }
 
-export const onSendEmailAction = (values: Record<string, any>) =>{
+export const onSendEmailAction = (email: Record<string, any>) =>{
     return{
         type: SEND_EMAIL,
-        email: values.email
+        email
     }
 }
 

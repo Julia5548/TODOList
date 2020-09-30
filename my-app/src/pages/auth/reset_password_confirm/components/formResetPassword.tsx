@@ -6,8 +6,7 @@ import Alert from "../../../../components/Alert";
 
 
 interface IProps {
-    isErrorAuth: boolean;
-    textError: string;
+    errorAuth : any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,10 +20,10 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({isErrorAuth, textError, ...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({errorAuth, ...props}) => {
 
     const classes = useStyles();
-   
+    console.log(errorAuth)
     return(
         <form onSubmit={props.handleSubmit}>        
             <Field name="password" component={RenderTextField} label="Новый пароль" type= "password" className = {classes.textField}/>
@@ -36,7 +35,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({isErrorAuth, t
                 className = {classes.submit}>
                     Изменить 
             </Button>
-            {isErrorAuth && <Alert error_text = {textError}/>}
+            {errorAuth.error && <Alert error_text = {errorAuth.error}/>}
         </form>
     );
 }

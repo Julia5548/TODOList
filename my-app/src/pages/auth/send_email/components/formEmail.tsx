@@ -3,10 +3,11 @@ import { Field, InjectedFormProps, reduxForm } from "redux-form";
 import { RenderTextField } from "../../../../components/TextField";
 import { Button, makeStyles, Grid } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import Alert from "../../../../components/Alert/index";
 
 
 interface IProps {
-    is_error_auth?: boolean;
+    errorAuth: any;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({...props}) => {
+const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({errorAuth, ...props}) => {
 
     const classes = useStyles();
 
@@ -44,6 +45,7 @@ const Form : React.FC<IProps & InjectedFormProps<{}, IProps>> = ({...props}) => 
                         Авторизация
                     </NavLink>
             </Grid>
+            {errorAuth.error && <Alert error_text = {errorAuth.error}/>}
         </form>
     );
 }

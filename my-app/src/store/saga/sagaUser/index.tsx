@@ -4,7 +4,7 @@ import { HIDE_ERROR } from "../../actions/types";
 import { IUser } from "../../../interfaces/IUser";
 import { push } from 'connected-react-router';
 import { hideErrorAction, onCurrentUserAction, onLogoutAction, showErrorAction } from "../../actions";
-import { signIn } from "../../../services/index";
+import { currentUser, resetPassword, sendEmail, signIn, signUp } from "../../../services/index";
 
 
 function* show_error(data?){
@@ -22,9 +22,11 @@ function* show_error(data?){
 
 export function* workGetUser(){
     try{
-        const current_user = yield call(fetchGetDataUser);
-        if(current_user && current_user.id !== undefined){
-            yield put(onCurrentUserAction(current_user))
+        // const current_user = yield call(fetchGetDataUser);
+        const result = yield call(currentUser);
+        const user = result.response.data
+        if(user && user.id){
+            yield put(onCurrentUserAction(user))
             yield put(push('/todo'));
         }else{
             localStorage.removeItem('token');
@@ -58,16 +60,18 @@ export function* workerLoginUser(action) {
 
 export function* workerCreateUser(action){
     try{
-        const responseData = yield call(fetchCreateUser,action.user);
-        if (responseData.token){
+        // const responseData = yield call(fetchCreateUser,action.user);
+        const responseData = yield call(signUp,action.user);
+
+        if (responseData.error.token){
             yield put(push('/'));
         }else{
             let error;
-            if(responseData.username && responseData.password){
+            if(responseData.error.username && responseData.error.password){
                 error = "Такой пользователь существует. Пароль слишком легкий.";
-            }else if (responseData.password){
+            }else if (responseData.error.password){
                 error = "Пароль слишком легкий.";
-            }else if (responseData.username){
+            }else if (responseData.error.username){
                 error = "Такой пользователь существует.";
             }
             if (error){
@@ -80,12 +84,17 @@ export function* workerCreateUser(action){
 }
 
 export function* workerResetPassword(action){
-    const password : string = action.password;
-    const token = action.token;
+
+    const payload = {
+        token : action.token,
+        password : action.password
+    }
     try {
-        const data = yield call(fetchResetPassword, password, token);
-        if(data){
-            yield call(show_error);
+        const result = yield call(resetPassword, payload);
+        // const data = yield call(fetchResetPassword, password, token);
+        if(result.error){
+            const error = 'Пароль слишком простой';
+            yield call(show_error, {error} );
         }else{
             yield put(push('/'));
         }
@@ -95,10 +104,16 @@ export function* workerResetPassword(action){
 }
 
 export function* workerSendEmail(action){
-    const email : string = action.email;
+    const email : IUser = action.email;
+    
     try {
-        yield call(fetchSendEmail, email);
-        yield put(push('/'));
+        const data = yield call(sendEmail, email);
+        if(data.error){
+            const error= 'Пользователя с таким email нет!';
+            yield call(show_error, {error});
+        }else{
+            yield put(push('/'));
+        }
     }catch(error){
         console.log('ERROR_SAGA ', error )
     }
